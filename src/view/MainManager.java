@@ -5,19 +5,23 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import application.Main;
 
 public class MainManager {
 	private BorderPane menuLayout;
+	private BorderPane bpStart;
 	private final Stage primaryStage; 
 	
 	public void init (){
 		System.err.println("FXML resource: " + Main.class.getResource("/view/MenuView.fxml"));
 		System.err.println("FXML resource2: " + getClass().getResource("/view/MenuView.fxml"));
-		showMenu();
-		showMainView();
+//		showMenu();
+//		showMainView();
+		showStart();
 	}
 	public MainManager(Stage primaryStage) {
 		this.primaryStage= primaryStage; 
@@ -26,7 +30,7 @@ public class MainManager {
 	public void showMenu() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("/view/MenuView.fxml"));
+			loader.setLocation(Main.class.getResource("/view/Menu.fxml"));
 			menuLayout = (BorderPane) loader.load();
 
 			Scene scene = new Scene(menuLayout);
@@ -54,27 +58,49 @@ public class MainManager {
 			e.printStackTrace();
 		}
 	}
-//    public boolean setScreen(final String name) {       
-//        Stage stage; 
-//        Parent root;
-//        if(event.getSource()==btn1){
-//           //get reference to the button's stage         
-//           stage=(Stage) btn1.getScene().getWindow();
-//           //load up OTHER FXML document
-//     root = FXMLLoader.load(getClass().getResource("FXML2.fxml"));
-//         }
-//        else{
-//          stage=(Stage) btn2.getScene().getWindow();
-//     root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-//         }
-//        //create a new scene with root and set the stage
-//         Scene scene = new Scene(root);
-//         stage.setScene(scene);
-//         stage.show();
-//       
-//                        getChildren().remove(0);                    //remove the displayed screen
-//                        getChildren().add(0, screens.get(name));     //add the screen
-//        
-//        } 
+	
+	public void showStart() {
+	try {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(application.Main.class.getResource("/view/Start.fxml"));
+		BorderPane bpStart = (BorderPane) loader.load();
+
+		Scene scene = new Scene(bpStart);
+		
+//		Stage startStage = new Stage(); 
+//		startStage.setTitle("Tworzenie konta");
+//		startStage.setScene(scene);
+		primaryStage.setScene(scene);
+		StartController controller = loader.getController();
+		controller.setPrimaryStage(this.primaryStage);
+		controller.setManager(this);
+		
+		primaryStage.show();
+//		startStage.show();
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+}
+	public void showAboutDialog() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("/view/About.fxml"));
+			AnchorPane pane = (AnchorPane) loader.load();
+
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("About");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(pane);
+			dialogStage.setScene(scene);
+
+			AboutController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setManager(this);
+			dialogStage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 }
