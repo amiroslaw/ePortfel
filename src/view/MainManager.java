@@ -1,20 +1,29 @@
 package view;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TreeCell;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import model.Asset;
 import application.Main;
 
 public class MainManager {
 	private BorderPane menuLayout;
-	private BorderPane bpStart;
-	private final Stage primaryStage; 
+	public final Stage primaryStage; 
 	
 	public void init (){
 		System.err.println("FXML resource: " + Main.class.getResource("/view/MenuView.fxml"));
@@ -97,6 +106,8 @@ public class MainManager {
 			AboutController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
 			controller.setManager(this);
+			
+			dialogStage.setResizable(false);
 			dialogStage.showAndWait();
 		} catch (IOException e) {
 			e.printStackTrace();

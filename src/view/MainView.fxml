@@ -1,26 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainController">
+
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainController">
    <content>
-      <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Untitled Tab 1">
             <content>
               <AnchorPane>
                      <children>
-                        <Button fx:id="btnTemp" layoutX="96.0" layoutY="82.0" mnemonicParsing="false" onAction="#temp" text="Button" />
-                     </children></AnchorPane>
+                        <Button fx:id="btnTemp" layoutX="449.0" layoutY="139.0" mnemonicParsing="false" onAction="#temp" prefHeight="108.0" prefWidth="104.0" text="Button" />
+                     </children>
+                  </AnchorPane>
             </content>
           </Tab>
           <Tab text="Untitled Tab 2">
-            <content>
-              <AnchorPane />
-            </content>
+               <content>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefWidth="610.0" text="Button" />
+                     </children>
+                  </HBox>
+               </content>
           </Tab>
         </tabs>
       </TabPane>
