@@ -6,30 +6,47 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainController">
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="259.0" prefWidth="671.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainController">
    <content>
-      <TabPane tabClosingPolicy="UNAVAILABLE">
-        <tabs>
-          <Tab text="Untitled Tab 1">
-            <content>
-              <AnchorPane>
+      <SplitPane dividerPositions="0.18290854572713644" prefHeight="257.0" prefWidth="575.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0">
+               <children>
+                  <TreeView fx:id="accTree" prefHeight="251.0" prefWidth="119.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <VBox>
                      <children>
-                        <Button fx:id="btnTemp" layoutX="449.0" layoutY="139.0" mnemonicParsing="false" onAction="#temp" prefHeight="108.0" prefWidth="104.0" text="Button" />
+                        <HBox>
+                           <children>
+                              <Label text="Saldo" />
+                              <Label fx:id="lblBalance" text="690" />
+                           </children>
+                        </HBox>
+                        <TableView fx:id="tableTransaction" prefHeight="200.0" prefWidth="1949.0">
+                          <columns>
+                            <TableColumn fx:id="tcDate" prefWidth="75.0" text="Data" />
+                            <TableColumn fx:id="tcDescription" prefWidth="75.0" text="Opis" />
+                              <TableColumn fx:id="tcAccount" prefWidth="75.0" text="Transfer" />
+                              <TableColumn fx:id="tcDebet" prefWidth="75.0" text="Winien" />
+                              <TableColumn fx:id="tcCredit" prefWidth="75.0" text="Ma" />
+                              <TableColumn fx:id="tcBalance" prefWidth="75.0" text="Saldo" />
+                          </columns>
+                        </TableView>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Button fx:id="btnAddTransaction" mnemonicParsing="false" onAction="#showAddTransaction" text="Dodaj" />
+                              <Button fx:id="btnEditTransaction" mnemonicParsing="false" text="Edytuj" />
+                              <Button fx:id="btnRemoveTransaction" mnemonicParsing="false" onAction="#deleteTransaction" text="Usuń" />
+                           </children>
+                        </HBox>
                      </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-          <Tab text="Untitled Tab 2">
-               <content>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Button mnemonicParsing="false" prefWidth="610.0" text="Button" />
-                     </children>
-                  </HBox>
-               </content>
-          </Tab>
-        </tabs>
-      </TabPane>
+                  </VBox>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
    </content>
 </ScrollPane>

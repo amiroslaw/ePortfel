@@ -13,12 +13,13 @@ import javafx.scene.input.KeyEvent;
 final class TreeCellImpl extends TreeCell<String> {
 
     private TextField textMenu;
-    private ContextMenu addMenu = new ContextMenu();
-
+    private ContextMenu contextMenu = new ContextMenu();
+    private MenuItem addItem; 
+    private MenuItem deleteItem; 
     @SuppressWarnings("unchecked")
 	public TreeCellImpl() {
-        MenuItem addItem = new MenuItem("Dodaj rachunek");
-        addMenu.getItems().add(addItem);
+        addItem = new MenuItem("Dodaj rachunek");
+        contextMenu.getItems().add(addItem);
         addItem.setOnAction(new EventHandler() {
             public void handle(Event t) {
                 TreeItem newAccount = 
@@ -30,12 +31,12 @@ final class TreeCellImpl extends TreeCell<String> {
 //            	System.out.println(getTreeItem().getParent().getValue().equals("Aktywa")+" -value parent");
             }
         });
-        MenuItem deleteItem = new MenuItem("Usuń rachunek");
-        addMenu.getItems().add(deleteItem);
+        deleteItem = new MenuItem("Usuń rachunek");
+        contextMenu.getItems().add(deleteItem);
         deleteItem.setOnAction(new EventHandler() {
             public void handle(Event t) {
             	
-                if (getTreeItem().getParent()!= null){                        
+                if (getTreeItem().getParent().getParent()!= null){                        
             	TreeItem<String> parent = getTreeItem().getParent(); 
                 parent.getChildren().remove(getTreeItem());                 
                 } else{
@@ -84,15 +85,32 @@ final class TreeCellImpl extends TreeCell<String> {
                 setText(getString());
                 setGraphic(getTreeItem().getGraphic());
 //                if(!(getTreeItem().getParent()!=null&&!getTreeItem().getParent().getValue().equals("Aktywa"))){
+							setContextMenu(contextMenu);
+//                if(getTreeItem().getParent().getParent()!=null){
+//                    TreeItem<String> tempParent = getTreeItem().getParent(); 
+//                    	if(tempParent.getParent().getValue()==null){
+//							setContextMenu(contextMenu);
+//							}
+//                    } else{
+//							setContextMenu(contextMenu);
+//                    }
                 //maksymalnie 2 poziomy
-                if(getTreeItem().getParent()!=null){
-                    TreeItem<String> tempParent = getTreeItem().getParent(); 
-                    	if(tempParent.getParent()==null){
-							setContextMenu(addMenu);
-							}
-                    } else{
-							setContextMenu(addMenu);
-                    }
+				if( getTreeItem().getParent().getParent()!=null){
+					if(getTreeItem().getParent().getParent().getParent()!=null){
+                if(getTreeItem().getParent().getParent().getParent().getParent()==null){
+                	addItem.setDisable(true);
+					}
+				else{
+                	addItem.setDisable(false);
+                }
+				}
+                } 
+                // blokowanie usuwania kont glownych 
+                if(getTreeItem().getParent().getParent()==null){
+                	deleteItem.setDisable(true);
+                } else{
+                	deleteItem.setDisable(false);
+                }
             }
         }
     }

@@ -21,6 +21,10 @@
       </AnchorPane>
    </center>
    <left>
-      <TreeView fx:id="treeView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <VBox>
+         <children>
+            <TreeView fx:id="treeView" prefHeight="368.0" prefWidth="200.0" />
+         </children>
+      </VBox>
    </left>
 </BorderPane>

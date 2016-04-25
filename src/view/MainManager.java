@@ -59,8 +59,15 @@ public class MainManager {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(application.Main.class.getResource("/view/MainView.fxml"));
 			ScrollPane mainView = (ScrollPane) loader.load(); 
-			menuLayout.setCenter(mainView);
-
+//			menuLayout.setCenter(mainView);
+			
+			AnchorPane anchor = (AnchorPane) menuLayout.getChildren().get(1);
+			AnchorPane.setLeftAnchor(mainView, 10.0);
+			AnchorPane.setRightAnchor(mainView, 10.0);
+			AnchorPane.setTopAnchor(mainView, 10.0);
+			AnchorPane.setBottomAnchor(mainView, 10.0);
+			anchor.getChildren().add(mainView);
+			System.out.println(menuLayout.getChildren());
 			MainController controller = loader.getController();
 			controller.setManager(this);
 		} catch (IOException e) {
@@ -104,6 +111,29 @@ public class MainManager {
 			dialogStage.setScene(scene);
 
 			AboutController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setManager(this);
+			
+			dialogStage.setResizable(false);
+			dialogStage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public void showAddTransaction() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("/view/AddTransaction.fxml"));
+			AnchorPane pane = (AnchorPane) loader.load();
+
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Dodaj transakcje");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(pane);
+			dialogStage.setScene(scene);
+
+			AddTransactionController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
 			controller.setManager(this);
 			
