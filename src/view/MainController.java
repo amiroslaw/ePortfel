@@ -1,6 +1,7 @@
 package view;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -11,11 +12,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TreeCell;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.util.Callback;
 import model.Account;
 import model.Transaction;
 
 public class MainController implements Initializable{
+	
+	private StartController start;
 	private MainManager manager;
 	
 	public void setManager(MainManager manager) {
@@ -23,16 +29,16 @@ public class MainController implements Initializable{
 
 	}
 
-    private ObservableList<Transaction> data =
+    private static ObservableList<Transaction> data =
             FXCollections.observableArrayList(
-            		new Transaction( "data", "opis", "transfer", 0, 0, 0, 0),
-            		new Transaction("data", "opis2", "transfer", 0, 0, 0, 0), 
-            		new Transaction("data", "opis3", "transfer", 0, 0, 0, 0)
+            		new Transaction( LocalDate.now(), "opis", "transfer", 0, 0, 0, 0),
+            		new Transaction(LocalDate.now(), "opis2", "transfer", 0, 0, 0, 0), 
+            		new Transaction(LocalDate.now(), "opis3", "transfer", 0, 0, 0, 0)
             		);
     // dodac do metody
 //    data.add(new Transaction("data", "opis", "transfer", 0, 0, 0, 0));
     @FXML
-    private TreeView<Account> accTree;
+    private TreeView<String> accTree;
 
     @FXML
     private Label lblBalance;
@@ -41,7 +47,7 @@ public class MainController implements Initializable{
     private TableView<Transaction> tableTransaction;
 
     @FXML
-    private TableColumn<Transaction, String> tcDate;
+    private TableColumn<Transaction, LocalDate> tcDate;
 
     @FXML
     private TableColumn<Transaction, String> tcDescription;
@@ -76,6 +82,8 @@ public class MainController implements Initializable{
 	public void showEditTransaction(){
 		System.out.println("metoda editTransaction");
 //		manager.showEditTransaction();
+		System.out.println("edit clicked");
+		data.add(new Transaction(LocalDate.now(), "przycisk edit", "transfer", 0, 0, 0, 0));
 	}
     @FXML
     public void deleteTransaction(){
@@ -98,7 +106,7 @@ public class MainController implements Initializable{
 //        data.add(new Person("Z","X"));
 //     });
 //    
-    public ObservableList<Transaction> getTransactionData() {
+    public static ObservableList<Transaction> getTransactionData() {
         return data;
     }
 
@@ -111,6 +119,20 @@ public void initialize(URL location, ResourceBundle resources) {
     tcCredit.setCellValueFactory(cellData -> cellData.getValue().creditProperty());
     tcBalance.setCellValueFactory(cellData -> cellData.getValue().balanceProperty());
     tableTransaction.setItems(data);
-	
+
+    TreeItem<String> root = start.getTree();
+//    accTree = start.getTree();
+//	accTree.setShowRoot(false);
+//	accTree.setEditable(true);
+//	treeView.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
+//		@Override
+//		public TreeCell<String> call(TreeView<String> p) {
+//			return new TreeCellImpl();
+//		}
+//	});
+//	accTree.setRoot(start.getTree());
+	accTree.setRoot(root);
+//    accTree = 
+//	System.out.println(start.getTree().getChildren().get(0).getValue());
 }
 }

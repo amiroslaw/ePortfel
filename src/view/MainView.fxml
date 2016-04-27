@@ -38,7 +38,7 @@
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
                               <Button fx:id="btnAddTransaction" mnemonicParsing="false" onAction="#showAddTransaction" text="Dodaj" />
-                              <Button fx:id="btnEditTransaction" mnemonicParsing="false" text="Edytuj" />
+                              <Button fx:id="btnEditTransaction" mnemonicParsing="false" onAction="#showEditTransaction" text="Edytuj" />
                               <Button fx:id="btnRemoveTransaction" mnemonicParsing="false" onAction="#deleteTransaction" text="Usuń" />
                            </children>
                         </HBox>

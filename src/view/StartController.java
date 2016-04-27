@@ -101,7 +101,12 @@ public class StartController implements Initializable {
 
 	final TreeItem<String> root = new TreeItem<>("root");
 	// final TreeItem<Asset> root = new TreeItem<>(new Asset( "Aktywa", "" ));
-
+//	TreeView <String> getTree(){
+//		return treeView; 
+//	}
+	public TreeItem <String> getTree(){
+		return root; 
+	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		System.out.println(root.getChildren().size());
