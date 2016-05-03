@@ -6,11 +6,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -26,52 +28,40 @@ public class StartController implements Initializable {
 
 	}
 
-	// private Stage primaryStage;
 	public void setPrimaryStage(Stage primaryStage) {
 		// this.primaryStage = primaryStage;
 	}
 
 	@FXML
 	void showMain() {
-		// for (Asset asset : assets) {
-		// System.out.println(asset.getName()+" parent "+asset.getParent());
-		// }
-		// private void printChildren(TreeItem<String> root){
-		// System.out.println("Current Parent :" + root.getValue());
-		// for(TreeItem<String> child: root.getChildren()){
-		// if(child.getChildren().isEmpty()){
-		// System.out.println(child.getValue());
-		// } else {
-		// printChildren(child);
-		// }
-		// }
-		// }
 
-		int id = 0;
-		ArrayList<Account> accList = new ArrayList<Account>();
-		for (int i = 0; i < 4; i++) {
-			accList.add(new Account(root.getChildren().get(i).getValue(), "root", 0.0, i, id));
-			id++;
-			for (int j = 0; j < root.getChildren().get(i).getChildren().size(); j++) {
-				accList.add(new Account(root.getChildren().get(i).getChildren().get(j).getValue(),
-						root.getChildren().get(i).getValue(), 0.0, i, id));
-				id++;
-				if (!root.getChildren().get(i).getChildren().get(j).isLeaf()) {
-					for (int k = 0; k < root.getChildren().get(i).getChildren().get(j).getChildren().size(); k++) {
-						accList.add(new Account(
-								root.getChildren().get(i).getChildren().get(j).getChildren().get(k).getValue(),
-								root.getChildren().get(i).getChildren().get(j).getValue(), 0.0, i, id));
-						id++;
-					}
-				}
-			}
-			root.getChildren().size();
 
-		}
-		for (Account account : accList) {
-			System.out.println(account.getName() + " " + account.getParent() + " " + account.getIdAccount());
-		}
-		System.out.println("root children" + treeView.getRoot().getChildren());
+//		int id = 0;
+//		ArrayList<Account> accList = new ArrayList<Account>();
+//		for (int i = 0; i < 4; i++) {
+//			accList.add(new Account(root.getChildren().get(i).getValue(), "root", 0.0, i, id));
+//			id++;
+//			for (int j = 0; j < root.getChildren().get(i).getChildren().size(); j++) {
+//				accList.add(new Account(root.getChildren().get(i).getChildren().get(j).getValue(),
+//						root.getChildren().get(i).getValue(), 0.0, i, id));
+//				id++;
+//				if (!root.getChildren().get(i).getChildren().get(j).isLeaf()) {
+//					for (int k = 0; k < root.getChildren().get(i).getChildren().get(j).getChildren().size(); k++) {
+//						accList.add(new Account(
+//								root.getChildren().get(i).getChildren().get(j).getChildren().get(k).getValue(),
+//								root.getChildren().get(i).getChildren().get(j).getValue(), 0.0, i, id));
+//						id++;
+//					}
+//				}
+//			}
+//			root.getChildren().size();
+//
+//		}
+//		for (Account account : accList) {
+//			System.out.println(account.getName() + " " + account.getParent() + " " + account.getIdAccount());
+//		}
+//		System.out.println("root children" + treeView.getRoot().getChildren());
+//		System.out.println(getTree());
 		manager.showMenu();
 		manager.showMainView();
 	}
@@ -81,9 +71,9 @@ public class StartController implements Initializable {
 	@FXML
 	private Button btnShowMain;
 	@FXML
-	private TreeView<String> treeView;
+	private TreeView<Account> treeView;
 
-	List<Account> account = Arrays.<Account> asList(new Account("Aktywa bieżące", "Aktywa", 0.0, 0, 0),
+	static List<Account> account = Arrays.<Account> asList(new Account("Aktywa bieżące", "Aktywa", 0.0, 0, 0),
 			new Account("Gogówka", "Aktywa bieżące", 0.0, 0, 1),
 			new Account("Konto bankowe", "Aktywa bieżące", 0.0, 0, 2), new Account("Inwestycje", "Aktywa", 0.0, 0, 3),
 			new Account("Lokaty", "Inwestycje", 0.0, 0, 4), new Account("Akcje", "Inwestycje", 0.0, 0, 5),
@@ -99,40 +89,40 @@ public class StartController implements Initializable {
 			new Account("Krajowe", "Podatki", 0.0, 3, 21), new Account("Socjalne", "Podatki", 0.0, 3, 22),
 			new Account("Wydatki medyczne", "Wydatki", 0.0, 3, 23));
 
-	final TreeItem<String> root = new TreeItem<>("root");
+	final TreeItem<Account> root = new TreeItem<>(new Account("root", null, 0.0, -1, 0) );
 	// final TreeItem<Asset> root = new TreeItem<>(new Asset( "Aktywa", "" ));
 //	TreeView <String> getTree(){
 //		return treeView; 
 //	}
-	public TreeItem <String> getTree(){
-		return root; 
-	}
+//	public TreeItem <String> getTree(){
+//		return root; 
+//	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		System.out.println(root.getChildren().size());
-		labStart.setText("przykładowy tekst:" + account.get(0).getType());
+		labStart.setText("to string:" + account.get(0).toString());
 		if ("".equals(null)) {
 			System.out.println("puste == null");
 		} else {
 			System.out.println("nie równe");
 		}
-		TreeItem<String> aktywa = new TreeItem<String>("Aktywa");
-		TreeItem<String> pasywa = new TreeItem<String>("Pasywa");
-		TreeItem<String> przychody = new TreeItem<String>("Przychody");
-		TreeItem<String> wydatki = new TreeItem<String>("Wydatki");
-
+		TreeItem<Account> aktywa = new TreeItem<Account>(new Account("Aktywa", "root", 0.0, 0, 1) );
+		TreeItem<Account> pasywa = new TreeItem<Account>(new Account("Pasywa", "root", 0.0, 0, 1));
+		TreeItem<Account> przychody =  new TreeItem<Account>(new Account("Przychody", "root", 0.0, 0, 1));
+		TreeItem<Account> wydatki =  new TreeItem<Account>(new Account("Wydatki", "root", 0.0, 0, 1));
 		root.getChildren().addAll(aktywa, pasywa, przychody, wydatki);
+		// tworzenie drzewa z listy
 		for (Account acc : account) {
-			TreeItem<String> empLeaf = new TreeItem<String>(acc.getName());
+			TreeItem<Account> empLeaf = new TreeItem<Account>(acc);
 			int type = acc.getType();
 			if (acc.getParent().equals("Aktywa") || acc.getParent().equals("Pasywa")
 					|| acc.getParent().equals("Przychody") || acc.getParent().equals("Wydatki")) {
 				root.getChildren().get(acc.getType()).getChildren().add(empLeaf);
 			} else {
 				boolean found = false;
-				for (TreeItem<String> depNode : root.getChildren().get(type).getChildren()) {
+				for (TreeItem<Account> depNode : root.getChildren().get(type).getChildren()) {
 					// jesli rodzic acc jest taki sam jak dziecko glownej kat.
-					if (depNode.getValue().contentEquals(acc.getParent())) {
+					if (depNode.getValue().getName().contentEquals(acc.getParent())) {
 						depNode.getChildren().add(empLeaf);
 						found = true;
 						System.out.println(depNode.getValue());
@@ -140,27 +130,31 @@ public class StartController implements Initializable {
 					}
 				}
 				if (!found) {
-					TreeItem depNode = new TreeItem(acc.getParent());
+					TreeItem depNode = new TreeItem(acc);
 					root.getChildren().get(type).getChildren().add(depNode);
 					depNode.getChildren().add(empLeaf);
 				}
 
 			}
-			// switch (acc.getParent()) {
-			// case "Aktywa":
-			//
-			// break;
-			//
-			// default:
-			// break;
-			// }
+
 		}
+		 treeView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+	        treeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+	        	@Override
+	            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+	                TreeItem treeItem = (TreeItem)newValue;
+	                System.out.println("Selected item is" + treeItem);
+	            }
+	        });
+		
 		root.setExpanded(true);
 		treeView.setShowRoot(false);
 		treeView.setEditable(true);
-		treeView.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
+
+		treeView.setCellFactory(new Callback<TreeView<Account>, TreeCell<Account>>() {
+
 			@Override
-			public TreeCell<String> call(TreeView<String> p) {
+			public TreeCell<Account> call(TreeView<Account> param) {
 				return new TreeCellImpl();
 			}
 		});

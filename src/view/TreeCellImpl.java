@@ -9,8 +9,9 @@ import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import model.Account;
 
-final class TreeCellImpl extends TreeCell<String> {
+final class TreeCellImpl extends TreeCell<Account> {
 
     private TextField textMenu;
     private ContextMenu contextMenu = new ContextMenu();
@@ -23,7 +24,7 @@ final class TreeCellImpl extends TreeCell<String> {
         addItem.setOnAction(new EventHandler() {
             public void handle(Event t) {
                 TreeItem newAccount = 
-                    new TreeItem<String>("Nowy rachunek");
+                    new TreeItem<Account>(new Account("nowy rachunek", getTreeItem().getParent().getValue().getName(), 0.0, getTreeItem().getParent().getValue().getType(), 1));
                 getTreeItem().getChildren().add(newAccount);            
                 
             
@@ -37,7 +38,7 @@ final class TreeCellImpl extends TreeCell<String> {
             public void handle(Event t) {
             	
                 if (getTreeItem().getParent().getParent()!= null){                        
-            	TreeItem<String> parent = getTreeItem().getParent(); 
+            	TreeItem<Account> parent = getTreeItem().getParent(); 
                 parent.getChildren().remove(getTreeItem());                 
                 } else{
 
@@ -63,12 +64,12 @@ final class TreeCellImpl extends TreeCell<String> {
     public void cancelEdit() {
         super.cancelEdit();
 
-        setText((String) getItem());
+        setText((String) getItem().getName());
         setGraphic(getTreeItem().getGraphic());
     }
 
     @Override
-    public void updateItem(String item, boolean empty) {
+    public void updateItem(Account item, boolean empty) {
         super.updateItem(item, empty);
 
         if (empty) {
@@ -84,16 +85,8 @@ final class TreeCellImpl extends TreeCell<String> {
             } else {
                 setText(getString());
                 setGraphic(getTreeItem().getGraphic());
-//                if(!(getTreeItem().getParent()!=null&&!getTreeItem().getParent().getValue().equals("Aktywa"))){
 							setContextMenu(contextMenu);
-//                if(getTreeItem().getParent().getParent()!=null){
-//                    TreeItem<String> tempParent = getTreeItem().getParent(); 
-//                    	if(tempParent.getParent().getValue()==null){
-//							setContextMenu(contextMenu);
-//							}
-//                    } else{
-//							setContextMenu(contextMenu);
-//                    }
+
                 //maksymalnie 2 poziomy
 				if( getTreeItem().getParent().getParent()!=null){
 					if(getTreeItem().getParent().getParent().getParent()!=null){
@@ -122,7 +115,7 @@ final class TreeCellImpl extends TreeCell<String> {
             @Override
             public void handle(KeyEvent t) {
                 if (t.getCode() == KeyCode.ENTER) {
-                    commitEdit(textMenu.getText());
+                    commitEdit(new Account(textMenu.getText(), getTreeItem().getParent().getValue().getName(), 0.0, getTreeItem().getParent().getValue().getType(), 0));
                 } else if (t.getCode() == KeyCode.ESCAPE) {
                     cancelEdit();
                 }
