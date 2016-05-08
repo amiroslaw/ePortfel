@@ -4,6 +4,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,31 +13,38 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.util.Callback;
+import javafx.stage.Stage;
 import model.Account;
+import model.Structure;
 import model.Transaction;
 
-public class MainController implements Initializable {
+public class MainController  implements Initializable {
 
-	private StartController start;
+//	private StartController start;
 	private MainManager manager;
 
 	public void setManager(MainManager manager) {
 		this.manager = manager;
 
 	}
+	private Structure structure= new Structure() ; 
+//	public Structure getStructure(){
+//		return structure; 
+//	}
+	private TreeItem<Account> root;
+	
+	String proba; 
+	public void setProba(String proba){
+		this.proba=proba;
+	}
+	
 
-	private static ObservableList<Transaction> data = FXCollections.observableArrayList(
-			new Transaction(LocalDate.now(), "opis", "transfer", 0, 0, 0, 0),
-			new Transaction(LocalDate.now(), "opis2", "transfer", 0, 0, 0, 0),
-			new Transaction(LocalDate.now(), "opis3", "transfer", 0, 0, 0, 0));
 	// dodac do metody
 	// data.add(new Transaction("data", "opis", "transfer", 0, 0, 0, 0));
 	@FXML
-	private TreeView<String> accTree;
+	private TreeView<Account> accTree;
 
 	@FXML
 	private Label lblBalance;
@@ -83,6 +91,8 @@ public class MainController implements Initializable {
 		// manager.showEditTransaction();
 		System.out.println("edit clicked");
 		data.add(new Transaction(LocalDate.now(), "przycisk edit", "transfer", 0, 0, 0, 0));
+		 System.out.println("proba"+ proba);
+		 System.out.println("proba"+ root.getChildren().get(0).getValue().getName());
 	}
 
 	@FXML
@@ -106,36 +116,40 @@ public class MainController implements Initializable {
 	// data.add(new Person("Z","X"));
 	// });
 	//
+	// przekierowanie root z start
+	public void setRoot(TreeItem<Account> root){
+		this.root=root;
+		 accTree.setRoot(root);
+	}
+	private static ObservableList<Transaction> data = FXCollections.observableArrayList(
+			new Transaction(LocalDate.now(), "opis", "transfer", 0, 0, 0, 0),
+			new Transaction(LocalDate.now(), "opis2", "transfer", 0, 0, 0, 0),
+			new Transaction(LocalDate.now(), "opis3", "transfer", 0, 0, 0, 0));
+	
 	public static ObservableList<Transaction> getTransactionData() {
 		return data;
 	}
-
+//	TreeItem<Account> root = new TreeItem<Account>(); 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		tcDate.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
+	tcDate.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
 		tcDescription.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
 		tcAccount.setCellValueFactory(cellData -> cellData.getValue().accTransactionProperty());
 		tcDebet.setCellValueFactory(cellData -> cellData.getValue().debetProperty());
 		tcCredit.setCellValueFactory(cellData -> cellData.getValue().creditProperty());
 		tcBalance.setCellValueFactory(cellData -> cellData.getValue().balanceProperty());
-		tableTransaction.setItems(data);
-	
-		System.out.println("account list "+start.account.get(0).getName());
-//		System.out.println("main controller "+start.getTree());
-		// TreeItem<String> root = start.getTree();
-		// accTree = start.getTree();
-		// accTree.setShowRoot(false);
-		// accTree.setEditable(true);
-		// treeView.setCellFactory(new Callback<TreeView<String>,
-		// TreeCell<String>>() {
-		// @Override
-		// public TreeCell<String> call(TreeView<String> p) {
-		// return new TreeCellImpl();
-		// }
-		// });
-		// accTree.setRoot(start.getTree());
-		// accTree.setRoot(root);
-		// accTree =
-		// System.out.println(start.getTree().getChildren().get(0).getValue());
+		tableTransaction.setItems(data);	
+		
+		structure.accList.clear();
+		structure.readTree();
+		root = structure.listToTree();
+		// nie było bledu z 
+//		accTree.setRoot(structure.listToTree());
+		root.setExpanded(true);
+		accTree.setShowRoot(false);
+		accTree.setEditable(true);
+		accTree.setRoot(root);
 	}
+
+	
 }

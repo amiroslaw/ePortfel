@@ -1,10 +1,7 @@
 package view;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import model.Asset;
+import model.Account;
 import application.Main;
 
 public class MainManager {
@@ -54,12 +51,11 @@ public class MainManager {
 			e.printStackTrace();
 		}
 	}
-	public void showMainView() {
+	public void showMainView(TreeItem<Account> root, String pr) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(application.Main.class.getResource("/view/MainView.fxml"));
 			ScrollPane mainView = (ScrollPane) loader.load(); 
-//			menuLayout.setCenter(mainView);
 			
 			AnchorPane anchor = (AnchorPane) menuLayout.getChildren().get(1);
 			AnchorPane.setLeftAnchor(mainView, 10.0);
@@ -67,7 +63,26 @@ public class MainManager {
 			AnchorPane.setTopAnchor(mainView, 10.0);
 			AnchorPane.setBottomAnchor(mainView, 10.0);
 			anchor.getChildren().add(mainView);
-			System.out.println(menuLayout.getChildren());
+			MainController controller = loader.getController();
+//			controller.setRoot(root);
+//			controller.setProba(pr);
+			controller.setManager(this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public void showMainView() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(application.Main.class.getResource("/view/MainView.fxml"));
+			ScrollPane mainView = (ScrollPane) loader.load(); 
+			
+			AnchorPane anchor = (AnchorPane) menuLayout.getChildren().get(1);
+			AnchorPane.setLeftAnchor(mainView, 10.0);
+			AnchorPane.setRightAnchor(mainView, 10.0);
+			AnchorPane.setTopAnchor(mainView, 10.0);
+			AnchorPane.setBottomAnchor(mainView, 10.0);
+			anchor.getChildren().add(mainView);
 			MainController controller = loader.getController();
 			controller.setManager(this);
 		} catch (IOException e) {
@@ -80,6 +95,7 @@ public class MainManager {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(application.Main.class.getResource("/view/Start.fxml"));
 		BorderPane bpStart = (BorderPane) loader.load();
+//		 bpStart = (BorderPane) loader.load();
 
 		Scene scene = new Scene(bpStart);
 		

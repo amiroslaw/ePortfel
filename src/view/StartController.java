@@ -1,7 +1,6 @@
 package view;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -19,6 +18,8 @@ import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Account;
+import model.ConnectionSqlite;
+import model.Structure;
 
 public class StartController implements Initializable {
 	private MainManager manager;
@@ -31,38 +32,15 @@ public class StartController implements Initializable {
 	public void setPrimaryStage(Stage primaryStage) {
 		// this.primaryStage = primaryStage;
 	}
-
+	private Structure structure = new Structure(); 
 	@FXML
 	void showMain() {
-
-
-//		int id = 0;
-//		ArrayList<Account> accList = new ArrayList<Account>();
-//		for (int i = 0; i < 4; i++) {
-//			accList.add(new Account(root.getChildren().get(i).getValue(), "root", 0.0, i, id));
-//			id++;
-//			for (int j = 0; j < root.getChildren().get(i).getChildren().size(); j++) {
-//				accList.add(new Account(root.getChildren().get(i).getChildren().get(j).getValue(),
-//						root.getChildren().get(i).getValue(), 0.0, i, id));
-//				id++;
-//				if (!root.getChildren().get(i).getChildren().get(j).isLeaf()) {
-//					for (int k = 0; k < root.getChildren().get(i).getChildren().get(j).getChildren().size(); k++) {
-//						accList.add(new Account(
-//								root.getChildren().get(i).getChildren().get(j).getChildren().get(k).getValue(),
-//								root.getChildren().get(i).getChildren().get(j).getValue(), 0.0, i, id));
-//						id++;
-//					}
-//				}
-//			}
-//			root.getChildren().size();
-//
-//		}
-//		for (Account account : accList) {
-//			System.out.println(account.getName() + " " + account.getParent() + " " + account.getIdAccount());
-//		}
-//		System.out.println("root children" + treeView.getRoot().getChildren());
-//		System.out.println(getTree());
+		structure.treeToList(root);
+		structure.saveTree();
+//		structure.proba();
+		
 		manager.showMenu();
+//		manager.showMainView(root, "z start");
 		manager.showMainView();
 	}
 
@@ -71,45 +49,42 @@ public class StartController implements Initializable {
 	@FXML
 	private Button btnShowMain;
 	@FXML
-	private TreeView<Account> treeView;
+	protected TreeView<Account> treeView;
 
-	static List<Account> account = Arrays.<Account> asList(new Account("Aktywa bieżące", "Aktywa", 0.0, 0, 0),
-			new Account("Gogówka", "Aktywa bieżące", 0.0, 0, 1),
-			new Account("Konto bankowe", "Aktywa bieżące", 0.0, 0, 2), new Account("Inwestycje", "Aktywa", 0.0, 0, 3),
-			new Account("Lokaty", "Inwestycje", 0.0, 0, 4), new Account("Akcje", "Inwestycje", 0.0, 0, 5),
-			new Account("Obligacje", "Inwestycje", 0.0, 0, 6), new Account("Karta kredytowa", "Pasywa", 0.0, 1, 7),
-			new Account("Kredyty", "Pasywa", 0.0, 1, 8), new Account("Pensja", "Przychody", 0.0, 2, 9),
-			new Account("Inne przychody", "Przychody", 0.0, 2, 10),
-			new Account("Przychód z odsetek", "Przychody", 0.0, 2, 11), new Account("Premia", "Przychody", 0.0, 2, 12),
-			new Account("Odsetki z lokat", "Przychód z odsetek", 0.0, 2, 13),
-			new Account("Odsetki z akcji", "Przychód z odsetek", 0.0, 2, 14),
-			new Account("Czynsz", "Wydatki", 0.0, 3, 15), new Account("Hobby", "Wydatki", 0.0, 3, 16),
-			new Account("Jedzenie", "Wydatki", 0.0, 3, 17), new Account("Odsetki", "Wydatki", 0.0, 3, 18),
-			new Account("Odsetki z kredytów", "Odsetki", 0.0, 3, 19), new Account("Podatki", "Wydatki", 0.0, 3, 20),
-			new Account("Krajowe", "Podatki", 0.0, 3, 21), new Account("Socjalne", "Podatki", 0.0, 3, 22),
-			new Account("Wydatki medyczne", "Wydatki", 0.0, 3, 23));
+	static List<Account> account = Arrays.<Account> asList(
+			new Account("Aktywa bieżące", "Aktywa", 0.0, 1, 0),
+			new Account("Gogówka", "Aktywa bieżące", 0.0, 1, 1),
+			new Account("Konto bankowe", "Aktywa bieżące", 0.0, 1, 2), new Account("Inwestycje", "Aktywa", 0.0, 1, 3),
+			new Account("Lokaty", "Inwestycje", 0.0, 1, 4), new Account("Akcje", "Inwestycje", 0.0, 1, 5),
+			new Account("Obligacje", "Inwestycje", 0.0, 1, 6), new Account("Karta kredytowa", "Pasywa", 0.0, 2, 7),
+			new Account("Kredyty", "Pasywa", 0.0, 2, 8), new Account("Pensja", "Przychody", 0.0, 3, 9),
+			new Account("Inne przychody", "Przychody", 0.0, 3, 10),
+			new Account("Przychód z odsetek", "Przychody", 0.0, 3, 11), new Account("Premia", "Przychody", 0.0, 3, 12),
+			new Account("Odsetki z lokat", "Przychód z odsetek", 0.0, 3, 13),
+			new Account("Odsetki z akcji", "Przychód z odsetek", 0.0, 3, 14),
+			new Account("Czynsz", "Wydatki", 0.0, 4, 15), new Account("Hobby", "Wydatki", 0.0, 4, 16),
+			new Account("Jedzenie", "Wydatki", 0.0, 4, 17), new Account("Odsetki", "Wydatki", 0.0, 4, 18),
+			new Account("Odsetki z kredytów", "Odsetki", 0.0, 4, 19), new Account("Podatki", "Wydatki", 0.0, 4, 20),
+			new Account("Krajowe", "Podatki", 0.0, 4, 21), new Account("Socjalne", "Podatki", 0.0, 4, 22),
+			new Account("Wydatki medyczne", "Wydatki", 0.0, 4, 23));
 
-	final TreeItem<Account> root = new TreeItem<>(new Account("root", null, 0.0, -1, 0) );
+public	 TreeItem<Account> root = new TreeItem<Account>(new Account("root", null, 0.0, -1, 0) );
 	// final TreeItem<Asset> root = new TreeItem<>(new Asset( "Aktywa", "" ));
 //	TreeView <String> getTree(){
 //		return treeView; 
 //	}
-//	public TreeItem <String> getTree(){
-//		return root; 
+//	public TreeItem <Account> getTree(){
+//		structure.treeToList(root);
+//		return structure.listToTree(); 
 //	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		System.out.println(root.getChildren().size());
 		labStart.setText("to string:" + account.get(0).toString());
-		if ("".equals(null)) {
-			System.out.println("puste == null");
-		} else {
-			System.out.println("nie równe");
-		}
-		TreeItem<Account> aktywa = new TreeItem<Account>(new Account("Aktywa", "root", 0.0, 0, 1) );
-		TreeItem<Account> pasywa = new TreeItem<Account>(new Account("Pasywa", "root", 0.0, 0, 1));
-		TreeItem<Account> przychody =  new TreeItem<Account>(new Account("Przychody", "root", 0.0, 0, 1));
-		TreeItem<Account> wydatki =  new TreeItem<Account>(new Account("Wydatki", "root", 0.0, 0, 1));
+	
+		TreeItem<Account> aktywa = new TreeItem<Account>(new Account("Aktywa", "root", 0.0, 1, 1) );
+		TreeItem<Account> pasywa = new TreeItem<Account>(new Account("Pasywa", "root", 0.0, 2, 1));
+		TreeItem<Account> przychody =  new TreeItem<Account>(new Account("Przychody", "root", 0.0, 4, 1));
+		TreeItem<Account> wydatki =  new TreeItem<Account>(new Account("Wydatki", "root", 0.0, 4, 1));
 		root.getChildren().addAll(aktywa, pasywa, przychody, wydatki);
 		// tworzenie drzewa z listy
 		for (Account acc : account) {
@@ -117,22 +92,24 @@ public class StartController implements Initializable {
 			int type = acc.getType();
 			if (acc.getParent().equals("Aktywa") || acc.getParent().equals("Pasywa")
 					|| acc.getParent().equals("Przychody") || acc.getParent().equals("Wydatki")) {
-				root.getChildren().get(acc.getType()).getChildren().add(empLeaf);
+				root.getChildren().get(acc.getType()-1).getChildren().add(empLeaf);
 			} else {
 				boolean found = false;
-				for (TreeItem<Account> depNode : root.getChildren().get(type).getChildren()) {
+				for (TreeItem<Account> depNode : root.getChildren().get(type-1).getChildren()) {
 					// jesli rodzic acc jest taki sam jak dziecko glownej kat.
 					if (depNode.getValue().getName().contentEquals(acc.getParent())) {
 						depNode.getChildren().add(empLeaf);
 						found = true;
-						System.out.println(depNode.getValue());
+//						System.out.println(depNode.getValue());
 						break;
 					}
 				}
+				// chyba niepotrzebne
 				if (!found) {
 					TreeItem depNode = new TreeItem(acc);
-					root.getChildren().get(type).getChildren().add(depNode);
+					root.getChildren().get(type-1).getChildren().add(depNode);
 					depNode.getChildren().add(empLeaf);
+					System.out.println("not found in ini start");
 				}
 
 			}
@@ -159,7 +136,6 @@ public class StartController implements Initializable {
 			}
 		});
 		treeView.setRoot(root);
-
 	}
 
 }

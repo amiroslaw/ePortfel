@@ -21,10 +21,10 @@
       </AnchorPane>
    </center>
    <left>
-      <VBox>
+      <AnchorPane>
          <children>
             <TreeView fx:id="treeView" prefHeight="368.0" prefWidth="200.0" />
          </children>
-      </VBox>
+      </AnchorPane>
    </left>
 </BorderPane>
