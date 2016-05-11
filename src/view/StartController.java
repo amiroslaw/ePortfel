@@ -2,6 +2,7 @@ package view;
 
 import java.net.URL;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -115,6 +116,7 @@ public	 TreeItem<Account> root = new TreeItem<Account>(new Account("root", null,
 			}
 
 		}
+		// wybieranie elementu z drzewa
 		 treeView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 	        treeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 	        	@Override
@@ -136,6 +138,21 @@ public	 TreeItem<Account> root = new TreeItem<Account>(new Account("root", null,
 			}
 		});
 		treeView.setRoot(root);
+		
+//		HashMap<String, Integer> hash = new HashMap<>();
+//
+//		// Put three keys with values.
+//		hash.put("dog", 1);
+//		hash.put("cat", 2);
+//		hash.put("dog", 6);
+//
+//		// Look up some known values.
+//		int a = hash.get("dog");
+//		int b = hash.get("cat");
+//
+//		// Display results.
+//		System.out.println(a);
+//		System.out.println(b);
 	}
 
 }

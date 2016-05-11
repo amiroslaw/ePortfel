@@ -1,7 +1,8 @@
 package view;
 
 import java.io.IOException;
-
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -136,7 +137,7 @@ public class MainManager {
 			e.printStackTrace();
 		}
 	}
-	public void showAddTransaction() {
+	public void showAddTransaction(ArrayList<Account> accList) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("/view/AddTransaction.fxml"));
@@ -152,7 +153,32 @@ public class MainManager {
 			AddTransactionController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
 			controller.setManager(this);
-			
+			controller.getAccoutList(accList);
+			dialogStage.setResizable(false);
+			dialogStage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+//						.add(new Transaction(dataPicker.getValue(), txtDescription.getText(), choiceBox.getValue(), 0, amount, 0, 0));
+	public void showAddTransaction(LocalDate date, String description, String transaction, String amount, ArrayList<Account> accList) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("/view/AddTransaction.fxml"));
+			AnchorPane pane = (AnchorPane) loader.load();
+
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Edytuj transakcje");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(pane);
+			dialogStage.setScene(scene);
+
+			AddTransactionController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setManager(this);
+			controller.setInput(date, description, transaction, amount);
+			controller.getAccoutList(accList);
 			dialogStage.setResizable(false);
 			dialogStage.showAndWait();
 		} catch (IOException e) {
