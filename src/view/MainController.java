@@ -22,6 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Account;
@@ -83,6 +84,9 @@ public class MainController  implements Initializable {
 
 	@FXML
 	private Button btnRemoveTransaction;
+	
+	@FXML
+	private HBox hboxEditTransaction;
 
 	@FXML
 	public void showAddTransaction() {
@@ -93,10 +97,7 @@ public class MainController  implements Initializable {
 	@FXML
 	public void showEditTransaction() {
 		System.out.println("metoda editTransaction");
-		// manager.showEditTransaction();
-//		data.add(new Transaction(LocalDate.now(), "przycisk edit", "transfer", 0, 0, 0, 0));
-//		 System.out.println("proba"+ root.getChildren().get(0).getValue().getName());
-//		 setTransactionData(tranList);
+	
 		ObservableList<Transaction> transactionSelected, allTransactions;
 		allTransactions = tableTransaction.getItems();
 		transactionSelected = tableTransaction.getSelectionModel().getSelectedItems();
@@ -137,16 +138,11 @@ public class MainController  implements Initializable {
 	}
 	private static ObservableList<Transaction> data = FXCollections.observableArrayList(
 			
-			new Transaction(LocalDate.now(), "opis", "transfer", 0, 0, 0, 0),
-			new Transaction(LocalDate.now(), "opis2", "transfer", 0, 0, 0, 0),
-			new Transaction(LocalDate.now(), "opis3", "transfer", 0, 0, 0, 0)
+//			new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0),
+//			new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0),
+//			new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0)
 			);
-	private HashMap<String, ArrayList<Transaction>> map = new HashMap<String,ArrayList<Transaction>>();
-//private static ObservableMap<Transaction> data2 = FXCollections.observableHashMap()();
-//
-//// Now add observability by wrapping it with ObservableList.
-//ObservableMap<String,String> observableMap = FXCollections.observableMap(map);
-//observableMap.addListener(new MapChangeListener() {}
+
 	public static ObservableList<Transaction> getTransactionData() {
 		return data;
 	}
@@ -154,21 +150,36 @@ public class MainController  implements Initializable {
 	private ArrayList<Transaction> temporary = new ArrayList<Transaction>();
 	private ArrayList<Transaction> tranList = new ArrayList<Transaction>();
 	private ArrayList<Transaction> tranList2 = new ArrayList<Transaction>(
-			Arrays.asList(	new Transaction(LocalDate.now(), "tran2", "transfer", 0, 0, 0, 0),
+			Arrays.asList(	new Transaction(LocalDate.now(), "tran2", "transfer", 0, 0, 0, 1),
 					new Transaction(LocalDate.now(), "tran2", "transfer", 0, 0, 0, 0),
 					new Transaction(LocalDate.now(), "tran3", "transfer", 0, 0, 0, 0)
 					)
 			);
 	
-	private void setTransactionData(ArrayList<Transaction> tran){
+//	private void setTransactionData(ArrayList<Transaction> tran){
+	private void setTransactionData(String accountName){
 		data.clear();
+		ArrayList<Transaction> tran = structure.getMap().get(accountName);
 		for (int i = 0; i < tran.size(); i++) {
 			data.add(tran.get(i)); 
 		}
 	}
-//	private HashMap<String, ArrayList<Transaction>> hashTransaction = new HashMap<String, ArrayList<Transaction>>();
-//	TreeItem<Account> root = new TreeItem<Account>(); 
-	@Override
+//	public void createHashMap(HashMap<String, Transaction> hashMap ){
+//	public void createHashMap(){
+//		for (int i = 0; i < structure.getTransactionList().size(); i++) {
+//			
+//		}
+//		
+//	} 
+
+	void observableToMap(String accountName){
+		ArrayList<Transaction> arrayList= new ArrayList<Transaction>();
+		for (Transaction transaction : data) {
+			arrayList.add(transaction);
+			System.out.println(transaction.getDescription());
+		}
+			 structure.getMap().put(accountName, arrayList);
+	}
 	public void initialize(URL location, ResourceBundle resources) {
 		tcDate.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
 		tcDescription.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
@@ -184,22 +195,48 @@ public class MainController  implements Initializable {
 		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, 0));
 		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, 0));
 		
-		map.put("lista1", tranList);
-		map.put("lista2", tranList2);
+//		structure.getMap().put("Gotówka", tranList);
+//		structure.getMap().put("Inwestycje", tranList2);
+		structure.readAccount();
+		structure.readTransactions();
+		structure.showMap();
+//		System.out.println("readtransactions aktywa "+structure.getMap().get("Aktywa").get(0).getDescription());
+//		structure.saveTransactions();
 		
 //		structure.accList.clear();
-		structure.readTree();
 		root = structure.listToTree();
 		 accTree.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-	        accTree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+	        accTree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
 	        	@Override
 	            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
 	                TreeItem treeItem = (TreeItem)newValue;
-	                System.out.println("Selected item is" + treeItem);
+	                TreeItem oldTreeItem = (TreeItem) oldValue; 
+	                
+//	                ArrayList<Transaction> ar = (ArrayList<Transaction>) data; 
+//	                structure.getMap().put(oldTreeItem.getValue().toString(), ar);
+	                
+	                //blad null point
+	                if (oldTreeItem!=null) {
+	                System.out.println("oldValue: " + oldTreeItem.getValue().toString());
+	                observableToMap(oldTreeItem.getValue().toString());
+					}
+	                
+	                Account acc= (Account) treeItem.getValue();
+	                System.out.println("Selected item is" + acc.getType());
+//	                setTransactionData(treeItem.getValue().toString());
+	                if(acc.getType()<3){
+	                	tableTransaction.setVisible(true);
+	                	hboxEditTransaction.setVisible(true);
+						lblBalance.setText(" konta "+acc.getName()+" to "+acc.getBalance());
+	                setTransactionData(acc.getName());
+	                }
+	                else {
+	                	tableTransaction.setVisible(false);
+	                	hboxEditTransaction.setVisible(false);
+						lblBalance.setText(" konta "+acc.getName()+" to "+acc.getBalance());
+					}
 	            }
 	        });
-		// nie było bledu z 
-//		accTree.setRoot(structure.listToTree());
 		root.setExpanded(true);
 		accTree.setShowRoot(false);
 		accTree.setEditable(true);
@@ -212,8 +249,6 @@ public class MainController  implements Initializable {
 		});
 		accTree.setRoot(root);
 		
-		System.out.println("structure list: "+ structure.accList.size());
 	}
-
 	
 }

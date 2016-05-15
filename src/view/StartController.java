@@ -37,7 +37,7 @@ public class StartController implements Initializable {
 	@FXML
 	void showMain() {
 		structure.treeToList(root);
-		structure.saveTree();
+		structure.saveAccount();
 //		structure.proba();
 		
 		manager.showMenu();
@@ -53,8 +53,9 @@ public class StartController implements Initializable {
 	protected TreeView<Account> treeView;
 
 	static List<Account> account = Arrays.<Account> asList(
+			//tutaj nie wazne id
 			new Account("Aktywa bieżące", "Aktywa", 0.0, 1, 0),
-			new Account("Gogówka", "Aktywa bieżące", 0.0, 1, 1),
+			new Account("Gotówka", "Aktywa bieżące", 0.0, 1, 1),
 			new Account("Konto bankowe", "Aktywa bieżące", 0.0, 1, 2), new Account("Inwestycje", "Aktywa", 0.0, 1, 3),
 			new Account("Lokaty", "Inwestycje", 0.0, 1, 4), new Account("Akcje", "Inwestycje", 0.0, 1, 5),
 			new Account("Obligacje", "Inwestycje", 0.0, 1, 6), new Account("Karta kredytowa", "Pasywa", 0.0, 2, 7),
@@ -80,14 +81,14 @@ public	 TreeItem<Account> root = new TreeItem<Account>(new Account("root", null,
 //	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		labStart.setText("to string:" + account.get(0).toString());
-	
+		labStart.setText("instrukcja");
+		structure.readTransaction("'co jest'");
 		TreeItem<Account> aktywa = new TreeItem<Account>(new Account("Aktywa", "root", 0.0, 1, 1) );
 		TreeItem<Account> pasywa = new TreeItem<Account>(new Account("Pasywa", "root", 0.0, 2, 1));
 		TreeItem<Account> przychody =  new TreeItem<Account>(new Account("Przychody", "root", 0.0, 4, 1));
 		TreeItem<Account> wydatki =  new TreeItem<Account>(new Account("Wydatki", "root", 0.0, 4, 1));
 		root.getChildren().addAll(aktywa, pasywa, przychody, wydatki);
-		// tworzenie drzewa z listy
+		// tworzenie drzewa z listy wypisanej domyslnie
 		for (Account acc : account) {
 			TreeItem<Account> empLeaf = new TreeItem<Account>(acc);
 			int type = acc.getType();
