@@ -17,12 +17,22 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Account;
+import model.Structure;
 import application.Main;
+import edu.rit.se.fpts.view.MainViewController;
+import edu.rit.se.fpts.view.RootLayoutController;
 
 public class MainManager {
 	private BorderPane menuLayout;
 	public final Stage primaryStage; 
-	
+	Structure structure; 
+	 String proba = new String();
+	public String getProba(){
+		return proba;
+	}
+	public void setProba(String s){
+		proba= s; 
+	}
 	public void init (){
 		System.err.println("FXML resource: " + Main.class.getResource("/view/MenuView.fxml"));
 		System.err.println("FXML resource2: " + getClass().getResource("/view/MenuView.fxml"));
@@ -52,18 +62,23 @@ public class MainManager {
 			e.printStackTrace();
 		}
 	}
+	
+	
 	public void showMainView(TreeItem<Account> root, String pr) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(application.Main.class.getResource("/view/MainView.fxml"));
 			ScrollPane mainView = (ScrollPane) loader.load(); 
 			
-			AnchorPane anchor = (AnchorPane) menuLayout.getChildren().get(1);
-			AnchorPane.setLeftAnchor(mainView, 10.0);
-			AnchorPane.setRightAnchor(mainView, 10.0);
-			AnchorPane.setTopAnchor(mainView, 10.0);
-			AnchorPane.setBottomAnchor(mainView, 10.0);
-			anchor.getChildren().add(mainView);
+//			AnchorPane anchor = (AnchorPane) menuLayout.getChildren().get(1);
+//			AnchorPane.setLeftAnchor(mainView, 10.0);
+//			AnchorPane.setRightAnchor(mainView, 10.0);
+//			AnchorPane.setTopAnchor(mainView, 10.0);
+//			AnchorPane.setBottomAnchor(mainView, 10.0);
+//			anchor.getChildren().add(mainView);
+			
+			menuLayout.setCenter(mainView);
+			
 			MainController controller = loader.getController();
 //			controller.setRoot(root);
 //			controller.setProba(pr);
@@ -152,7 +167,7 @@ public class MainManager {
 
 			AddTransactionController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
-			controller.setManager(this);
+//			controller.setManager(this);
 			controller.getAccoutList(accList);
 			dialogStage.setResizable(false);
 			dialogStage.showAndWait();

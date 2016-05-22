@@ -6,18 +6,34 @@ import javafx.stage.Stage;
 
 public class MenuController {
 	private Stage primaryStage;
-	private MainManager manager;
-
-	@FXML
-	private MenuItem about; 
-	
 	public void setPrimaryStage(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
-
+	private MainManager manager;
 	public void setManager(MainManager manager) {
 		this.manager = manager;
 	}
+	private MainController mainCtr= new MainController(); 
+	@FXML
+	private MenuItem miAbout; 
+	
+
+    @FXML
+    private MenuItem miSave;
+
+    @FXML
+    private MenuItem miClose;
+
+    @FXML
+    void save() {
+//    	System.out.println("zapis z menu "+ manager.getProba());
+//    	System.out.println("string main manager "+manager.proba);
+//    	mainCtr.getStructure().showList();
+//    	mainCtr.getStructure().showMap();
+//    	mainCtr.getStructure().saveTransactions();
+    }
+
+
 
 	@FXML
 	public void showAbout(){

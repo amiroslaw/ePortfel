@@ -101,6 +101,7 @@ public class AddTransactionController implements Initializable{
 		comboBox.setValue(transaction);
 	}
 //	ArrayList<Account> accList = new ArrayList<Account>(); 
+	// tworzenie comboBox
 	public void getAccoutList(ArrayList<Account> acc){
 //		System.out.println("get acc list "+acc.size());
 	ObservableList<String> observableList = FXCollections.observableArrayList();

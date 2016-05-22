@@ -28,7 +28,7 @@ import javafx.util.Callback;
 import model.Account;
 import model.Structure;
 import model.Transaction;
-
+// dopiero po zmianie konta na tree dodaje do mapy- nie mozna zapisac aktualnych wartosci do BD jak tego nie zrobimy
 public class MainController  implements Initializable {
 
 	private MainManager manager;
@@ -39,6 +39,13 @@ public class MainController  implements Initializable {
 	}
 	private Structure structure= new Structure() ; 
 
+	public Structure getStructure() {
+		return structure;
+	}
+
+	public void setStructure(Structure structure) {
+		this.structure = structure;
+	}
 	private TreeItem<Account> root;
 	
 	String proba; 
@@ -84,7 +91,14 @@ public class MainController  implements Initializable {
 
 	@FXML
 	private Button btnRemoveTransaction;
-	
+	@FXML
+	private Button btnTest;
+	@FXML
+	public void Test(){
+		// TODO: zapis, start i ogarnięcie tej struktury
+//		observableToMap("Akcje");
+		structure.saveTransactions();
+	}
 	@FXML
 	private HBox hboxEditTransaction;
 
@@ -164,13 +178,6 @@ public class MainController  implements Initializable {
 			data.add(tran.get(i)); 
 		}
 	}
-//	public void createHashMap(HashMap<String, Transaction> hashMap ){
-//	public void createHashMap(){
-//		for (int i = 0; i < structure.getTransactionList().size(); i++) {
-//			
-//		}
-//		
-//	} 
 
 	void observableToMap(String accountName){
 		ArrayList<Transaction> arrayList= new ArrayList<Transaction>();

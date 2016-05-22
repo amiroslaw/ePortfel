@@ -10,9 +10,10 @@
    <top>
       <MenuBar prefHeight="34.0" BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="Plik">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem fx:id="miSave" mnemonicParsing="false" onAction="#save" text="Zapisz" />
+              <MenuItem fx:id="miClose" mnemonicParsing="false" text="Zamknij" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
@@ -20,9 +21,9 @@
               <MenuItem mnemonicParsing="false" text="Delete" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu mnemonicParsing="false" text="Pomoc">
             <items>
-              <MenuItem fx:id="about" mnemonicParsing="false" onAction="#showAbout" text="About" />
+              <MenuItem fx:id="miAbout" mnemonicParsing="false" onAction="#showAbout" text="O programie" />
             </items>
           </Menu>
         </menus>
