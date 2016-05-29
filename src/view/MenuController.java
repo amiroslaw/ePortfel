@@ -3,6 +3,7 @@ package view;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
+import model.Structure;
 
 public class MenuController {
 	private Stage primaryStage;
@@ -28,9 +29,13 @@ public class MenuController {
     void save() {
 //    	System.out.println("zapis z menu "+ manager.getProba());
 //    	System.out.println("string main manager "+manager.proba);
-//    	mainCtr.getStructure().showList();
+//    	structure.showList();
 //    	mainCtr.getStructure().showMap();
 //    	mainCtr.getStructure().saveTransactions();
+    	System.out.println(manager.getStructure().test);
+    	manager.getStructure().saveTransactions();
+//    	System.out.println(manager.getProba());
+  
     }
 
 
@@ -39,5 +44,12 @@ public class MenuController {
 	public void showAbout(){
 		System.out.println("metoda about");
 		manager.showAboutDialog();
+	}
+
+
+	Structure structure = new Structure();
+	public void setStructure(Structure structure) {
+		this.structure=structure;
+		
 	} 
 }

@@ -3,6 +3,7 @@ package view;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,14 +19,30 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Account;
 import model.Structure;
+import model.Transaction;
 import application.Main;
 import edu.rit.se.fpts.view.MainViewController;
 import edu.rit.se.fpts.view.RootLayoutController;
 
 public class MainManager {
+	private static Structure structure = new Structure(); 
+	private HashMap<String, ArrayList<Transaction>> mapTransaction = new HashMap<>(); 
+	
+	
+	public Structure getStructure() {
+		return structure;
+	}
+	public void setStructure(Structure structure) {
+		MainManager.structure = structure;
+	}
+	public HashMap<String, ArrayList<Transaction>> getMapTransaction() {
+		return mapTransaction;
+	}
+	public void setMapTransaction(HashMap<String, ArrayList<Transaction>> mapTransaction) {
+		this.mapTransaction = mapTransaction;
+	}
 	private BorderPane menuLayout;
 	public final Stage primaryStage; 
-	Structure structure; 
 	 String proba = new String();
 	public String getProba(){
 		return proba;
@@ -51,42 +68,47 @@ public class MainManager {
 			menuLayout = (BorderPane) loader.load();
 
 			Scene scene = new Scene(menuLayout);
+			primaryStage.setTitle("ePortfel");
 			primaryStage.setScene(scene);
 
 			MenuController controller = loader.getController();
 			controller.setPrimaryStage(this.primaryStage);
 			controller.setManager(this);
-
+			controller.setStructure(structure);
 			primaryStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("showlist w showMenu");
+		structure.showList();
 	}
 	
 	
+	// nie uzywam
 	public void showMainView(TreeItem<Account> root, String pr) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(application.Main.class.getResource("/view/MainView.fxml"));
 			ScrollPane mainView = (ScrollPane) loader.load(); 
 			
-//			AnchorPane anchor = (AnchorPane) menuLayout.getChildren().get(1);
-//			AnchorPane.setLeftAnchor(mainView, 10.0);
-//			AnchorPane.setRightAnchor(mainView, 10.0);
-//			AnchorPane.setTopAnchor(mainView, 10.0);
-//			AnchorPane.setBottomAnchor(mainView, 10.0);
-//			anchor.getChildren().add(mainView);
+			AnchorPane anchor = (AnchorPane) menuLayout.getChildren().get(1);
+			AnchorPane.setLeftAnchor(mainView, 10.0);
+			AnchorPane.setRightAnchor(mainView, 10.0);
+			AnchorPane.setTopAnchor(mainView, 10.0);
+			AnchorPane.setBottomAnchor(mainView, 10.0);
+			anchor.getChildren().add(mainView);
 			
 			menuLayout.setCenter(mainView);
 			
 			MainController controller = loader.getController();
-//			controller.setRoot(root);
-//			controller.setProba(pr);
+			controller.setRoot(root);
+			controller.setProba(pr);
 			controller.setManager(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+
 	public void showMainView() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -118,6 +140,7 @@ public class MainManager {
 //		Stage startStage = new Stage(); 
 //		startStage.setTitle("Tworzenie konta");
 //		startStage.setScene(scene);
+		primaryStage.setTitle("ePortfel");
 		primaryStage.setScene(scene);
 		StartController controller = loader.getController();
 		controller.setPrimaryStage(this.primaryStage);
@@ -136,7 +159,7 @@ public class MainManager {
 			AnchorPane pane = (AnchorPane) loader.load();
 
 			Stage dialogStage = new Stage();
-			dialogStage.setTitle("About");
+			dialogStage.setTitle("O programie");
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.initOwner(primaryStage);
 			Scene scene = new Scene(pane);

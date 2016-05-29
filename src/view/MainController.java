@@ -30,22 +30,22 @@ import model.Structure;
 import model.Transaction;
 // dopiero po zmianie konta na tree dodaje do mapy- nie mozna zapisac aktualnych wartosci do BD jak tego nie zrobimy
 public class MainController  implements Initializable {
-
-	private MainManager manager;
+	private MainManager manager = new MainManager(null);
+//	private MainManager manager; 
 
 	public void setManager(MainManager manager) {
 		this.manager = manager;
 
 	}
-	private Structure structure= new Structure() ; 
-
-	public Structure getStructure() {
-		return structure;
-	}
-
-	public void setStructure(Structure structure) {
-		this.structure = structure;
-	}
+//	private Structure structure= new Structure() ; 
+//
+//	public Structure getStructure() {
+//		return structure;
+//	}
+//
+//	public void setStructure(Structure structure) {
+//		this.structure = structure;
+//	}
 	private TreeItem<Account> root;
 	
 	String proba; 
@@ -97,7 +97,7 @@ public class MainController  implements Initializable {
 	public void Test(){
 		// TODO: zapis, start i ogarnięcie tej struktury
 //		observableToMap("Akcje");
-		structure.saveTransactions();
+		manager.getStructure().saveTransactions();
 	}
 	@FXML
 	private HBox hboxEditTransaction;
@@ -105,7 +105,7 @@ public class MainController  implements Initializable {
 	@FXML
 	public void showAddTransaction() {
 		System.out.println("metoda addTransaction");
-		manager.showAddTransaction(structure.getAccList());
+		manager.showAddTransaction(manager.getStructure().getAccList());
 	}
 
 	@FXML
@@ -121,19 +121,19 @@ public class MainController  implements Initializable {
 		if(transactionSelected.get(0).getDebet()<0.0){
 			String amount =Double.toString(transactionSelected.get(0).getDebet());
 			manager.showAddTransaction(transactionSelected.get(0).getDate(),transactionSelected.get(0).getDescription(),
-					transactionSelected.get(0).getAccTransaction(), amount, structure.getAccList());
+					transactionSelected.get(0).getAccTransaction(), amount, manager.getStructure().getAccList());
 		System.out.println("wybrany amount: "+ amount );
 		
 		} else {
 			String amount = Double.toString(transactionSelected.get(0).getCredit());
 			manager.showAddTransaction(transactionSelected.get(0).getDate(),transactionSelected.get(0).getDescription(),
-					transactionSelected.get(0).getAccTransaction(),amount, structure.getAccList());
-			System.out.println("get acc"+ structure.getAccList().size());
+					transactionSelected.get(0).getAccTransaction(),amount, manager.getStructure().getAccList());
+			System.out.println("get acc"+ manager.getStructure().getAccList().size());
 		}}
 		// usuwa gdy zamkniemy okno - moze inny sposob na update → table edit
 		transactionSelected.forEach(allTransactions::remove);
 //		structure.showList();
-		System.out.println(structure.getAccList().size()+" show edit size accList");
+		System.out.println(manager.getStructure().getAccList().size()+" show edit size accList");
 	}
 
 	@FXML
@@ -161,19 +161,29 @@ public class MainController  implements Initializable {
 		return data;
 	}
 	
-	private ArrayList<Transaction> temporary = new ArrayList<Transaction>();
-	private ArrayList<Transaction> tranList = new ArrayList<Transaction>();
-	private ArrayList<Transaction> tranList2 = new ArrayList<Transaction>(
-			Arrays.asList(	new Transaction(LocalDate.now(), "tran2", "transfer", 0, 0, 0, 1),
-					new Transaction(LocalDate.now(), "tran2", "transfer", 0, 0, 0, 0),
-					new Transaction(LocalDate.now(), "tran3", "transfer", 0, 0, 0, 0)
-					)
-			);
+	void readTestData(){
+		ArrayList<Transaction> temporary = new ArrayList<Transaction>();
+		ArrayList<Transaction> tranList = new ArrayList<Transaction>();
+		ArrayList<Transaction> tranList2 = new ArrayList<Transaction>(
+				Arrays.asList(	new Transaction(LocalDate.now(), "tran2", "transfer", 0, 0, 0, 1),
+						new Transaction(LocalDate.now(), "tran2", "transfer", 0, 0, 0, 0),
+						new Transaction(LocalDate.now(), "tran3", "transfer", 0, 0, 0, 0)
+						)
+				);
+		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, 0));
+		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, 0));
+		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, 0));
+		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, 0));
+		manager.getStructure().getMap().put("Gotówka", tranList);
+		manager.getStructure().getMap().put("Inwestycje", tranList2);
+		manager.getStructure().showMap();
+	}
+	
 	
 //	private void setTransactionData(ArrayList<Transaction> tran){
 	private void setTransactionData(String accountName){
 		data.clear();
-		ArrayList<Transaction> tran = structure.getMap().get(accountName);
+		ArrayList<Transaction> tran = manager.getStructure().getMap().get(accountName);
 		for (int i = 0; i < tran.size(); i++) {
 			data.add(tran.get(i)); 
 		}
@@ -185,9 +195,12 @@ public class MainController  implements Initializable {
 			arrayList.add(transaction);
 			System.out.println(transaction.getDescription());
 		}
-			 structure.getMap().put(accountName, arrayList);
+			 manager.getStructure().getMap().put(accountName, arrayList);
 	}
 	public void initialize(URL location, ResourceBundle resources) {
+//		manager.setProba("z mainCtr");
+//		MainManager.structure.test="main controll";
+		
 		tcDate.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
 		tcDescription.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
 		tcAccount.setCellValueFactory(cellData -> cellData.getValue().accTransactionProperty());
@@ -197,21 +210,13 @@ public class MainController  implements Initializable {
 		tableTransaction.setItems(data);	
 //		firstNameCol.setSortType(TableColumn.SortType.ASCENDING);
 		tableTransaction.getSortOrder().add(tcDate);	
-		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, 0));
-		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, 0));
-		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, 0));
-		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, 0));
+	
+		manager.getStructure().readAccount();
+		manager.getStructure().readTransactions();
 		
-//		structure.getMap().put("Gotówka", tranList);
-//		structure.getMap().put("Inwestycje", tranList2);
-		structure.readAccount();
-		structure.readTransactions();
-		structure.showMap();
-//		System.out.println("readtransactions aktywa "+structure.getMap().get("Aktywa").get(0).getDescription());
-//		structure.saveTransactions();
+		readTestData();
 		
-//		structure.accList.clear();
-		root = structure.listToTree();
+		root = manager.getStructure().listToTree();
 		 accTree.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 	        accTree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
 	        	@Override
@@ -232,7 +237,7 @@ public class MainController  implements Initializable {
 	                System.out.println("Selected item is" + acc.getType());
 //	                setTransactionData(treeItem.getValue().toString());
 	                if(acc.getType()<3){
-	                	tableTransaction.setVisible(true);
+	               	tableTransaction.setVisible(true);
 	                	hboxEditTransaction.setVisible(true);
 						lblBalance.setText(" konta "+acc.getName()+" to "+acc.getBalance());
 	                setTransactionData(acc.getName());

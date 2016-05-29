@@ -155,7 +155,6 @@ public class Structure {
 
 			connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -177,7 +176,6 @@ public class Structure {
 			}
 			connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -198,7 +196,6 @@ public class Structure {
 		}
 		connection.close();
 	} catch (SQLException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
 }
@@ -225,7 +222,6 @@ public class Structure {
 			}
 			connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -263,7 +259,6 @@ public class Structure {
 
 			connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -271,6 +266,7 @@ public class Structure {
 	}
 
 	// testy
+	public String test= "structure";
 	public void proba() {
 		System.out.println("structure " + accList.get(0).getName());
 	}

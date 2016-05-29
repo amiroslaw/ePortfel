@@ -33,11 +33,13 @@ public class StartController implements Initializable {
 	public void setPrimaryStage(Stage primaryStage) {
 		// this.primaryStage = primaryStage;
 	}
-	private Structure structure = new Structure(); 
+//	private Structure structure = new Structure(); 
 	@FXML
 	void showMain() {
-		structure.treeToList(root);
-		structure.saveAccount();
+		manager.getStructure().treeToList(root);
+		manager.getStructure().saveAccount();
+//		structure.treeToList(root);
+//		structure.saveAccount();
 //		structure.proba();
 		
 		manager.showMenu();
@@ -52,7 +54,7 @@ public class StartController implements Initializable {
 	@FXML
 	protected TreeView<Account> treeView;
 
-	static List<Account> account = Arrays.<Account> asList(
+	private  List<Account> account = Arrays.<Account> asList(
 			//tutaj nie wazne id
 			new Account("Aktywa bieżące", "Aktywa", 0.0, 1, 0),
 			new Account("Gotówka", "Aktywa bieżące", 0.0, 1, 1),
@@ -70,19 +72,9 @@ public class StartController implements Initializable {
 			new Account("Krajowe", "Podatki", 0.0, 4, 21), new Account("Socjalne", "Podatki", 0.0, 4, 22),
 			new Account("Wydatki medyczne", "Wydatki", 0.0, 4, 23));
 
-public	 TreeItem<Account> root = new TreeItem<Account>(new Account("root", null, 0.0, -1, 0) );
-	// final TreeItem<Asset> root = new TreeItem<>(new Asset( "Aktywa", "" ));
-//	TreeView <String> getTree(){
-//		return treeView; 
-//	}
-//	public TreeItem <Account> getTree(){
-//		structure.treeToList(root);
-//		return structure.listToTree(); 
-//	}
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		labStart.setText("instrukcja");
-		structure.readTransaction("'co jest'");
+private	 TreeItem<Account> root = new TreeItem<Account>(new Account("root", null, 0.0, -1, 0) );
+
+	private void readDefaultData (){
 		TreeItem<Account> aktywa = new TreeItem<Account>(new Account("Aktywa", "root", 0.0, 1, 1) );
 		TreeItem<Account> pasywa = new TreeItem<Account>(new Account("Pasywa", "root", 0.0, 2, 1));
 		TreeItem<Account> przychody =  new TreeItem<Account>(new Account("Przychody", "root", 0.0, 4, 1));
@@ -113,10 +105,13 @@ public	 TreeItem<Account> root = new TreeItem<Account>(new Account("root", null,
 					depNode.getChildren().add(empLeaf);
 					System.out.println("not found in ini start");
 				}
-
 			}
-
 		}
+	}
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		labStart.setText("instrukcja");
+		readDefaultData();
 		// wybieranie elementu z drzewa
 		 treeView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 	        treeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
@@ -140,20 +135,6 @@ public	 TreeItem<Account> root = new TreeItem<Account>(new Account("root", null,
 		});
 		treeView.setRoot(root);
 		
-//		HashMap<String, Integer> hash = new HashMap<>();
-//
-//		// Put three keys with values.
-//		hash.put("dog", 1);
-//		hash.put("cat", 2);
-//		hash.put("dog", 6);
-//
-//		// Look up some known values.
-//		int a = hash.get("dog");
-//		int b = hash.get("cat");
-//
-//		// Display results.
-//		System.out.println(a);
-//		System.out.println(b);
 	}
 
 }
