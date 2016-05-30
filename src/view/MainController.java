@@ -28,6 +28,8 @@ import javafx.util.Callback;
 import model.Account;
 import model.Structure;
 import model.Transaction;
+
+// TODO: wyciagnac balance z acclist i powiazac ta zmienna z label lblBalance
 // dopiero po zmianie konta na tree dodaje do mapy- nie mozna zapisac aktualnych wartosci do BD jak tego nie zrobimy
 public class MainController  implements Initializable {
 	private MainManager manager = new MainManager(null);
@@ -101,11 +103,15 @@ public class MainController  implements Initializable {
 	}
 	@FXML
 	private HBox hboxEditTransaction;
+	
+	private String selectedAccount= "";
 
 	@FXML
 	public void showAddTransaction() {
 		System.out.println("metoda addTransaction");
-		manager.showAddTransaction(manager.getStructure().getAccList());
+		// nie potrzebne jak structure jest static
+//		manager.showAddTransaction(manager.getStructure().getAccList());
+		manager.showAddTransaction(selectedAccount);
 	}
 
 	@FXML
@@ -121,17 +127,17 @@ public class MainController  implements Initializable {
 		if(transactionSelected.get(0).getDebet()<0.0){
 			String amount =Double.toString(transactionSelected.get(0).getDebet());
 			manager.showAddTransaction(transactionSelected.get(0).getDate(),transactionSelected.get(0).getDescription(),
-					transactionSelected.get(0).getAccTransaction(), amount, manager.getStructure().getAccList());
+					transactionSelected.get(0).getAccTransaction(), amount, transactionSelected.get(0).getId(), selectedAccount);
 		System.out.println("wybrany amount: "+ amount );
 		
 		} else {
 			String amount = Double.toString(transactionSelected.get(0).getCredit());
 			manager.showAddTransaction(transactionSelected.get(0).getDate(),transactionSelected.get(0).getDescription(),
-					transactionSelected.get(0).getAccTransaction(),amount, manager.getStructure().getAccList());
+					transactionSelected.get(0).getAccTransaction(),amount, transactionSelected.get(0).getId(), selectedAccount);
 			System.out.println("get acc"+ manager.getStructure().getAccList().size());
 		}}
 		// usuwa gdy zamkniemy okno - moze inny sposob na update → table edit
-		transactionSelected.forEach(allTransactions::remove);
+//		transactionSelected.forEach(allTransactions::remove);
 //		structure.showList();
 		System.out.println(manager.getStructure().getAccList().size()+" show edit size accList");
 	}
@@ -143,22 +149,14 @@ public class MainController  implements Initializable {
 		transactionSelected = tableTransaction.getSelectionModel().getSelectedItems();
 
 		transactionSelected.forEach(allTransactions::remove);
+		int id = transactionSelected.get(0).getId();
+		manager.getStructure().getMap().get(selectedAccount).remove(id);
 	}
 
 	// przekierowanie root z start
 	public void setRoot(TreeItem<Account> root){
 		this.root=root;
 		 accTree.setRoot(root);
-	}
-	private static ObservableList<Transaction> data = FXCollections.observableArrayList(
-			
-//			new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0),
-//			new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0),
-//			new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0)
-			);
-
-	public static ObservableList<Transaction> getTransactionData() {
-		return data;
 	}
 	
 	void readTestData(){
@@ -180,21 +178,15 @@ public class MainController  implements Initializable {
 	}
 	
 	
-//	private void setTransactionData(ArrayList<Transaction> tran){
-	private void setTransactionData(String accountName){
-		data.clear();
-		ArrayList<Transaction> tran = manager.getStructure().getMap().get(accountName);
-		for (int i = 0; i < tran.size(); i++) {
-			data.add(tran.get(i)); 
-		}
-	}
+
 
 	void observableToMap(String accountName){
 		ArrayList<Transaction> arrayList= new ArrayList<Transaction>();
-		for (Transaction transaction : data) {
+		for (Transaction transaction : manager.getTransactionData()) {
 			arrayList.add(transaction);
 			System.out.println(transaction.getDescription());
 		}
+			// nadpisze istniejaca wartosc
 			 manager.getStructure().getMap().put(accountName, arrayList);
 	}
 	public void initialize(URL location, ResourceBundle resources) {
@@ -207,7 +199,7 @@ public class MainController  implements Initializable {
 		tcDebet.setCellValueFactory(cellData -> cellData.getValue().debetProperty());
 		tcCredit.setCellValueFactory(cellData -> cellData.getValue().creditProperty());
 		tcBalance.setCellValueFactory(cellData -> cellData.getValue().balanceProperty());
-		tableTransaction.setItems(data);	
+		tableTransaction.setItems(manager.getTransactionData());	
 //		firstNameCol.setSortType(TableColumn.SortType.ASCENDING);
 		tableTransaction.getSortOrder().add(tcDate);	
 	
@@ -228,19 +220,20 @@ public class MainController  implements Initializable {
 //	                structure.getMap().put(oldTreeItem.getValue().toString(), ar);
 	                
 	                //blad null point
-	                if (oldTreeItem!=null) {
-	                System.out.println("oldValue: " + oldTreeItem.getValue().toString());
-	                observableToMap(oldTreeItem.getValue().toString());
-					}
+//	                if (oldTreeItem!=null) {
+//	                System.out.println("oldValue: " + oldTreeItem.getValue().toString());
+//	                observableToMap(oldTreeItem.getValue().toString());
+//					}
 	                
 	                Account acc= (Account) treeItem.getValue();
 	                System.out.println("Selected item is" + acc.getType());
+	                selectedAccount= acc.getName();
 //	                setTransactionData(treeItem.getValue().toString());
 	                if(acc.getType()<3){
 	               	tableTransaction.setVisible(true);
 	                	hboxEditTransaction.setVisible(true);
 						lblBalance.setText(" konta "+acc.getName()+" to "+acc.getBalance());
-	                setTransactionData(acc.getName());
+	                manager.setTransactionData(acc.getName());
 	                }
 	                else {
 	                	tableTransaction.setVisible(false);

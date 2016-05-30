@@ -34,7 +34,7 @@ public class MenuController {
 //    	mainCtr.getStructure().saveTransactions();
     	System.out.println(manager.getStructure().test);
     	manager.getStructure().saveTransactions();
-//    	System.out.println(manager.getProba());
+    	System.out.println("size accList: "+manager.getStructure().getAccList().size());
   
     }
 
@@ -47,9 +47,9 @@ public class MenuController {
 	}
 
 
-	Structure structure = new Structure();
-	public void setStructure(Structure structure) {
-		this.structure=structure;
-		
-	} 
+//	Structure structure = new Structure();
+//	public void setStructure(Structure structure) {
+//		this.structure=structure;
+//		
+//	} 
 }

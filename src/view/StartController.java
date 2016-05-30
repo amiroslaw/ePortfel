@@ -23,7 +23,7 @@ import model.ConnectionSqlite;
 import model.Structure;
 
 public class StartController implements Initializable {
-	private MainManager manager;
+	private MainManager manager = new MainManager(null);
 
 	public void setManager(MainManager manager) {
 		this.manager = manager;
