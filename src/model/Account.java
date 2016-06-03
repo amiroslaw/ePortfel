@@ -1,5 +1,6 @@
 package model;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -46,6 +47,10 @@ public class Account {
 	    public void setBalance(Double fBalance) {
 	      balance.set(fBalance);
 	    }
+	    public DoubleProperty balanceProperty(){
+	        return balance;
+	    }
+	    
 	    public String getName() {
 	      return name.get();
 	    }

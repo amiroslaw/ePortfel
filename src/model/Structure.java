@@ -13,7 +13,8 @@ import java.util.Set;
 import javafx.scene.control.TreeItem;
 
 public class Structure {
-	private HashMap<String, ArrayList<Transaction>> map = new HashMap<String,ArrayList<Transaction>>();
+	private HashMap<String, ArrayList<Transaction>> map = new HashMap<String, ArrayList<Transaction>>();
+
 	public HashMap<String, ArrayList<Transaction>> getMap() {
 		return map;
 	}
@@ -21,6 +22,7 @@ public class Structure {
 	public void setMap(HashMap<String, ArrayList<Transaction>> map) {
 		this.map = map;
 	}
+
 	private ArrayList<Account> accList = new ArrayList<Account>();
 
 	public ArrayList<Account> getAccList() {
@@ -30,6 +32,7 @@ public class Structure {
 	public void setAccList(ArrayList<Account> accList) {
 		this.accList = accList;
 	}
+
 	private ArrayList<Transaction> transactionList = new ArrayList<Transaction>();
 
 	public ArrayList<Transaction> getTransactionList() {
@@ -39,7 +42,9 @@ public class Structure {
 	public void setTransactionList(ArrayList<Transaction> transactionList) {
 		this.transactionList = transactionList;
 	}
+
 	int id;
+
 	public int getId() {
 		return id;
 	}
@@ -97,21 +102,42 @@ public class Structure {
 						break;
 					}
 				}
-				// nie wiem czy dziala niepotrzebne jesli wszystko jest po koleji nie ma elementu wyzej w hierarchi wczesniej na liscie
+				// nie wiem czy dziala niepotrzebne jesli wszystko jest po
+				// koleji nie ma elementu wyzej w hierarchi wczesniej na liscie
 				// trzeba ten element przenisc na koniec listy
-//				if (!found) {
-//					TreeItem depNode = new TreeItem(acc);
-//					root.getChildren().get(type - 1).getChildren().add(depNode);
-//					depNode.getChildren().add(empLeaf);
-//					System.out.println(
-//							"listToTree: ?? " + empLeaf.getValue().getName() + " typ: " + empLeaf.getValue().getType());
-//				}
+				// if (!found) {
+				// TreeItem depNode = new TreeItem(acc);
+				// root.getChildren().get(type - 1).getChildren().add(depNode);
+				// depNode.getChildren().add(empLeaf);
+				// System.out.println(
+				// "listToTree: ?? " + empLeaf.getValue().getName() + " typ: " +
+				// empLeaf.getValue().getType());
+				// }
 
 			}
 
 		}
 
 		return root;
+	}
+
+	public void updateBalance(String accName) {
+		int indexOfAccount = -1;
+		for (int i = 0; i < accList.size(); i++) {
+			if (accList.get(i).getName().equals(accName)) {
+				indexOfAccount = i;
+			}
+			if (indexOfAccount != -1) {
+				break;
+			}
+		}
+		ArrayList<Transaction> tranList = new ArrayList<Transaction>(map.get(accName));
+		double balance = 0.0;
+		for (int i = 0; i < tranList.size(); i++) {
+			balance += tranList.get(i).getCredit();
+			balance -= tranList.get(i).getDebet();
+		}
+		accList.get(indexOfAccount).setBalance(balance);
 	}
 
 	Connection connection;
@@ -127,20 +153,8 @@ public class Structure {
 		try {
 			Statement mySta = connection.createStatement();
 			// usuwanie kont
-			// mySta.executeUpdate("DELETE FROM talia WHERE id=1");
 			mySta.executeUpdate("DELETE  FROM account");
 			// // zapisywanie zmiennych do kont
-			// for (int i = 0; i < accList.size(); i++) {
-			// String query = "INSERT INTO account VALUES (?, ?, ?, ?, ?)";
-			// PreparedStatement preStmt = connection.prepareStatement(query);
-			// preStmt.setInt(1, i ); musi byc autoincrement
-			// preStmt.setString(2, accList.get(i).getName());
-			// preStmt.setString(3, accList.get(i).getParent() );
-			// preStmt.setDouble(4, accList.get(i).getBalance());
-			// preStmt.setInt(5, accList.get(i).getType());
-			//
-			// preStmt.executeUpdate();
-			// }
 			String query;
 			String sql = "";
 			for (int i = 0; i < accList.size(); i++) {
@@ -179,26 +193,7 @@ public class Structure {
 			e.printStackTrace();
 		}
 	}
-	// nie powinno się zapisywać od hashMap?
-	// testy
-	public void readTransaction(String account) {
-	connection = (Connection) ConnectionSqlite.Connector();
-	if (connection == null) {
 
-		System.out.println("connection not successful");
-		System.exit(1);
-	}
-	try {
-		Statement mySta = connection.createStatement();
-		ResultSet rs = mySta.executeQuery("select * from "+account);
-		while (rs.next()) {
-			System.out.println(rs.getString(1)+" data");
-		}
-		connection.close();
-	} catch (SQLException e) {
-		e.printStackTrace();
-	}
-}
 	public void readTransactions() {
 		connection = (Connection) ConnectionSqlite.Connector();
 		if (connection == null) {
@@ -207,17 +202,19 @@ public class Structure {
 			System.exit(1);
 		}
 		try {
-		
+
 			Statement mySta = connection.createStatement();
 			for (int i = 0; i < accList.size(); i++) {
-			mySta.executeUpdate("CREATE TABLE IF NOT EXISTS '"+accList.get(i).getName()+  "' (idTransaction INTEGER PRIMARY KEY  UNIQUE  NOT NULL , date DATETIME NOT NULL , description TEXT  , accTransaction TEXT NOT NULL, debet DOUBLE DEFAULT 0, credit DOUBLE DEFAULT 0, balance DOUBLE )");
-			ResultSet rs = mySta.executeQuery("select * from '"+accList.get(i).getName()+"'");
-			ArrayList<Transaction> transactions = new ArrayList<Transaction>();
-			while (rs.next()) {
+				mySta.executeUpdate("CREATE TABLE IF NOT EXISTS '" + accList.get(i).getName()
+						+ "' (idTransaction INTEGER PRIMARY KEY  UNIQUE  NOT NULL , date DATETIME NOT NULL , description TEXT  , accTransaction TEXT NOT NULL, debet DOUBLE DEFAULT 0, credit DOUBLE DEFAULT 0, balance DOUBLE )");
+				ResultSet rs = mySta.executeQuery("select * from '" + accList.get(i).getName() + "'");
+				ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+				while (rs.next()) {
 					LocalDate date = LocalDate.parse(rs.getString("date"));
-				transactions.add(new Transaction(date, rs.getString("description"), rs.getString("accTransaction"),
-						rs.getDouble("debet"),rs.getDouble("credit"), rs.getDouble("balance"), rs.getInt("idTransaction")));
-			}
+					transactions.add(new Transaction(date, rs.getString("description"), rs.getString("accTransaction"),
+							rs.getDouble("debet"), rs.getDouble("credit"), rs.getDouble("balance"),
+							rs.getInt("idTransaction")));
+				}
 				map.put(accList.get(i).getName(), transactions);
 			}
 			connection.close();
@@ -225,6 +222,7 @@ public class Structure {
 			e.printStackTrace();
 		}
 	}
+
 	public void saveTransactions() {
 		connection = (Connection) ConnectionSqlite.Connector();
 		if (connection == null) {
@@ -233,70 +231,95 @@ public class Structure {
 			System.exit(1);
 		}
 		try {
-		Statement mySta = connection.createStatement();
-		// Get keys.
-		Set<String> keys = map.keySet();
+			Statement mySta = connection.createStatement();
+			// Get keys.
+			Set<String> keys = map.keySet();
 
-		// Loop over String keys.
-		for (String key : keys) {
-		    System.out.println(key);
-			mySta.executeUpdate("DELETE  FROM '"+ key+"'");
-			mySta.executeUpdate("CREATE TABLE IF NOT EXISTS '"+key+  "' (idTransaction INTEGER PRIMARY KEY  UNIQUE  NOT NULL , date DATETIME NOT NULL , description TEXT  , accTransaction TEXT NOT NULL, debet DOUBLE DEFAULT 0, credit DOUBLE DEFAULT 0, balance DOUBLE )");
+			// Loop over String keys.
+			for (String key : keys) {
+				System.out.println(key);
+				mySta.executeUpdate("DELETE  FROM '" + key + "'");
+				mySta.executeUpdate("CREATE TABLE IF NOT EXISTS '" + key
+						+ "' (idTransaction INTEGER PRIMARY KEY  UNIQUE  NOT NULL , date DATETIME NOT NULL , description TEXT  , accTransaction TEXT NOT NULL, debet DOUBLE DEFAULT 0, credit DOUBLE DEFAULT 0, balance DOUBLE )");
 
-			String query;
-			String sql = "";
-			for (int i = 0; i < map.get(key).size(); i++) {
+				String query;
+				String sql = "";
+				for (int i = 0; i < map.get(key).size(); i++) {
 
-				query = "INSERT INTO '"+key+"' VALUES (" + i + ",'" + map.get(key).get(i).getDate() + "',"
-						+ "'"+ map.get(key).get(i).getDescription() + "','" + map.get(key).get(i).getAccTransaction()+ "',"
-						+ map.get(key).get(i).getDebet()+","+map.get(key).get(i).getCredit()+","+map.get(key).get(i).getBalance()+");";
-				sql += query;
+					query = "INSERT INTO '" + key + "' VALUES (" + i + ",'" + map.get(key).get(i).getDate() + "'," + "'"
+							+ map.get(key).get(i).getDescription() + "','" + map.get(key).get(i).getAccTransaction()
+							+ "'," + map.get(key).get(i).getDebet() + "," + map.get(key).get(i).getCredit() + ","
+							+ map.get(key).get(i).getBalance() + ");";
+					sql += query;
+				}
+				System.out.println(sql);
+				mySta.executeUpdate(sql);
 			}
-			System.out.println(sql);
-			mySta.executeUpdate(sql);
-			}
-			
 
 			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 
 	}
 
 	// testy
-	public String test= "structure";
+	// nie powinno się zapisywać od hashMap?
+//	public void readTransaction(String account) {
+//		connection = (Connection) ConnectionSqlite.Connector();
+//		if (connection == null) {
+//
+//			System.out.println("connection not successful");
+//			System.exit(1);
+//		}
+//		try {
+//			Statement mySta = connection.createStatement();
+//			ResultSet rs = mySta.executeQuery("select * from " + account);
+//			while (rs.next()) {
+//				System.out.println(rs.getString(1) + " data");
+//			}
+//			connection.close();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//	}
+	public String test = "structure";
+
 	public void proba() {
 		System.out.println("structure " + accList.get(0).getName());
 	}
 
-	public void showList(){
-			System.out.println("showList");
+	public void showList() {
+		System.out.println("showList u update balance");
 		for (Account account : accList) {
 			System.out.println(account.getName());
+			updateBalance(account.getName());
 		}
 	}
-	public void showMap(){
-			System.out.println("showMap");
 
-			// Get all values from the HashMap.
-			Collection<ArrayList<Transaction>> values = map.values();
-			for (ArrayList<Transaction> ar : values) {
-//			    System.out.println(ar);
-			    if(ar.size()!=0){
-				    System.out.println("pierwsza tran- des: "+ar.get(0).getDescription()+" tran: "+ ar.get(0).getAccTransaction() +" data: " +ar.get(0).getDate());
-				    }
-			    }
-			// Loop over String keys.
-//			
-//			Set<String> keys = map.keySet();
-//			for (String key : keys) {
-//			    System.out.println(key);
-//			    ArrayList<Transaction> ar = map.get(key); 
-//			    if(ar.get(0)!=null){
-//			    System.out.println("pierwsza tran- des: "+ar.get(0).getDescription()+" tran: "+ ar.get(0).getAccTransaction() +" data: " +ar.get(0).getDate());
-//			    }
-//		}
+	public void showMap() {
+		System.out.println("showMap");
+
+		// Get all values from the HashMap.
+		Collection<ArrayList<Transaction>> values = map.values();
+		for (ArrayList<Transaction> ar : values) {
+			// System.out.println(ar);
+			if (ar.size() != 0) {
+				System.out.println("pierwsza tran- des: " + ar.get(0).getDescription() + " tran: "
+						+ ar.get(0).getAccTransaction() + " data: " + ar.get(0).getDate());
+			}
+		}
+		// Loop over String keys.
+		//
+		// Set<String> keys = map.keySet();
+		// for (String key : keys) {
+		// System.out.println(key);
+		// ArrayList<Transaction> ar = map.get(key);
+		// if(ar.get(0)!=null){
+		// System.out.println("pierwsza tran- des:
+		// "+ar.get(0).getDescription()+" tran: "+ ar.get(0).getAccTransaction()
+		// +" data: " +ar.get(0).getDate());
+		// }
+		// }
 	}
 }

@@ -5,82 +5,82 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import application.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import model.Account;
 import model.Structure;
 import model.Transaction;
-import application.Main;
-import edu.rit.se.fpts.view.MainViewController;
-import edu.rit.se.fpts.view.RootLayoutController;
 
 public class MainManager {
-	private static Structure structure = new Structure(); 
-	private HashMap<String, ArrayList<Transaction>> mapTransaction = new HashMap<>(); 
-	
-	
+	private static Structure structure = new Structure();
+	private HashMap<String, ArrayList<Transaction>> mapTransaction = new HashMap<>();
+
 	public Structure getStructure() {
 		return structure;
 	}
+
 	public void setStructure(Structure structure) {
 		MainManager.structure = structure;
 	}
+
 	public HashMap<String, ArrayList<Transaction>> getMapTransaction() {
 		return mapTransaction;
 	}
+
 	public void setMapTransaction(HashMap<String, ArrayList<Transaction>> mapTransaction) {
 		this.mapTransaction = mapTransaction;
 	}
-private static ObservableList<Transaction> data = FXCollections.observableArrayList(
-			
-//			new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0),
-//			new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0),
-//			new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0)
-			);
+
+	private static ObservableList<Transaction> data = FXCollections.observableArrayList(
+
+	// new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0),
+	// new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0),
+	// new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0)
+	);
 
 	public static ObservableList<Transaction> getTransactionData() {
 		return data;
 	}
-//	private void setTransactionData(ArrayList<Transaction> tran){
-	public void setTransactionData(String accountName){
+
+	// private void setTransactionData(ArrayList<Transaction> tran){
+	public void setTransactionData(String accountName) {
 		data.clear();
 		ArrayList<Transaction> tran = structure.getMap().get(accountName);
 		for (int i = 0; i < tran.size(); i++) {
-			data.add(tran.get(i)); 
+			data.add(tran.get(i));
 		}
-	}	
+	}
+
 	private BorderPane menuLayout;
-	public final Stage primaryStage; 
-	 String proba = new String();
-	public String getProba(){
+	public final Stage primaryStage;
+	String proba = new String();
+
+	public String getProba() {
 		return proba;
 	}
-	public void setProba(String s){
-		proba= s; 
+
+	public void setProba(String s) {
+		proba = s;
 	}
-	public void init (){
-		System.err.println("FXML resource: " + Main.class.getResource("/view/MenuView.fxml"));
-		System.err.println("FXML resource2: " + getClass().getResource("/view/MenuView.fxml"));
-//		showMenu();
-//		showMainView();
+
+	public void init() {
 		showStart();
 	}
+
 	public MainManager(Stage primaryStage) {
-		this.primaryStage= primaryStage; 
-		
+		this.primaryStage = primaryStage;
+
 	}
+
 	public void showMenu() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -94,7 +94,7 @@ private static ObservableList<Transaction> data = FXCollections.observableArrayL
 			MenuController controller = loader.getController();
 			controller.setPrimaryStage(this.primaryStage);
 			controller.setManager(this);
-//			controller.setStructure(structure);
+			// controller.setStructure(structure);
 			primaryStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -102,39 +102,38 @@ private static ObservableList<Transaction> data = FXCollections.observableArrayL
 		System.out.println("showlist w showMenu");
 		structure.showList();
 	}
-	
-	
+
 	// nie uzywam
-	public void showMainView(TreeItem<Account> root, String pr) {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(application.Main.class.getResource("/view/MainView.fxml"));
-			ScrollPane mainView = (ScrollPane) loader.load(); 
-			
-			AnchorPane anchor = (AnchorPane) menuLayout.getChildren().get(1);
-			AnchorPane.setLeftAnchor(mainView, 10.0);
-			AnchorPane.setRightAnchor(mainView, 10.0);
-			AnchorPane.setTopAnchor(mainView, 10.0);
-			AnchorPane.setBottomAnchor(mainView, 10.0);
-			anchor.getChildren().add(mainView);
-			
-			menuLayout.setCenter(mainView);
-			
-			MainController controller = loader.getController();
-			controller.setRoot(root);
-			controller.setProba(pr);
-			controller.setManager(this);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//	public void showMainView(TreeItem<Account> root, String pr) {
+//		try {
+//			FXMLLoader loader = new FXMLLoader();
+//			loader.setLocation(application.Main.class.getResource("/view/MainView.fxml"));
+//			ScrollPane mainView = (ScrollPane) loader.load();
+//
+//			AnchorPane anchor = (AnchorPane) menuLayout.getChildren().get(1);
+//			AnchorPane.setLeftAnchor(mainView, 10.0);
+//			AnchorPane.setRightAnchor(mainView, 10.0);
+//			AnchorPane.setTopAnchor(mainView, 10.0);
+//			AnchorPane.setBottomAnchor(mainView, 10.0);
+//			anchor.getChildren().add(mainView);
+//
+//			menuLayout.setCenter(mainView);
+//
+//			MainController controller = loader.getController();
+//			controller.setRoot(root);
+//			controller.setProba(pr);
+//			controller.setManager(this);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	public void showMainView() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(application.Main.class.getResource("/view/MainView.fxml"));
-			ScrollPane mainView = (ScrollPane) loader.load(); 
-			
+			ScrollPane mainView = (ScrollPane) loader.load();
+
 			AnchorPane anchor = (AnchorPane) menuLayout.getChildren().get(1);
 			AnchorPane.setLeftAnchor(mainView, 10.0);
 			AnchorPane.setRightAnchor(mainView, 10.0);
@@ -147,31 +146,30 @@ private static ObservableList<Transaction> data = FXCollections.observableArrayL
 			e.printStackTrace();
 		}
 	}
-	
-	public void showStart() {
-	try {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(application.Main.class.getResource("/view/Start.fxml"));
-		BorderPane bpStart = (BorderPane) loader.load();
-//		 bpStart = (BorderPane) loader.load();
 
-		Scene scene = new Scene(bpStart);
-		
-//		Stage startStage = new Stage(); 
-//		startStage.setTitle("Tworzenie konta");
-//		startStage.setScene(scene);
-		primaryStage.setTitle("ePortfel");
-		primaryStage.setScene(scene);
-		StartController controller = loader.getController();
-		controller.setPrimaryStage(this.primaryStage);
-		controller.setManager(this);
-		
-		primaryStage.show();
-//		startStage.show();
-	} catch (IOException e) {
-		e.printStackTrace();
+	public void showStart() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(application.Main.class.getResource("/view/Start.fxml"));
+			BorderPane bpStart = (BorderPane) loader.load();
+			Scene scene = new Scene(bpStart);
+
+			// Stage startStage = new Stage();
+			// startStage.setTitle("Tworzenie konta");
+			// startStage.setScene(scene);
+			primaryStage.setTitle("ePortfel");
+			primaryStage.setScene(scene);
+			StartController controller = loader.getController();
+			controller.setPrimaryStage(this.primaryStage);
+			controller.setManager(this);
+
+			primaryStage.show();
+			// startStage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-}
+
 	public void showAboutDialog() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -188,15 +186,16 @@ private static ObservableList<Transaction> data = FXCollections.observableArrayL
 			AboutController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
 			controller.setManager(this);
-			
+
 			dialogStage.setResizable(false);
 			dialogStage.showAndWait();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-//	public void showAddTransaction(ArrayList<Account> accList) {
-	public void showAddTransaction(String acc) {
+
+	// public void showAddTransaction(ArrayList<Account> accList) {
+	public void showAddTransaction(String acc, int idTransaction) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("/view/AddTransaction.fxml"));
@@ -212,17 +211,16 @@ private static ObservableList<Transaction> data = FXCollections.observableArrayL
 			AddTransactionController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
 			controller.setManager(this);
-			controller.getAccoutList(acc);
+			controller.getTransactionInfo(acc, idTransaction);
 			dialogStage.setResizable(false);
 			dialogStage.showAndWait();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-//						.add(new Transaction(dataPicker.getValue(), txtDescription.getText(), choiceBox.getValue(), 0, amount, 0, 0));
-//	public void showAddTransaction(LocalDate date, String description, String transaction, String amount, ArrayList<Account> accList) {
-	public void showAddTransaction(LocalDate date, String description, String transaction, String amount,int idTransaction, String acc) {
+
+	public void showAddTransaction(LocalDate date, String description, String transaction, String amount,
+			int idTransaction, String acc) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("/view/AddTransaction.fxml"));
@@ -238,8 +236,8 @@ private static ObservableList<Transaction> data = FXCollections.observableArrayL
 			AddTransactionController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
 			controller.setManager(this);
-			controller.setInput(date, description, transaction, amount, idTransaction);
-			controller.getAccoutList(acc);
+			controller.setInput(date, description, transaction, amount);
+			controller.getTransactionInfo(acc, idTransaction);
 			dialogStage.setResizable(false);
 			dialogStage.showAndWait();
 		} catch (IOException e) {
