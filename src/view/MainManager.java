@@ -165,6 +165,25 @@ public class MainManager {
 			e.printStackTrace();
 		}
 	}
+	public void showLoginView() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(application.Main.class.getResource("/view/Login.fxml"));
+			AnchorPane apLogin = (AnchorPane) loader.load();
+			Scene scene = new Scene(apLogin);
+
+			primaryStage.setTitle("ePortfel");
+			primaryStage.setScene(scene);
+			LoginController controller = loader.getController();
+			controller.setPrimaryStage(this.primaryStage);
+			controller.setManager(this);
+
+			primaryStage.show();
+			// startStage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	public void showStart() {
 		try {
 			FXMLLoader loader = new FXMLLoader();

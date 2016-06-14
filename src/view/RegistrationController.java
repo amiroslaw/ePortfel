@@ -3,7 +3,6 @@ package view;
 import java.io.File;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
@@ -18,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import model.ConnectionSqlite;
+import model.Profile;
 
 public class RegistrationController implements Initializable {
 	private MainManager manager = new MainManager(null);
@@ -47,10 +47,8 @@ public class RegistrationController implements Initializable {
 	    
 	    @FXML
 	    private Label lblSelectedDirectory;
-	    private String profileName;
-	    private String password; 
-	    private String walletName; 
-	    private String directoryPath;
+	    
+	   Profile profile = new Profile();  
 	    @FXML
 	    void setWalletDirectory(ActionEvent event) {
 	    	DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -61,55 +59,34 @@ public class RegistrationController implements Initializable {
               
              if(selectedDirectory == null){
                  lblSelectedDirectory.setText("No Directory selected");
+            	 btnAccept.setDisable(true);
              }else{
             	 lblSelectedDirectory.setText(selectedDirectory.getAbsolutePath());
-            	 directoryPath= selectedDirectory.getAbsolutePath();
+            	 profile.setDirectoryPath(selectedDirectory.getAbsolutePath());
+            	 btnAccept.setDisable(false);
              }
 	    }
 
 	    @FXML
 	    void showStart(ActionEvent event) {
-	    	profileName = txtfProfileName.getText();
-	    	password= passwordField.getText();
-	    	walletName=txtfWalletName.getText();
+	   
 	    	
-	    	if(!profileName.isEmpty() && !password.isEmpty() && !directoryPath.isEmpty() && !walletName.isEmpty() ){
-	    		createDB();
+	    	if(!txtfProfileName.getText().isEmpty() && !passwordField.getText().isEmpty() && !profile.getDirectoryPath().isEmpty() && !txtfWalletName.getText().isEmpty() ){
+	    		profile.setProfileName(txtfProfileName.getText());
+	    		profile.setPassword(passwordField.getText());
+	    		profile.setWalletName(txtfWalletName.getText());
+	    		profile.createProfileDB();
+	    		profile.createWalletDB(1);
 			manager.showStart();
 	    	} else {
 	    		lblSelectedDirectory.setText("Wypełnij poprawnie formularz");
 			}
-			// manager.showMainView(root, "z start");
 	    }
-	    static Connection conn=  (Connection) ConnectionSqlite.Connector();
-	    void createDB() {
-			if (conn == null) {
 
-				System.out.println("connection not successful");
-				System.exit(1);
-			}
-			try {
-				Statement mySta = conn.createStatement();
-				
-//				mySta.executeUpdate("CREATE TABLE IF NOT EXISTS tran (idTransaction INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , date DATETIME NOT NULL , description TEXT  , accTransaction TEXT NOT NULL, debet DOUBLE DEFAULT 0, credit DOUBLE DEFAULT 0, balance DOUBLE )");
-//				mySta.executeUpdate("CREATE TABLE IF NOT EXISTS tran (idTransaction INTEGER PRIMARY KEY  UNIQUE  NOT NULL , date DATETIME NOT NULL , description TEXT  , accTransaction TEXT NOT NULL, debet DOUBLE DEFAULT 0, credit DOUBLE DEFAULT 0, balance DOUBLE )");
-//				mySta.executeUpdate("CREATE TABLE IF NOT EXISTS account (idAccount INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , name TEXT NOT NULL , parent TEXT NOT NULL , balance DOUBLE DEFAULT 0, type INTEGER NOT NULL )");
-//				mySta.executeUpdate("CREATE TABLE IF NOT EXISTS config (firstRead BOOL NOT NULL DEFAULT TRUE)");
-				mySta.executeUpdate("CREATE TABLE IF NOT EXISTS profile (idProfile INTEGER PRIMARY KEY  UNIQUE  NOT NULL , profileName TEXT NOT NULL , password TEXT NOT NULL)");
-				mySta.executeUpdate("CREATE TABLE IF NOT EXISTS wallet (idWallet INTEGER PRIMARY KEY  UNIQUE  NOT NULL , walletName TEXT NOT NULL , filePath TEXT NOT NULL, idProfile INTEGER NOT NULL, FOREIGN KEY(idProfile) REFERENCES profile(idProfile))");
-			
-				mySta.executeUpdate("INSERT INTO profile (profileName, password) VALUES ('"+profileName+"','"+password+"')");	
-				mySta.executeUpdate("INSERT INTO wallet (walletName, filePath, idProfile) VALUES ('"+walletName+"','"+directoryPath+"',1)");	
-				
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}	
 	    
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		btnAccept.setDisable(true);
 	}
 
 }

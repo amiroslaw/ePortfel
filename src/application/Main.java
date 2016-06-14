@@ -23,8 +23,7 @@ public class Main extends Application {
 			manager.showRegistration();		
 			
 		} else {
-			manager.showMenu();
-			manager.showMainView();
+			manager.showLoginView();
 			
 		}
 	}
