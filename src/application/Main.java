@@ -19,7 +19,9 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		MainManager manager = new MainManager(primaryStage);
 		if(firstRead){
-			manager.showStart();			
+//			manager.showStart();			
+			manager.showRegistration();		
+			
 		} else {
 			manager.showMenu();
 			manager.showMainView();
@@ -43,7 +45,7 @@ public class Main extends Application {
 			mySta.executeUpdate("CREATE TABLE IF NOT EXISTS account (idAccount INTEGER PRIMARY KEY  UNIQUE  NOT NULL , name TEXT NOT NULL , parent TEXT NOT NULL , balance DOUBLE DEFAULT 0, type INTEGER NOT NULL )");
 			
 			ResultSet rs = mySta.executeQuery("SELECT * FROM config WHERE rowid=1");
-			//sprawdzanie czy jest rekord
+			//sprawdzanie czy jest rekord jesli nie ma to nie bylo utworzonej bazy
 			if (rs.next()) {
 				firstRead= false;
 				System.out.println(rs.getBoolean("firstRead"));

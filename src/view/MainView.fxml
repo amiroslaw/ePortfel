@@ -33,7 +33,6 @@
                               <TableColumn fx:id="tcAccount" prefWidth="120.0" text="Transfer" />
                               <TableColumn fx:id="tcDebet" prefWidth="88.0" text="Winien" />
                               <TableColumn fx:id="tcCredit" prefWidth="81.0" text="Ma" />
-                              <TableColumn fx:id="tcBalance" prefWidth="90.0" text="Saldo" />
                           </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

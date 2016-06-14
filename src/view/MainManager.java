@@ -146,7 +146,25 @@ public class MainManager {
 			e.printStackTrace();
 		}
 	}
+	public void showRegistration() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(application.Main.class.getResource("/view/Registration.fxml"));
+			AnchorPane apRegistration = (AnchorPane) loader.load();
+			Scene scene = new Scene(apRegistration);
 
+			primaryStage.setTitle("ePortfel");
+			primaryStage.setScene(scene);
+			RegistrationController controller = loader.getController();
+			controller.setPrimaryStage(this.primaryStage);
+			controller.setManager(this);
+
+			primaryStage.show();
+			// startStage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	public void showStart() {
 		try {
 			FXMLLoader loader = new FXMLLoader();

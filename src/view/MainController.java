@@ -188,7 +188,7 @@ public class MainController implements Initializable {
 		tcAccount.setCellValueFactory(cellData -> cellData.getValue().accTransactionProperty());
 		tcDebet.setCellValueFactory(cellData -> cellData.getValue().debetProperty());
 		tcCredit.setCellValueFactory(cellData -> cellData.getValue().creditProperty());
-		tcBalance.setCellValueFactory(cellData -> cellData.getValue().balanceProperty());
+//		tcBalance.setCellValueFactory(cellData -> cellData.getValue().balanceProperty());
 		tableTransaction.setItems(manager.getTransactionData());
 		// firstNameCol.setSortType(TableColumn.SortType.ASCENDING);
 		tableTransaction.getSortOrder().add(tcDate);

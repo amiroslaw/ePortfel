@@ -11,7 +11,21 @@ public class ConnectionSqlite {
 			Class.forName("org.sqlite.JDBC");
 			//mozna dodac sciezke do w ktorej chce sie trzymac plik sqlite
 //			Connection conn = DriverManager.getConnection("jdbc:sqlite:"+path);
-			Connection conn = DriverManager.getConnection("jdbc:sqlite:eportfel.sqlite");
+			Connection conn = DriverManager.getConnection("jdbc:sqlite:eportfelMainDB.sqlite");
+			return conn;
+		} catch (Exception e) {
+			System.out.println(e);
+			return null;
+		}
+	}
+	public static Connection Connector(String pathDB) {
+		try {
+			String path= System.getProperty("user.home"); 
+//			path +="/Dokumenty/Ustawienia/sync/grywalizacja.sqlite";
+			Class.forName("org.sqlite.JDBC");
+			//mozna dodac sciezke do w ktorej chce sie trzymac plik sqlite
+			Connection conn = DriverManager.getConnection("jdbc:sqlite:"+path);
+//			Connection conn = DriverManager.getConnection("jdbc:sqlite:eportfelMainDB.sqlite");
 			return conn;
 		} catch (Exception e) {
 			System.out.println(e);
