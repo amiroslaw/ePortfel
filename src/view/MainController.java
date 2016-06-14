@@ -230,7 +230,7 @@ public class MainController implements Initializable {
 		});
 		root.setExpanded(true);
 		accTree.setShowRoot(false);
-		accTree.setEditable(true);
+		accTree.setEditable(false);
 		accTree.setCellFactory(new Callback<TreeView<Account>, TreeCell<Account>>() {
 
 			@Override
@@ -241,6 +241,7 @@ public class MainController implements Initializable {
 		accTree.setRoot(root);
 //test
 		manager.getStructure().showList();
+		System.out.println("ścieżka do DB portfela "+ MainManager.walletDirectoryPath);
 
 	}
 

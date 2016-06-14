@@ -32,6 +32,13 @@ public class StartController implements Initializable {
 	}
 
 	@FXML
+	private Label labStart;
+	@FXML
+	private Button btnShowMain;
+	@FXML
+	protected TreeView<Account> treeView;
+
+	@FXML
 	void showMain() {
 		manager.getStructure().treeToList(root);
 		manager.getStructure().saveAccount();
@@ -41,12 +48,6 @@ public class StartController implements Initializable {
 		manager.showMainView();
 	}
 
-	@FXML
-	private Label labStart;
-	@FXML
-	private Button btnShowMain;
-	@FXML
-	protected TreeView<Account> treeView;
 
 	private List<Account> account = Arrays.<Account> asList(
 			// tutaj nie wazne id
@@ -104,7 +105,6 @@ public class StartController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		labStart.setText("instrukcja");
 		readDefaultData();
 		// wybieranie elementu z drzewa
 		treeView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
