@@ -34,22 +34,7 @@ public class MainController implements Initializable {
 
 	}
 
-	// private Structure structure= new Structure() ;
-	//
-	// public Structure getStructure() {
-	// return structure;
-	// }
-	//
-	// public void setStructure(Structure structure) {
-	// this.structure = structure;
-	// }
 	private TreeItem<Account> root;
-
-	String proba;
-
-	public void setProba(String proba) {
-		this.proba = proba;
-	}
 
 	@FXML
 	private TreeView<Account> accTree;
@@ -103,7 +88,7 @@ public class MainController implements Initializable {
 	@FXML
 	public void showAddTransaction() {
 		System.out.println("metoda addTransaction");
-		// manager.showAddTransaction(manager.getStructure().getAccList());
+		//TODO: dodanie warunku gdy nie zostalo wybrane konto
 		manager.showAddTransaction(selectedAccountName, -1);
 	}
 
@@ -140,8 +125,6 @@ public class MainController implements Initializable {
 		allTransactions = tableTransaction.getItems();
 		transactionSelected = tableTransaction.getSelectionModel().getSelectedItems();
 
-		System.out.println("show edit id" + transactionSelected.get(0).getId());
-		System.out.println("balance delete" + transactionSelected.get(0).getBalance());
 		int id = transactionSelected.get(0).getId();
 		transactionSelected.forEach(allTransactions::remove);
 
@@ -159,13 +142,13 @@ public class MainController implements Initializable {
 		ArrayList<Transaction> temporary = new ArrayList<Transaction>();
 		ArrayList<Transaction> tranList = new ArrayList<Transaction>();
 		ArrayList<Transaction> tranList2 = new ArrayList<Transaction>(
-				Arrays.asList(new Transaction(LocalDate.now(), "tran2", "transfer", 0, 0, 0, 1),
-						new Transaction(LocalDate.now(), "tran2", "transfer", 0, 0, 0, 0),
-						new Transaction(LocalDate.now(), "tran3", "transfer", 0, 0, 0, 0)));
-		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, 0));
-		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, 0));
-		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, 0));
-		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, 0));
+				Arrays.asList(new Transaction(LocalDate.now(), "tran2", "transfer", 0, 0,  1, "Akcje"),
+						new Transaction(LocalDate.now(), "tran2", "transfer", 0, 0,  1, "czynsz" ),
+						new Transaction(LocalDate.now(), "tran3", "transfer", 0, 0,  0, "Akcje")));
+		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0,  0, "Akcje"));
+		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0,  0, "Akcje"));
+		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0,  0, "Akcje"));
+		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0,  0, "Akcje"));
 		manager.getStructure().getMap().put("Gotówka", tranList);
 		manager.getStructure().getMap().put("Inwestycje", tranList2);
 		manager.getStructure().showMap();
@@ -175,7 +158,7 @@ public class MainController implements Initializable {
 		ArrayList<Transaction> arrayList = new ArrayList<Transaction>();
 		for (Transaction transaction : manager.getTransactionData()) {
 			arrayList.add(transaction);
-			System.out.println(transaction.getDescription());
+			System.out.println("observable to map"+transaction.getDescription());
 		}
 		// nadpisze istniejaca wartosc
 		manager.getStructure().getMap().put(accountName, arrayList);
@@ -188,7 +171,6 @@ public class MainController implements Initializable {
 		tcAccount.setCellValueFactory(cellData -> cellData.getValue().accTransactionProperty());
 		tcDebet.setCellValueFactory(cellData -> cellData.getValue().debetProperty());
 		tcCredit.setCellValueFactory(cellData -> cellData.getValue().creditProperty());
-//		tcBalance.setCellValueFactory(cellData -> cellData.getValue().balanceProperty());
 		tableTransaction.setItems(manager.getTransactionData());
 		// firstNameCol.setSortType(TableColumn.SortType.ASCENDING);
 		tableTransaction.getSortOrder().add(tcDate);
@@ -197,7 +179,7 @@ public class MainController implements Initializable {
 		manager.getStructure().readTransactions();
 
 		// problem z tymi samymi id i wczytywaniem przykladowych danych
-		// readTestData();
+//		 readTestData();
 
 		root = manager.getStructure().listToTree();
 		accTree.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -208,9 +190,10 @@ public class MainController implements Initializable {
 				TreeItem oldTreeItem = (TreeItem) oldValue;
 
 				selectedAccount = (Account) treeItem.getValue();
-				System.out.println("Selected item is" + selectedAccount.getType());
+//				System.out.println("Selected item is" + selectedAccount.getType());
 				selectedAccountName = selectedAccount.getName();
 				if (selectedAccount != null) {
+					hboxEditTransaction.setVisible(true);
 					lblBalance.textProperty().bind(Bindings.convert(selectedAccount.balanceProperty()));
 				}
 				// setTransactionData(treeItem.getValue().toString());
@@ -241,8 +224,13 @@ public class MainController implements Initializable {
 		accTree.setRoot(root);
 //test
 		manager.getStructure().showList();
-		System.out.println("ścieżka do DB portfela "+ MainManager.walletDirectoryPath);
+//		System.out.println("ścieżka do DB portfela "+ MainManager.walletDirectoryPath);
 
+		}
+
+String proba;
+
+public void setProba(String proba) {
+	this.proba = proba;
 	}
-
 }

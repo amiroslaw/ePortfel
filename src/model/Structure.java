@@ -44,15 +44,15 @@ public class Structure {
 		this.transactionList = transactionList;
 	}
 
-	int id;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+//	int id;
+//
+//	public int getId() {
+//		return id;
+//	}
+//
+//	public void setId(int id) {
+//		this.id = id;
+//	}
 
 	// nie powinno byc return arrayList?
 	public void treeToList(TreeItem<Account> root) {
@@ -124,6 +124,7 @@ public class Structure {
 
 	public void updateBalance(String accName) {
 		int indexOfAccount = -1;
+		
 		for (int i = 0; i < accList.size(); i++) {
 			if (accList.get(i).getName().equals(accName)) {
 				indexOfAccount = i;
@@ -138,6 +139,7 @@ public class Structure {
 			balance += tranList.get(i).getCredit();
 			balance -= tranList.get(i).getDebet();
 		}
+		System.out.println("updateBalance balance"+ balance );
 		accList.get(indexOfAccount).setBalance(balance);
 	}
 
@@ -158,9 +160,10 @@ public class Structure {
 			// // zapisywanie zmiennych do kont
 			String query;
 			String sql = "";
+			System.out.println("size acclist"+accList.size());
 			for (int i = 0; i < accList.size(); i++) {
-
-				query = "INSERT INTO account VALUES (" + "NULL" + ",'" + accList.get(i).getName() + "','"
+				System.out.println("save acc "+accList.get(i).getName());
+				query = "INSERT INTO account VALUES (" + accList.get(i).getIdAccount() + ",'" + accList.get(i).getName() + "','"
 						+ accList.get(i).getParent() + "'," + accList.get(i).getBalance() + ","
 						+ accList.get(i).getType() + ");";
 				sql += query;
@@ -176,6 +179,7 @@ public class Structure {
 	}
 
 	public void readAccount() {
+		if(accList.size()==0){
 		connection = (Connection) ConnectionSqlite.Connector(MainManager.walletDirectoryPath);
 		if (connection == null) {
 
@@ -187,12 +191,14 @@ public class Structure {
 			ResultSet rs = mySta.executeQuery("select * from account");
 			while (rs.next()) {
 				accList.add(new Account(rs.getString("name"), rs.getString("parent"), rs.getDouble("balance"),
-						rs.getInt("type"), rs.getInt("idAccount")));
+						rs.getInt("idType"), rs.getInt("idAccount")));
 			}
 			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		}}
+			
+		
 	}
 
 	public void readTransactions() {
@@ -206,15 +212,13 @@ public class Structure {
 
 			Statement mySta = connection.createStatement();
 			for (int i = 0; i < accList.size(); i++) {
-				mySta.executeUpdate("CREATE TABLE IF NOT EXISTS '" + accList.get(i).getName()
-						+ "' (idTransaction INTEGER PRIMARY KEY  UNIQUE  NOT NULL , date DATETIME NOT NULL , description TEXT  , accTransaction TEXT NOT NULL, debet DOUBLE DEFAULT 0, credit DOUBLE DEFAULT 0, balance DOUBLE )");
-				ResultSet rs = mySta.executeQuery("select * from '" + accList.get(i).getName() + "'");
+				ResultSet rs = mySta.executeQuery("select * from transfer where accountName= '" + accList.get(i).getName() + "'");
 				ArrayList<Transaction> transactions = new ArrayList<Transaction>();
 				while (rs.next()) {
 					LocalDate date = LocalDate.parse(rs.getString("date"));
 					transactions.add(new Transaction(date, rs.getString("description"), rs.getString("accTransaction"),
-							rs.getDouble("debet"), rs.getDouble("credit"), rs.getDouble("balance"),
-							rs.getInt("idTransaction")));
+							rs.getDouble("debet"), rs.getDouble("credit"), 
+							rs.getInt("idTransfer"), rs.getString("accountName")));
 				}
 				map.put(accList.get(i).getName(), transactions);
 			}
@@ -239,19 +243,15 @@ public class Structure {
 			// Loop over String keys.
 			for (String key : keys) {
 				System.out.println(key);
-				mySta.executeUpdate("DELETE  FROM '" + key + "'");
-				mySta.executeUpdate("CREATE TABLE IF NOT EXISTS '" + key
-						+ "' (idTransaction INTEGER PRIMARY KEY  UNIQUE  NOT NULL , date DATETIME NOT NULL , description TEXT,"
-						+ " accTransaction TEXT NOT NULL, debet DOUBLE DEFAULT 0, credit DOUBLE DEFAULT 0, balance DOUBLE )");
+				mySta.executeUpdate("DELETE  FROM transfer WHERE accountName='" + key + "'");
 
 				String query;
 				String sql = "";
 				for (int i = 0; i < map.get(key).size(); i++) {
 
-					query = "INSERT INTO '" + key + "' VALUES (" + i + ",'" + map.get(key).get(i).getDate() + "'," + "'"
+					query = "INSERT INTO transfer VALUES (NULL,'" + map.get(key).get(i).getDate() + "'," + "'"
 							+ map.get(key).get(i).getDescription() + "','" + map.get(key).get(i).getAccTransaction()
-							+ "'," + map.get(key).get(i).getDebet() + "," + map.get(key).get(i).getCredit() + ","
-							+ map.get(key).get(i).getBalance() + ");";
+							+ "'," + map.get(key).get(i).getDebet() + "," + map.get(key).get(i).getCredit() + ",'"+key+ "');";
 					sql += query;
 				}
 				System.out.println(sql);
@@ -264,7 +264,7 @@ public class Structure {
 		}
 
 	}
-	 public void createTypeDB() {
+	 public void createTablesDB() {
 		connection = (Connection) ConnectionSqlite.Connector(MainManager.walletDirectoryPath);
 		if (connection == null) {
 
@@ -273,10 +273,21 @@ public class Structure {
 		}
 		try {
 			Statement mySta = connection.createStatement();
-			mySta.executeUpdate("CREATE TABLE IF NOT EXISTS type (idType INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , typeName TEXT NOT NULL)");
+			// type
+			mySta.executeUpdate("CREATE TABLE IF NOT EXISTS type (idType INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL,"
+					+ " typeName TEXT NOT NULL)");
 			// // zapisywanie zmiennych do kont
 			mySta.executeUpdate("INSERT INTO type VALUES (1, 'aktywa'), (2, 'pasywa'), (3, 'przychody'), (4,'wydatki')");
 
+//			account
+			mySta.executeUpdate("CREATE TABLE IF NOT EXISTS account (idAccount INTEGER   NOT NULL , "
+					+ "name TEXT  PRIMARY KEY NOT NULL  , parent TEXT NOT NULL , balance DOUBLE DEFAULT 0, "
+					+ "idType INTEGER NOT NULL, FOREIGN KEY(idType) REFERENCES type(idType) )");
+				
+//			transfer
+			mySta.executeUpdate("CREATE TABLE IF NOT EXISTS  transfer (idTransfer INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "
+					+ "date DATETIME NOT NULL , description TEXT, accTransaction TEXT NOT NULL, debet DOUBLE DEFAULT 0, "
+					+ "credit DOUBLE DEFAULT 0, accountName TEXT NOT NULL, FOREIGN KEY(accountName) REFERENCES account(name) )");
 			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -293,7 +304,7 @@ public class Structure {
 		System.out.println("showList u update balance");
 		for (Account account : accList) {
 			System.out.println(account.getName());
-			updateBalance(account.getName());
+//			updateBalance(account.getName());
 		}
 	}
 

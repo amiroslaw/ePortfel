@@ -18,23 +18,21 @@ public class Transaction {
 	private final SimpleStringProperty accTransaction;
 	private final SimpleDoubleProperty debet;
 	private final SimpleDoubleProperty credit;
-	private final SimpleDoubleProperty balance;
+	private String accountName;
 	private int idTransaction = 0;
 
 	public Transaction(LocalDate date, String discripion, String accTransaction, double debet, double credit,
-			double balance, int id) {
+			 int id, String accountName) {
 		this.date = new SimpleObjectProperty<LocalDate>(date);
 		this.description = new SimpleStringProperty(discripion);
 		this.accTransaction = new SimpleStringProperty(accTransaction);
 		this.debet = new SimpleDoubleProperty(debet);
 		this.credit = new SimpleDoubleProperty(credit);
-		this.balance = new SimpleDoubleProperty(balance);
+		this.accountName=accountName;
 		this.idTransaction = id;
 	}
 
-	public int getId() {
-		return idTransaction;
-	}
+
 
 	public LocalDate getDate() {
 		return date.get();
@@ -56,10 +54,6 @@ public class Transaction {
 		return credit.get();
 	}
 
-	public double getBalance() {
-		return balance.get();
-	}
-
 	public ObjectProperty<LocalDate> dateProperty() {
 		return date;
 	}
@@ -79,8 +73,16 @@ public class Transaction {
 	public DoubleProperty creditProperty() {
 		return credit;
 	}
+	
+	public String getAccountName() {
+		return accountName;
+	}
 
-	public DoubleProperty balanceProperty() {
-		return balance;
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
+	}
+
+	public int getId() {
+		return idTransaction;
 	}
 }

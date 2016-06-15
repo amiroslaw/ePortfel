@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MenuController">
+<BorderPane prefHeight="640.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MenuController">
    <top>
       <MenuBar prefHeight="34.0" BorderPane.alignment="CENTER">
         <menus>
@@ -16,11 +16,7 @@
               <MenuItem fx:id="miClose" mnemonicParsing="false" text="Zamknij" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
+          <Menu mnemonicParsing="false" text="Edytuj" />
           <Menu mnemonicParsing="false" text="Pomoc">
             <items>
               <MenuItem fx:id="miAbout" mnemonicParsing="false" onAction="#showAbout" text="O programie" />
@@ -30,6 +26,6 @@
       </MenuBar>
    </top>
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <AnchorPane prefHeight="640.0" prefWidth="900.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

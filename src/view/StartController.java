@@ -64,7 +64,7 @@ public class StartController implements Initializable {
 	private void readDefaultData() {
 		TreeItem<Account> aktywa = new TreeItem<Account>(new Account("Aktywa", "root", 0.0, 1, 1));
 		TreeItem<Account> pasywa = new TreeItem<Account>(new Account("Pasywa", "root", 0.0, 2, 1));
-		TreeItem<Account> przychody = new TreeItem<Account>(new Account("Przychody", "root", 0.0, 4, 1));
+		TreeItem<Account> przychody = new TreeItem<Account>(new Account("Przychody", "root", 0.0, 3, 1));
 		TreeItem<Account> wydatki = new TreeItem<Account>(new Account("Wydatki", "root", 0.0, 4, 1));
 		root.getChildren().addAll(aktywa, pasywa, przychody, wydatki);
 		// tworzenie drzewa z listy wypisanej domyslnie
@@ -90,7 +90,6 @@ public class StartController implements Initializable {
 					TreeItem depNode = new TreeItem(acc);
 					root.getChildren().get(type - 1).getChildren().add(depNode);
 					depNode.getChildren().add(empLeaf);
-					System.out.println("not found in ini start");
 				}
 			}
 		}
@@ -99,7 +98,7 @@ public class StartController implements Initializable {
 	@FXML
 	void showMain() {
 		manager.getStructure().treeToList(root);
-		manager.getStructure().createTypeDB();;
+		manager.getStructure().createTablesDB();;
 		manager.getStructure().saveAccount();
 
 		manager.showMenu();
@@ -116,7 +115,7 @@ public class StartController implements Initializable {
 			@Override
 			public void changed(ObservableValue observable, Object oldValue, Object newValue) {
 				TreeItem treeItem = (TreeItem) newValue;
-				System.out.println("Selected item is" + treeItem);
+//				System.out.println("Selected item is" + treeItem);
 			}
 		});
 

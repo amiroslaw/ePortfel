@@ -54,6 +54,7 @@ public class MainManager {
 	}
 
 	// private void setTransactionData(ArrayList<Transaction> tran){
+	// ustawia liste transakcji w tablicy z mapy
 	public void setTransactionData(String accountName) {
 		data.clear();
 		ArrayList<Transaction> tran = structure.getMap().get(accountName);
@@ -105,30 +106,7 @@ public class MainManager {
 		structure.showList();
 	}
 
-	// nie uzywam
-//	public void showMainView(TreeItem<Account> root, String pr) {
-//		try {
-//			FXMLLoader loader = new FXMLLoader();
-//			loader.setLocation(application.Main.class.getResource("/view/MainView.fxml"));
-//			ScrollPane mainView = (ScrollPane) loader.load();
-//
-//			AnchorPane anchor = (AnchorPane) menuLayout.getChildren().get(1);
-//			AnchorPane.setLeftAnchor(mainView, 10.0);
-//			AnchorPane.setRightAnchor(mainView, 10.0);
-//			AnchorPane.setTopAnchor(mainView, 10.0);
-//			AnchorPane.setBottomAnchor(mainView, 10.0);
-//			anchor.getChildren().add(mainView);
-//
-//			menuLayout.setCenter(mainView);
-//
-//			MainController controller = loader.getController();
-//			controller.setRoot(root);
-//			controller.setProba(pr);
-//			controller.setManager(this);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
+
 
 	public void showMainView() {
 		try {
@@ -283,5 +261,30 @@ public class MainManager {
 			e.printStackTrace();
 		}
 	}
+	
+	// nie uzywam
+//	public void showMainView(TreeItem<Account> root, String pr) {
+//		try {
+//			FXMLLoader loader = new FXMLLoader();
+//			loader.setLocation(application.Main.class.getResource("/view/MainView.fxml"));
+//			ScrollPane mainView = (ScrollPane) loader.load();
+//
+//			AnchorPane anchor = (AnchorPane) menuLayout.getChildren().get(1);
+//			AnchorPane.setLeftAnchor(mainView, 10.0);
+//			AnchorPane.setRightAnchor(mainView, 10.0);
+//			AnchorPane.setTopAnchor(mainView, 10.0);
+//			AnchorPane.setBottomAnchor(mainView, 10.0);
+//			anchor.getChildren().add(mainView);
+//
+//			menuLayout.setCenter(mainView);
+//
+//			MainController controller = loader.getController();
+//			controller.setRoot(root);
+//			controller.setProba(pr);
+//			controller.setManager(this);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 }

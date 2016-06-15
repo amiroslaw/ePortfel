@@ -71,19 +71,11 @@ public class AddTransactionController implements Initializable {
 			amount = Double.parseDouble(txtAmount.getText());
 			// setSaldo(amount);
 			if (amount < 0) {
-				// MainController.getTransactionData()
-				// .add(new Transaction(dataPicker.getValue(),
-				// txtDescription.getText(), comboBox.getValue(), amount, 0, 0,
-				// 0));
 				manager.getStructure().getMap().get(accountName).add(new Transaction(dataPicker.getValue(),
-						txtDescription.getText(), comboBox.getValue(), amount, 0, 0, idTransaction));
+						txtDescription.getText(), comboBox.getValue(), -1*amount, 0,  idTransaction, accountName));
 			} else {
-				// MainController.getTransactionData()
-				// .add(new Transaction(dataPicker.getValue(),
-				// txtDescription.getText(), comboBox.getValue(), 0, amount, 0,
-				// 0));
 				manager.getStructure().getMap().get(accountName).add(new Transaction(dataPicker.getValue(),
-						txtDescription.getText(), comboBox.getValue(), 0, amount, 0, idTransaction));
+						txtDescription.getText(), comboBox.getValue(), 0, amount,  idTransaction, accountName));
 			}
 			// aktualizacja ObservableList
 			manager.setTransactionData(accountName);
@@ -97,24 +89,10 @@ public class AddTransactionController implements Initializable {
 		// txtDescription.clear();
 		// dataPicker.cle
 		// choiceBox.c
-		System.out.println("addTrans- id: " + idTransaction);
+//		System.out.println("addTrans- id: " + idTransaction);
 		System.out.println("size list: " + manager.getStructure().getAccList().size());
 	}
-//zastapione przez updateBalance
-	private int setSaldo(double amount) {
-		ArrayList<Account> acc = new ArrayList<Account>(manager.getStructure().getAccList());
-		for (int i = 0; i < acc.size(); i++) {
-			if (acc.get(i).getName().equals(accountName)) {
-				double oldAmount = manager.getStructure().getAccList().get(i).getBalance();
-				manager.getStructure().getAccList().get(i).setBalance(amount + oldAmount);
-				// System.out.println("acc name " + accountName + " index " +
-				// i);
-				return 1;
-			}
-		}
-		return -1;
 
-	}
 
 	boolean isDouble(String text) {
 		try {
@@ -164,4 +142,19 @@ public class AddTransactionController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 
 	}
+	//zastapione przez updateBalance
+//		private int setSaldo(double amount) {
+//			ArrayList<Account> acc = new ArrayList<Account>(manager.getStructure().getAccList());
+//			for (int i = 0; i < acc.size(); i++) {
+//				if (acc.get(i).getName().equals(accountName)) {
+//					double oldAmount = manager.getStructure().getAccList().get(i).getBalance();
+//					manager.getStructure().getAccList().get(i).setBalance(amount + oldAmount);
+//					// System.out.println("acc name " + accountName + " index " +
+//					// i);
+//					return 1;
+//				}
+//			}
+//			return -1;
+//
+//		}
 }
