@@ -41,7 +41,7 @@ public class Main extends Application {
 //			mySta.executeUpdate("CREATE TABLE IF NOT EXISTS tran (idTransaction INTEGER PRIMARY KEY  UNIQUE  NOT NULL , date DATETIME NOT NULL , description TEXT  , accTransaction TEXT NOT NULL, debet DOUBLE DEFAULT 0, credit DOUBLE DEFAULT 0, balance DOUBLE )");
 //			mySta.executeUpdate("CREATE TABLE IF NOT EXISTS account (idAccount INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , name TEXT NOT NULL , parent TEXT NOT NULL , balance DOUBLE DEFAULT 0, type INTEGER NOT NULL )");
 			mySta.executeUpdate("CREATE TABLE IF NOT EXISTS config (firstRead BOOL NOT NULL DEFAULT TRUE)");
-			mySta.executeUpdate("CREATE TABLE IF NOT EXISTS account (idAccount INTEGER PRIMARY KEY  UNIQUE  NOT NULL , name TEXT NOT NULL , parent TEXT NOT NULL , balance DOUBLE DEFAULT 0, type INTEGER NOT NULL )");
+//			mySta.executeUpdate("CREATE TABLE IF NOT EXISTS account (idAccount INTEGER PRIMARY KEY  UNIQUE  NOT NULL , name TEXT NOT NULL , parent TEXT NOT NULL , balance DOUBLE DEFAULT 0, type INTEGER NOT NULL )");
 			
 			ResultSet rs = mySta.executeQuery("SELECT * FROM config WHERE rowid=1");
 			//sprawdzanie czy jest rekord jesli nie ma to nie bylo utworzonej bazy

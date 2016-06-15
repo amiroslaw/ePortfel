@@ -47,6 +47,7 @@ public class MainManager {
 	// new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0)
 	);
 	public static String walletDirectoryPath;
+	public static String profileName;
 
 	public static ObservableList<Transaction> getTransactionData() {
 		return data;

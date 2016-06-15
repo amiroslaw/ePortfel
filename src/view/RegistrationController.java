@@ -76,6 +76,7 @@ public class RegistrationController implements Initializable {
 			profile.createProfileDB();
 			profile.createWalletDB();
 			MainManager.walletDirectoryPath= profile.getDirectoryPath();
+			MainManager.profileName= profile.getProfileName();
 			manager.showStart();
 		} else {
 			lblSelectedDirectory.setText("Wypełnij poprawnie formularz");

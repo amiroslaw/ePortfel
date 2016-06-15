@@ -1,6 +1,9 @@
 package view;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -18,6 +21,7 @@ import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Account;
+import model.ConnectionSqlite;
 
 public class StartController implements Initializable {
 	private MainManager manager = new MainManager(null);
@@ -37,17 +41,6 @@ public class StartController implements Initializable {
 	private Button btnShowMain;
 	@FXML
 	protected TreeView<Account> treeView;
-
-	@FXML
-	void showMain() {
-		manager.getStructure().treeToList(root);
-		manager.getStructure().saveAccount();
-
-		manager.showMenu();
-		// manager.showMainView(root, "z start");
-		manager.showMainView();
-	}
-
 
 	private List<Account> account = Arrays.<Account> asList(
 			// tutaj nie wazne id
@@ -101,6 +94,17 @@ public class StartController implements Initializable {
 				}
 			}
 		}
+	}
+
+	@FXML
+	void showMain() {
+		manager.getStructure().treeToList(root);
+		manager.getStructure().createTypeDB();;
+		manager.getStructure().saveAccount();
+
+		manager.showMenu();
+		// manager.showMainView(root, "z start");
+		manager.showMainView();
 	}
 
 	@Override

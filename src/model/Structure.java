@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import javafx.scene.control.TreeItem;
+import view.MainManager;
 
 public class Structure {
 	private HashMap<String, ArrayList<Transaction>> map = new HashMap<String, ArrayList<Transaction>>();
@@ -144,7 +145,7 @@ public class Structure {
 
 	// public void saveTree(ArrayList<Account> list) {
 	public void saveAccount() {
-		connection = (Connection) ConnectionSqlite.Connector();
+		connection = (Connection) ConnectionSqlite.Connector(MainManager.walletDirectoryPath);
 		if (connection == null) {
 
 			System.out.println("connection not successful");
@@ -175,7 +176,7 @@ public class Structure {
 	}
 
 	public void readAccount() {
-		connection = (Connection) ConnectionSqlite.Connector();
+		connection = (Connection) ConnectionSqlite.Connector(MainManager.walletDirectoryPath);
 		if (connection == null) {
 
 			System.out.println("connection not successful");
@@ -195,7 +196,7 @@ public class Structure {
 	}
 
 	public void readTransactions() {
-		connection = (Connection) ConnectionSqlite.Connector();
+		connection = (Connection) ConnectionSqlite.Connector(MainManager.walletDirectoryPath);
 		if (connection == null) {
 
 			System.out.println("connection not successful");
@@ -224,7 +225,7 @@ public class Structure {
 	}
 
 	public void saveTransactions() {
-		connection = (Connection) ConnectionSqlite.Connector();
+		connection = (Connection) ConnectionSqlite.Connector(MainManager.walletDirectoryPath);
 		if (connection == null) {
 
 			System.out.println("connection not successful");
@@ -240,7 +241,8 @@ public class Structure {
 				System.out.println(key);
 				mySta.executeUpdate("DELETE  FROM '" + key + "'");
 				mySta.executeUpdate("CREATE TABLE IF NOT EXISTS '" + key
-						+ "' (idTransaction INTEGER PRIMARY KEY  UNIQUE  NOT NULL , date DATETIME NOT NULL , description TEXT  , accTransaction TEXT NOT NULL, debet DOUBLE DEFAULT 0, credit DOUBLE DEFAULT 0, balance DOUBLE )");
+						+ "' (idTransaction INTEGER PRIMARY KEY  UNIQUE  NOT NULL , date DATETIME NOT NULL , description TEXT,"
+						+ " accTransaction TEXT NOT NULL, debet DOUBLE DEFAULT 0, credit DOUBLE DEFAULT 0, balance DOUBLE )");
 
 				String query;
 				String sql = "";
@@ -262,27 +264,25 @@ public class Structure {
 		}
 
 	}
+	 public void createTypeDB() {
+		connection = (Connection) ConnectionSqlite.Connector(MainManager.walletDirectoryPath);
+		if (connection == null) {
 
-	// testy
-	// nie powinno się zapisywać od hashMap?
-//	public void readTransaction(String account) {
-//		connection = (Connection) ConnectionSqlite.Connector();
-//		if (connection == null) {
-//
-//			System.out.println("connection not successful");
-//			System.exit(1);
-//		}
-//		try {
-//			Statement mySta = connection.createStatement();
-//			ResultSet rs = mySta.executeQuery("select * from " + account);
-//			while (rs.next()) {
-//				System.out.println(rs.getString(1) + " data");
-//			}
-//			connection.close();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
+			System.out.println("connection not successful");
+			System.exit(1);
+		}
+		try {
+			Statement mySta = connection.createStatement();
+			mySta.executeUpdate("CREATE TABLE IF NOT EXISTS type (idType INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , typeName TEXT NOT NULL)");
+			// // zapisywanie zmiennych do kont
+			mySta.executeUpdate("INSERT INTO type VALUES (1, 'aktywa'), (2, 'pasywa'), (3, 'przychody'), (4,'wydatki')");
+
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
 	public String test = "structure";
 
 	public void proba() {

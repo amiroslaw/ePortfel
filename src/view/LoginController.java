@@ -105,6 +105,7 @@ public class LoginController {
 					MainManager.walletDirectoryPath=profile.getWallets().get(i)[1];
 				}
 			}
+			MainManager.profileName= profile.getProfileName();
 			manager.showMenu();
 			manager.showMainView();
 		}
