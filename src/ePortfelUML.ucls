@@ -82,8 +82,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="10" language="java" name="view.TreeCellImpl" project="ePortfel" file="/ePortfel/src/view/TreeCellImpl.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
+  <class id="10" language="java" name="view.TreeCellImpl" project="ePortfel" 
+    file="/ePortfel/src/model/TreeCellImpl.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="601" y="472"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -93,19 +93,19 @@
   </class>  
   <association id="11">    
     <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="12" name="account">        
-        <position height="0" width="0" x="-19" y="-61"/>      
+      <attribute id="12" name="manager">        
+        <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="13" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="-19" y="-61"/>      
+      <multiplicity id="13" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
+    <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="14">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="15" name="accList">        
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="15" name="account">        
         <position height="0" width="0" x="-19" y="-61"/>      
       </attribute>      
       <multiplicity id="16" minimum="0" maximum="2147483647">        
@@ -116,19 +116,19 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="17">    
-    <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="18" name="manager">        
-        <position height="0" width="0" x="0" y="0"/>      
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="18" name="accList">        
+        <position height="0" width="0" x="-19" y="-61"/>      
       </attribute>      
-      <multiplicity id="19" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <multiplicity id="19" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-19" y="-61"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
+    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="20">    
-    <end type="SOURCE" refId="8" navigable="false">      
+    <end type="SOURCE" refId="6" navigable="false">      
       <attribute id="21" name="manager">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
@@ -140,7 +140,7 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="23">    
-    <end type="SOURCE" refId="6" navigable="false">      
+    <end type="SOURCE" refId="8" navigable="false">      
       <attribute id="24" name="manager">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      

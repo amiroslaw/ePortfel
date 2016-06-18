@@ -27,8 +27,8 @@
             <Label text="Opis" GridPane.rowIndex="2" />
             <Label text="Kategoria" GridPane.rowIndex="3" />
             <Button fx:id="tbnCancel" mnemonicParsing="false" onAction="#cancel" text="Anuluj" GridPane.rowIndex="5" />
-            <Button fx:id="btnOK" mnemonicParsing="false" onAction="#addTransaction" text="OK" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <DatePicker fx:id="dataPicker" GridPane.columnIndex="1" />
+            <Button fx:id="btnOK" mnemonicParsing="false" onAction="#doTransaction" text="OK" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <DatePicker fx:id="datePicker" GridPane.columnIndex="1" />
             <TextField fx:id="txtAmount" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="txtDescription" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label fx:id="lblWarning" GridPane.columnSpan="2" GridPane.rowIndex="4" />

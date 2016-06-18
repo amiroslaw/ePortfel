@@ -32,7 +32,7 @@ public class AddTransactionController implements Initializable {
 
 	ObservableList<Transaction> data;
 	@FXML
-	private DatePicker dataPicker;
+	private DatePicker datePicker;
 
 	@FXML
 	private ComboBox<String> comboBox;
@@ -50,47 +50,113 @@ public class AddTransactionController implements Initializable {
 	@FXML
 	private Label lblWarning;
 
-	double amount;
+	private String accountName = "";
+	int accountType; 
 	private int idTransaction = -1;
+	double amount;
+	String description;
+	LocalDate date;
+//	String oldDescription;
+//	LocalDate oldDate;
 
+	String transferAccount;
+//	String oldTransferAccount;
+	int idTransfer; 
+
+	int accTransferType; 
+	
 	// rozbic na czy poprawnie kwota i czy podane dane
 	// TODO: sprawdzic poprawnosc combo i picker
 	// TODO: co z przyszłą datą transakcji
 
 	@FXML
-	public void addTransaction() {
-		// if (isDouble(txtAmount.getText()) &&
-		// !comboBox.getValue().toString().isEmpty() &&
-		// !dataPicker.getValue().toString().isEmpty()) {
-		if (isDouble(txtAmount.getText()) && comboBox.getValue() != null && dataPicker.getValue() != null) {
+	public void doTransaction() {
+		//dane konta do ktorego przelewamy
+	
+		if (isDouble(txtAmount.getText()) && comboBox.getValue() != null && datePicker.getValue() != null) {
+			System.out.println("addTrans- id: " + idTransaction);
+			// edycja
 			if (idTransaction != -1) {
-				manager.getStructure().getMap().get(accountName).remove(idTransaction);
+				int index; 
+				index= manager.getStructure().searchTransferIndex(idTransaction, accountName);
+				manager.getStructure().getMap().get(accountName).remove(index);
+				//transfer
+				idTransfer=manager.getStructure().searchIDtransfer(date, description, transferAccount);
+				index=manager.getStructure().searchTransferIndex(idTransfer, transferAccount);
+				manager.getStructure().getMap().get(transferAccount).remove(index);
+				transferAccount= comboBox.getValue();
 			} else {
+				// dodanie
+				transferAccount= comboBox.getValue();
+				// moga byc problemy z tym ze tutaj pobieramy id przez size
 				idTransaction = manager.getStructure().getMap().get(accountName).size();
+				idTransfer = manager.getStructure().getMap().get(transferAccount).size();
 			}
+			
+			description = txtDescription.getText();
+			date = datePicker.getValue();
 			amount = Double.parseDouble(txtAmount.getText());
-			// setSaldo(amount);
-			if (amount < 0) {
-				manager.getStructure().getMap().get(accountName).add(new Transaction(dataPicker.getValue(),
-						txtDescription.getText(), comboBox.getValue(), -1*amount, 0,  idTransaction, accountName));
-			} else {
-				manager.getStructure().getMap().get(accountName).add(new Transaction(dataPicker.getValue(),
-						txtDescription.getText(), comboBox.getValue(), 0, amount,  idTransaction, accountName));
-			}
-			// aktualizacja ObservableList
+			accTransferType= manager.getStructure().searchAccountType(transferAccount);
+			accountType=manager.getStructure().searchAccountType(accountName);
+			// dodanie w zaznaczonym koncie
+			addTransaction(date, description, transferAccount, amount, idTransaction, accountName);
+// aktualizacja ObservableList
 			manager.setTransactionData(accountName);
+			
 			manager.getStructure().updateBalance(accountName);
+			
+			// dodanie transakcji w koncie do ktorego przelewamy
+			switch (accountType) {
+			case 1:
+				if(accTransferType==2 || accTransferType==3){
+					// tak samo
+					addTransaction(date, description, accountName, amount, idTransfer, transferAccount);
+				}else {
+					addTransaction(date, description, accountName, -1*amount, idTransfer, transferAccount);
+				}
+				break;
+			case 2:
+				if(accTransferType==1 || accTransferType==4){
+					addTransaction(date, description, accountName, amount, idTransfer, transferAccount);
+				}else {
+					addTransaction(date, description, accountName, -1*amount, idTransfer, transferAccount);
+				}
+				break;
+			case 3:
+				if(accTransferType==1 || accTransferType==4){
+					addTransaction(date, description, accountName, amount, idTransfer, transferAccount);
+				}else {
+					addTransaction(date, description, accountName, -1*amount, idTransfer, transferAccount);
+				}
+				break;
+			case 4:
+				if(accTransferType==2 || accTransferType==3){
+					addTransaction(date, description, accountName, amount, idTransfer, transferAccount);
+				}else {
+					addTransaction(date, description, accountName, -1*amount, idTransfer, transferAccount);
+				}
+				break;
+			default:
+				break;
+			}
+			manager.getStructure().updateBalance(transferAccount);
+			
 			dialogStage.close();
 		} else {
 			txtAmount.clear();
 			lblWarning.setText("Źle podane wartości");
 
 		}
-		// txtDescription.clear();
-		// dataPicker.cle
-		// choiceBox.c
-//		System.out.println("addTrans- id: " + idTransaction);
+	
+		
 		System.out.println("size list: " + manager.getStructure().getAccList().size());
+	}
+	private void addTransaction(LocalDate date, String description, String transferName, double amount, int id, String accountName) {
+		if(amount <0){
+		manager.getStructure().getMap().get(accountName).add(new Transaction(date, description, transferName, -1*amount, 0, id, accountName));
+		}else {
+		manager.getStructure().getMap().get(accountName).add(new Transaction(date, description, transferName, 0, amount, id, accountName));
+		}
 	}
 
 
@@ -109,15 +175,18 @@ public class AddTransactionController implements Initializable {
 		dialogStage.close();
 	}
 
-	public void setInput(LocalDate date, String description, String transaction, String amount) {
-		dataPicker.setValue(date);
+	public void setInput(LocalDate date, String description, String transfer, String amount) {
+		this.date=date;
+		this.description=description;
+		transferAccount=transfer;
+		datePicker.setValue(date);
 		txtAmount.setText(amount);
 		txtDescription.setText(description);
-		comboBox.setValue(transaction);
+		comboBox.setValue(transfer);
 
 	}
 
-	private String accountName = "";
+
 
 	public void getTransactionInfo(String accountName, int id) {
 		this.accountName = accountName;

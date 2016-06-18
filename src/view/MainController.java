@@ -88,7 +88,7 @@ public class MainController implements Initializable {
 	@FXML
 	public void showAddTransaction() {
 		System.out.println("metoda addTransaction");
-		//TODO: dodanie warunku gdy nie zostalo wybrane konto
+		// TODO: dodanie warunku gdy nie zostalo wybrane konto
 		manager.showAddTransaction(selectedAccountName, -1);
 	}
 
@@ -116,7 +116,7 @@ public class MainController implements Initializable {
 						amount, transactionSelected.get(0).getId(), selectedAccountName);
 			}
 		}
-		
+
 	}
 
 	@FXML
@@ -124,12 +124,26 @@ public class MainController implements Initializable {
 		ObservableList<Transaction> transactionSelected, allTransactions;
 		allTransactions = tableTransaction.getItems();
 		transactionSelected = tableTransaction.getSelectionModel().getSelectedItems();
-
-		int id = transactionSelected.get(0).getId();
-		transactionSelected.forEach(allTransactions::remove);
-
-		manager.getStructure().getMap().get(selectedAccountName).remove(id);
+		System.out.println("transactionSelected name " + transactionSelected.get(0).getAccountName() + " desc: "
+				+ transactionSelected.get(0).getDescription());
+		manager.getStructure().showMap();
+		// transfer
+		int id = manager.getStructure().searchIDtransfer(transactionSelected.get(0).getDate(),
+				transactionSelected.get(0).getDescription(), transactionSelected.get(0).getAccTransaction());
+		int index = manager.getStructure().searchTransferIndex(id, transactionSelected.get(0).getAccTransaction());
+		System.out.println("transactionSelected name " + transactionSelected.get(0).getAccountName() + " desc: "
+				+ transactionSelected.get(0).getDescription());
+		manager.getStructure().getMap().get(transactionSelected.get(0).getAccTransaction()).remove(index);
 		manager.getStructure().updateBalance(selectedAccountName);
+
+		// transaction
+		id = transactionSelected.get(0).getId();
+		// int id =
+		// manager.getStructure().getMap().get(key)transactionSelected.get(0).getId();
+		index = manager.getStructure().searchTransferIndex(id, selectedAccountName);
+		transactionSelected.forEach(allTransactions::remove);
+		manager.getStructure().getMap().get(selectedAccountName).remove(index);
+
 	}
 
 	// przekierowanie root z start
@@ -142,30 +156,30 @@ public class MainController implements Initializable {
 		ArrayList<Transaction> temporary = new ArrayList<Transaction>();
 		ArrayList<Transaction> tranList = new ArrayList<Transaction>();
 		ArrayList<Transaction> tranList2 = new ArrayList<Transaction>(
-				Arrays.asList(new Transaction(LocalDate.now(), "tran2", "transfer", 0, 0,  1, "Akcje"),
-						new Transaction(LocalDate.now(), "tran2", "transfer", 0, 0,  1, "czynsz" ),
-						new Transaction(LocalDate.now(), "tran3", "transfer", 0, 0,  0, "Akcje")));
-		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0,  0, "Akcje"));
-		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0,  0, "Akcje"));
-		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0,  0, "Akcje"));
-		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0,  0, "Akcje"));
+				Arrays.asList(new Transaction(LocalDate.now(), "tran2", "transfer", 0, 0, 1, "Akcje"),
+						new Transaction(LocalDate.now(), "tran2", "transfer", 0, 0, 1, "czynsz"),
+						new Transaction(LocalDate.now(), "tran3", "transfer", 0, 0, 0, "Akcje")));
+		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, "Akcje"));
+		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, "Akcje"));
+		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, "Akcje"));
+		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, "Akcje"));
 		manager.getStructure().getMap().put("Gotówka", tranList);
 		manager.getStructure().getMap().put("Inwestycje", tranList2);
-		manager.getStructure().showMap();
+		// manager.getStructure().showMap();
 	}
 
 	void observableToMap(String accountName) {
 		ArrayList<Transaction> arrayList = new ArrayList<Transaction>();
 		for (Transaction transaction : manager.getTransactionData()) {
 			arrayList.add(transaction);
-			System.out.println("observable to map"+transaction.getDescription());
+//			System.out.println("observable to map" + transaction.getDescription());
 		}
 		// nadpisze istniejaca wartosc
 		manager.getStructure().getMap().put(accountName, arrayList);
 	}
 
 	public void initialize(URL location, ResourceBundle resources) {
-	
+
 		tcDate.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
 		tcDescription.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
 		tcAccount.setCellValueFactory(cellData -> cellData.getValue().accTransactionProperty());
@@ -177,9 +191,10 @@ public class MainController implements Initializable {
 
 		manager.getStructure().readAccount();
 		manager.getStructure().readTransactions();
+		manager.getStructure().showMap();
 
 		// problem z tymi samymi id i wczytywaniem przykladowych danych
-//		 readTestData();
+		// readTestData();
 
 		root = manager.getStructure().listToTree();
 		accTree.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -190,47 +205,51 @@ public class MainController implements Initializable {
 				TreeItem oldTreeItem = (TreeItem) oldValue;
 
 				selectedAccount = (Account) treeItem.getValue();
-//				System.out.println("Selected item is" + selectedAccount.getType());
+				// System.out.println("Selected item is" +
+				// selectedAccount.getType());
 				selectedAccountName = selectedAccount.getName();
 				if (selectedAccount != null) {
 					hboxEditTransaction.setVisible(true);
 					lblBalance.textProperty().bind(Bindings.convert(selectedAccount.balanceProperty()));
 				}
-				// setTransactionData(treeItem.getValue().toString());
-				if (selectedAccount.getType() < 3) {
-					tableTransaction.setVisible(true);
-					hboxEditTransaction.setVisible(true);
-					// lblBalance.setText(" konta " + selectedAccount.getName()
-					// + " to " + selectedAccount.getBalance());
 					manager.setTransactionData(selectedAccount.getName());
-				} else {
-					tableTransaction.setVisible(false);
-					hboxEditTransaction.setVisible(false);
-					// lblBalance.setText(" konta " + selectedAccount.getName()
-					// + " to " + selectedAccount.getBalance());
-				}
+				// setTransactionData(treeItem.getValue().toString());
+//				if (selectedAccount.getType() < 3) {
+//					tableTransaction.setVisible(true);
+//					hboxEditTransaction.setVisible(true);
+//					// lblBalance.setText(" konta " + selectedAccount.getName()
+//					// + " to " + selectedAccount.getBalance());
+//				} else {
+//					tableTransaction.setVisible(false);
+//					hboxEditTransaction.setVisible(false);
+//					// lblBalance.setText(" konta " + selectedAccount.getName()
+//					// + " to " + selectedAccount.getBalance());
+//				}
 			}
 		});
 		root.setExpanded(true);
 		accTree.setShowRoot(false);
 		accTree.setEditable(false);
-		accTree.setCellFactory(new Callback<TreeView<Account>, TreeCell<Account>>() {
-
-			@Override
-			public TreeCell<Account> call(TreeView<Account> param) {
-				return new TreeCellImpl();
-			}
-		});
+		// edycja drzewa
+		// accTree.setCellFactory(new Callback<TreeView<Account>,
+		// TreeCell<Account>>() {
+		//
+		// @Override
+		// public TreeCell<Account> call(TreeView<Account> param) {
+		// return new TreeCellImpl();
+		// }
+		// });
 		accTree.setRoot(root);
-//test
-		manager.getStructure().showList();
-//		System.out.println("ścieżka do DB portfela "+ MainManager.walletDirectoryPath);
+		// test
+//		manager.getStructure().showList();
+		// System.out.println("ścieżka do DB portfela "+
+		// MainManager.walletDirectoryPath);
 
-		}
+	}
 
-String proba;
+	String proba;
 
-public void setProba(String proba) {
-	this.proba = proba;
+	public void setProba(String proba) {
+		this.proba = proba;
 	}
 }
