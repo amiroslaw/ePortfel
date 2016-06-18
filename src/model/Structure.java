@@ -166,7 +166,7 @@ public class Structure {
 
 		return root;
 	}
-
+//petla po liscie transakcji w koncie i liczenie salda
 	public void updateBalance(String accName) {
 		int indexOfAccount = -1;
 		

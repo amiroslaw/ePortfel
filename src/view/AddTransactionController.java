@@ -101,9 +101,7 @@ public class AddTransactionController implements Initializable {
 			// dodanie w zaznaczonym koncie
 			addTransaction(date, description, transferAccount, amount, idTransaction, accountName);
 // aktualizacja ObservableList
-			manager.setTransactionData(accountName);
-			
-			manager.getStructure().updateBalance(accountName);
+		
 			
 			// dodanie transakcji w koncie do ktorego przelewamy
 			switch (accountType) {
@@ -139,6 +137,9 @@ public class AddTransactionController implements Initializable {
 			default:
 				break;
 			}
+			
+			manager.setTransactionData(accountName);
+			manager.getStructure().updateBalance(accountName);
 			manager.getStructure().updateBalance(transferAccount);
 			
 			dialogStage.close();

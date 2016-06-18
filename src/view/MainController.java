@@ -121,12 +121,15 @@ public class MainController implements Initializable {
 
 	@FXML
 	public void deleteTransaction() {
+		System.out.println("delete transaction");
 		ObservableList<Transaction> transactionSelected, allTransactions;
 		allTransactions = tableTransaction.getItems();
 		transactionSelected = tableTransaction.getSelectionModel().getSelectedItems();
 		System.out.println("transactionSelected name " + transactionSelected.get(0).getAccountName() + " desc: "
 				+ transactionSelected.get(0).getDescription());
+		
 		manager.getStructure().showMap();
+		
 		// transfer
 		int id = manager.getStructure().searchIDtransfer(transactionSelected.get(0).getDate(),
 				transactionSelected.get(0).getDescription(), transactionSelected.get(0).getAccTransaction());
@@ -134,7 +137,7 @@ public class MainController implements Initializable {
 		System.out.println("transactionSelected name " + transactionSelected.get(0).getAccountName() + " desc: "
 				+ transactionSelected.get(0).getDescription());
 		manager.getStructure().getMap().get(transactionSelected.get(0).getAccTransaction()).remove(index);
-		manager.getStructure().updateBalance(selectedAccountName);
+		manager.getStructure().updateBalance(transactionSelected.get(0).getAccTransaction());
 
 		// transaction
 		id = transactionSelected.get(0).getId();
@@ -144,6 +147,8 @@ public class MainController implements Initializable {
 		transactionSelected.forEach(allTransactions::remove);
 		manager.getStructure().getMap().get(selectedAccountName).remove(index);
 
+//		manager.setTransactionData(selectedAccountName);
+		manager.getStructure().updateBalance(selectedAccountName);
 	}
 
 	// przekierowanie root z start
@@ -205,8 +210,7 @@ public class MainController implements Initializable {
 				TreeItem oldTreeItem = (TreeItem) oldValue;
 
 				selectedAccount = (Account) treeItem.getValue();
-				// System.out.println("Selected item is" +
-				// selectedAccount.getType());
+				 System.out.println("Selected item saldo" + selectedAccount.getBalance());
 				selectedAccountName = selectedAccount.getName();
 				if (selectedAccount != null) {
 					hboxEditTransaction.setVisible(true);
