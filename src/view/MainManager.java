@@ -22,7 +22,7 @@ import model.Transaction;
 
 public class MainManager {
 	private static Structure structure = new Structure();
-	private HashMap<String, ArrayList<Transaction>> mapTransaction = new HashMap<>();
+	
 
 	public Structure getStructure() {
 		return structure;
@@ -31,7 +31,8 @@ public class MainManager {
 	public void setStructure(Structure structure) {
 		MainManager.structure = structure;
 	}
-
+	// chyba nie uzywam
+		private HashMap<String, ArrayList<Transaction>> mapTransaction = new HashMap<>();
 	public HashMap<String, ArrayList<Transaction>> getMapTransaction() {
 		return mapTransaction;
 	}
@@ -260,6 +261,29 @@ public class MainManager {
 		}
 	}
 	
+	public void showReport(String title, int type) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("/view/Report.fxml"));
+			AnchorPane pane = (AnchorPane) loader.load();
+
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle(title);
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(pane);
+			dialogStage.setScene(scene);
+
+			ReportController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setManager(this);
+			controller.initial(title, type);
+			dialogStage.setResizable(true);
+			dialogStage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	// nie uzywam
 //	public void showMainView(TreeItem<Account> root, String pr) {
 //		try {

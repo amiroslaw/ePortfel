@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.web.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="840.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40" fx:controller="view.ReportController">
+   <children>
+      <WebView fx:id="webView" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Button fx:id="btnClose" mnemonicParsing="false" onAction="#closeWindow" text="Zamknij" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="5.0" />
+      <Button fx:id="btnExportHTML" mnemonicParsing="false" onAction="#exportHTML" text="Eksport do HTML" AnchorPane.bottomAnchor="4.0" AnchorPane.rightAnchor="5.0" />
+   </children>
+</AnchorPane>

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+import edu.rit.se.fpts.controller.Manager;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -245,15 +246,14 @@ public class MainController implements Initializable {
 		// });
 		accTree.setRoot(root);
 		// test
-//		manager.getStructure().showList();
+		manager.getStructure().showList();
 		// System.out.println("ścieżka do DB portfela "+
 		// MainManager.walletDirectoryPath);
-
+		
 	}
 
 	String proba;
-
-	public void setProba(String proba) {
-		this.proba = proba;
-	}
+//	public void setProba(String proba) {
+//		this.proba = proba;
+//	}
 }

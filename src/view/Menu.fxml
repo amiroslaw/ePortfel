@@ -16,9 +16,17 @@
               <MenuItem fx:id="miClose" mnemonicParsing="false" text="Zamknij" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edytuj" />
+          <Menu mnemonicParsing="false" text="Raporty">
+               <items>
+                  <MenuItem fx:id="miReport1" mnemonicParsing="false" onAction="#showReport" text="Arkusz bilansowy" />
+                  <MenuItem fx:id="miReport2" mnemonicParsing="false" onAction="#showReport" text="raport2" />
+                  <MenuItem fx:id="miReport3" mnemonicParsing="false" onAction="#showReport" text="raport3" />
+                  <MenuItem fx:id="miReport4" mnemonicParsing="false" onAction="#showReport" text="raport4" />
+                  <MenuItem fx:id="miReport5" mnemonicParsing="false" onAction="#showReport" text="raport5" />
+               </items></Menu>
           <Menu mnemonicParsing="false" text="Pomoc">
             <items>
+                  <MenuItem fx:id="miTest" mnemonicParsing="false" onAction="#test" text="test" />
               <MenuItem fx:id="miAbout" mnemonicParsing="false" onAction="#showAbout" text="O programie" />
             </items>
           </Menu>

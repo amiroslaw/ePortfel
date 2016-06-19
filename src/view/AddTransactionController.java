@@ -187,8 +187,6 @@ public class AddTransactionController implements Initializable {
 
 	}
 
-
-
 	public void getTransactionInfo(String accountName, int id) {
 		this.accountName = accountName;
 		idTransaction = id;
