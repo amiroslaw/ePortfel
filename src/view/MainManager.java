@@ -14,6 +14,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Account;
@@ -22,7 +23,6 @@ import model.Transaction;
 
 public class MainManager {
 	private static Structure structure = new Structure();
-	
 
 	public Structure getStructure() {
 		return structure;
@@ -31,8 +31,10 @@ public class MainManager {
 	public void setStructure(Structure structure) {
 		MainManager.structure = structure;
 	}
+
 	// chyba nie uzywam
-		private HashMap<String, ArrayList<Transaction>> mapTransaction = new HashMap<>();
+	private HashMap<String, ArrayList<Transaction>> mapTransaction = new HashMap<>();
+
 	public HashMap<String, ArrayList<Transaction>> getMapTransaction() {
 		return mapTransaction;
 	}
@@ -105,8 +107,6 @@ public class MainManager {
 		}
 	}
 
-
-
 	public void showMainView() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -125,6 +125,7 @@ public class MainManager {
 			e.printStackTrace();
 		}
 	}
+
 	public void showRegistration() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -144,6 +145,7 @@ public class MainManager {
 			e.printStackTrace();
 		}
 	}
+
 	public void showLoginView() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -163,6 +165,7 @@ public class MainManager {
 			e.printStackTrace();
 		}
 	}
+
 	public void showStart() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -260,7 +263,7 @@ public class MainManager {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void showReport(String title, int type) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -285,28 +288,28 @@ public class MainManager {
 		}
 	}
 	// nie uzywam
-//	public void showMainView(TreeItem<Account> root, String pr) {
-//		try {
-//			FXMLLoader loader = new FXMLLoader();
-//			loader.setLocation(application.Main.class.getResource("/view/MainView.fxml"));
-//			ScrollPane mainView = (ScrollPane) loader.load();
-//
-//			AnchorPane anchor = (AnchorPane) menuLayout.getChildren().get(1);
-//			AnchorPane.setLeftAnchor(mainView, 10.0);
-//			AnchorPane.setRightAnchor(mainView, 10.0);
-//			AnchorPane.setTopAnchor(mainView, 10.0);
-//			AnchorPane.setBottomAnchor(mainView, 10.0);
-//			anchor.getChildren().add(mainView);
-//
-//			menuLayout.setCenter(mainView);
-//
-//			MainController controller = loader.getController();
-//			controller.setRoot(root);
-//			controller.setProba(pr);
-//			controller.setManager(this);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
+	// public void showMainView(TreeItem<Account> root, String pr) {
+	// try {
+	// FXMLLoader loader = new FXMLLoader();
+	// loader.setLocation(application.Main.class.getResource("/view/MainView.fxml"));
+	// ScrollPane mainView = (ScrollPane) loader.load();
+	//
+	// AnchorPane anchor = (AnchorPane) menuLayout.getChildren().get(1);
+	// AnchorPane.setLeftAnchor(mainView, 10.0);
+	// AnchorPane.setRightAnchor(mainView, 10.0);
+	// AnchorPane.setTopAnchor(mainView, 10.0);
+	// AnchorPane.setBottomAnchor(mainView, 10.0);
+	// anchor.getChildren().add(mainView);
+	//
+	// menuLayout.setCenter(mainView);
+	//
+	// MainController controller = loader.getController();
+	// controller.setRoot(root);
+	// controller.setProba(pr);
+	// controller.setManager(this);
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// }
+	// }
 
 }

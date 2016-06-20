@@ -47,6 +47,11 @@ public class MenuController {
 	@FXML
 	private MenuItem miReport5;
 	
+	@FXML
+	private MenuItem miReport6;
+	
+	@FXML
+	private MenuItem miReport7;
 
 	@FXML
 	private MenuItem miTest;
@@ -67,13 +72,19 @@ public class MenuController {
 			manager.showReport("Bilans próbny", 2);
 			break;
 		case "miReport3":
-			manager.showReport("Arkusz bilansowy", 1);
+			manager.showReport("Wyciąg z przychodów i wydatków", 3);
 			break;
 		case "miReport4":
-			manager.showReport("Arkusz bilansowy", 1);
+			manager.showReport("Wykres aktywów", 4);
 			break;
 		case "miReport5":
-			manager.showReport("Arkusz bilansowy", 1);
+			manager.showReport("Wykres pasywów", 5);
+			break;
+		case "miReport6":
+			manager.showReport("Wykres przychodów", 6);
+			break;
+		case "miReport7":
+			manager.showReport("Wykres wydatków", 7);
 			break;
 		default:
 			manager.showReport("error", 1);

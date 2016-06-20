@@ -7,21 +7,22 @@ import view.MainManager;
 
 public class ConnectionSqlite {
 	public static Connection Connector() {
-		try {
-			Class.forName("org.sqlite.JDBC");
-			Connection conn = DriverManager.getConnection("jdbc:sqlite:eportfelMainDB.sqlite");
-			return conn;
-		} catch (Exception e) {
-			System.out.println(e);
-			return null;
-		}
+try {
+	Class.forName("org.sqlite.JDBC");
+	Connection conn = DriverManager.getConnection("jdbc:sqlite:eportfelMainDB.sqlite");
+	return conn;
+	} catch (Exception e) {
+	System.out.println(e);
+	return null;
 	}
+	}
+
 	public static Connection Connector(String pathDB) {
 		try {
-			//TODO: co jak to bedzie windows i sciezka z slashem \
-			String path =pathDB+"/"+MainManager.profileName+"_ePortfel.sqlite";
+			// TODO: co jak to bedzie windows i sciezka z slashem \
+			String path = pathDB + "/" + MainManager.profileName + "_ePortfel.sqlite";
 			Class.forName("org.sqlite.JDBC");
-			Connection conn = DriverManager.getConnection("jdbc:sqlite:"+path);
+			Connection conn = DriverManager.getConnection("jdbc:sqlite:" + path);
 			return conn;
 		} catch (Exception e) {
 			System.out.println(e);

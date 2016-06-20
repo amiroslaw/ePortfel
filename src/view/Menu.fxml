@@ -19,10 +19,12 @@
           <Menu mnemonicParsing="false" text="Raporty">
                <items>
                   <MenuItem fx:id="miReport1" mnemonicParsing="false" onAction="#showReport" text="Arkusz bilansowy" />
-                  <MenuItem fx:id="miReport2" mnemonicParsing="false" onAction="#showReport" text="raport2" />
-                  <MenuItem fx:id="miReport3" mnemonicParsing="false" onAction="#showReport" text="raport3" />
-                  <MenuItem fx:id="miReport4" mnemonicParsing="false" onAction="#showReport" text="raport4" />
-                  <MenuItem fx:id="miReport5" mnemonicParsing="false" onAction="#showReport" text="raport5" />
+                  <MenuItem fx:id="miReport2" mnemonicParsing="false" onAction="#showReport" text="Bilans próbny" />
+                  <MenuItem fx:id="miReport3" mnemonicParsing="false" onAction="#showReport" text="Wyciąg z przychodów i wydatków" />
+                  <MenuItem fx:id="miReport4" mnemonicParsing="false" onAction="#showReport" text="Wykres aktywów" />
+                  <MenuItem fx:id="miReport5" mnemonicParsing="false" onAction="#showReport" text="Wykres pasywów" />
+                  <MenuItem fx:id="miReport6" mnemonicParsing="false" onAction="#showReport" text="Wykres przychodów" />
+                  <MenuItem fx:id="miReport7" mnemonicParsing="false" onAction="#showReport" text="Wykres wydatków" />
                </items></Menu>
           <Menu mnemonicParsing="false" text="Pomoc">
             <items>

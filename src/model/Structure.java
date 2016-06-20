@@ -34,84 +34,93 @@ public class Structure {
 		this.accList = accList;
 	}
 
-//	private ArrayList<Transaction> transactionList = new ArrayList<Transaction>();
-//
-//	public ArrayList<Transaction> getTransactionList() {
-//		return transactionList;
-//	}
-//
-//	public void setTransactionList(ArrayList<Transaction> transactionList) {
-//		this.transactionList = transactionList;
-//	}
+	// private ArrayList<Transaction> transactionList = new
+	// ArrayList<Transaction>();
+	//
+	// public ArrayList<Transaction> getTransactionList() {
+	// return transactionList;
+	// }
+	//
+	// public void setTransactionList(ArrayList<Transaction> transactionList) {
+	// this.transactionList = transactionList;
+	// }
 
-//	int id;
-//
-//	public int getId() {
-//		return id;
-//	}
-//
-//	public void setId(int id) {
-//		this.id = id;
-//	}
-	public int searchIDtransfer(LocalDate date, String description, String accountTransfer){
-//		ArrayList<Transaction> transactionList = new ArrayList<>(manager.getStructure().getMap().get(accountTransfer));
-		System.out.println("size map"+map.get(accountTransfer).size());
-		System.out.println("acc name "+accountTransfer);
-		System.out.println("desc "+description);
+	// int id;
+	//
+	// public int getId() {
+	// return id;
+	// }
+	//
+	// public void setId(int id) {
+	// this.id = id;
+	// }
+	public int searchIDtransfer(LocalDate date, String description, String accountTransfer) {
+		// ArrayList<Transaction> transactionList = new
+		// ArrayList<>(manager.getStructure().getMap().get(accountTransfer));
+		System.out.println("size map" + map.get(accountTransfer).size());
+		System.out.println("acc name " + accountTransfer);
+		System.out.println("desc " + description);
 		for (int i = 0; i < map.get(accountTransfer).size(); i++) {
-//			if(map.get(accountTransfer).get(i).getDate().equals(date)&& map.get(accountTransfer).get(i).equals(description)){
-			System.out.println("for map "+map.get(accountTransfer).get(i).getDescription());
-			if(map.get(accountTransfer).get(i).getDescription().equals(description)){
+			// if(map.get(accountTransfer).get(i).getDate().equals(date)&&
+			// map.get(accountTransfer).get(i).equals(description)){
+			System.out.println("for map " + map.get(accountTransfer).get(i).getDescription());
+			if (map.get(accountTransfer).get(i).getDescription().equals(description)) {
 				return map.get(accountTransfer).get(i).getId();
-//				return i; 
+				// return i;
 			}
 		}
 		System.out.println("nie znaleziono id");
 		return -1;
-	} 
-	public int searchTransferIndex(Integer id, String accountName){
-//		ArrayList<Transaction> transactionList = new ArrayList<>(manager.getStructure().getMap().get(accountTransfer));
+	}
+
+	public int searchTransferIndex(Integer id, String accountName) {
+		// ArrayList<Transaction> transactionList = new
+		// ArrayList<>(manager.getStructure().getMap().get(accountTransfer));
 		for (int i = 0; i < map.get(accountName).size(); i++) {
-			if(map.get(accountName).get(i).getId()==id){
-				return i; 
+			if (map.get(accountName).get(i).getId() == id) {
+				return i;
 			}
 		}
 		System.out.println("nie znaleziono index");
 		return -1;
-	} 
-//	public int searchTransferIndex(String accountName){
-////		ArrayList<Transaction> transactionList = new ArrayList<>(manager.getStructure().getMap().get(accountTransfer));
-//		for (int j = 0; j < map.size(); j++) {
-//			
-//		
-//		for (int i = 0; i < map.get(accountName).size(); i++) {
-//			if(map.get(accountName).get(i).getId()==id){
-//				return i; 
-//			}
-//		}
-//		}
-//		return -1;
-//	} 
-	public int searchAccountType(String accName){
-//		ArrayList<Account> accList = new ArrayList<>(manager.getStructure().getAccList());
+	}
+
+	// public int searchTransferIndex(String accountName){
+	//// ArrayList<Transaction> transactionList = new
+	// ArrayList<>(manager.getStructure().getMap().get(accountTransfer));
+	// for (int j = 0; j < map.size(); j++) {
+	//
+	//
+	// for (int i = 0; i < map.get(accountName).size(); i++) {
+	// if(map.get(accountName).get(i).getId()==id){
+	// return i;
+	// }
+	// }
+	// }
+	// return -1;
+	// }
+	public int searchAccountType(String accName) {
+		// ArrayList<Account> accList = new
+		// ArrayList<>(manager.getStructure().getAccList());
 		for (int i = 0; i < accList.size(); i++) {
-			if(accList.get(i).getName().equals(accName)){
-				return accList.get(i).getType(); 
+			if (accList.get(i).getName().equals(accName)) {
+				return accList.get(i).getType();
 			}
 		}
 		return -1;
-	} 
+	}
+
 	// nie powinno byc return arrayList?
 	public void treeToList(TreeItem<Account> root) {
 		// accList.add(root.getValue());
 		for (TreeItem<Account> childRoot : root.getChildren()) {
-//			System.out.println("treeToList" + childRoot);
+			// System.out.println("treeToList" + childRoot);
 			accList.add(childRoot.getValue());
 			for (TreeItem<Account> nodes1 : childRoot.getChildren()) {
-//				System.out.println("treeToList" + nodes1);
+				// System.out.println("treeToList" + nodes1);
 				accList.add(nodes1.getValue());
 				for (TreeItem<Account> nodes2 : nodes1.getChildren()) {
-//					System.out.println("treeToList" + nodes2);
+					// System.out.println("treeToList" + nodes2);
 					accList.add(nodes2.getValue());
 
 				}
@@ -135,7 +144,9 @@ public class Structure {
 			if (acc.getParent().equals("Aktywa") || acc.getParent().equals("Pasywa")
 					|| acc.getParent().equals("Przychody") || acc.getParent().equals("Wydatki")) {
 				root.getChildren().get(acc.getType() - 1).getChildren().add(empLeaf);
-//				System.out.println( "listToTree: 1s " + empLeaf.getValue().getName() + " typ: " + empLeaf.getValue().getType());
+				// System.out.println( "listToTree: 1s " +
+				// empLeaf.getValue().getName() + " typ: " +
+				// empLeaf.getValue().getType());
 			} else {
 				boolean found = false;
 				for (TreeItem<Account> depNode : root.getChildren().get(type - 1).getChildren()) {
@@ -144,7 +155,9 @@ public class Structure {
 					if (depNode.getValue().getName().contentEquals(acc.getParent())) {
 						depNode.getChildren().add(empLeaf);
 						found = true;
-//						System.out.println("listToTree: 2s " + empLeaf.getValue().getName() + " typ: " + empLeaf.getValue().getType());
+						// System.out.println("listToTree: 2s " +
+						// empLeaf.getValue().getName() + " typ: " +
+						// empLeaf.getValue().getType());
 						break;
 					}
 				}
@@ -166,10 +179,11 @@ public class Structure {
 
 		return root;
 	}
-//petla po liscie transakcji w koncie i liczenie salda
+
+	// petla po liscie transakcji w koncie i liczenie salda
 	public void updateBalance(String accName) {
 		int indexOfAccount = -1;
-		
+
 		for (int i = 0; i < accList.size(); i++) {
 			if (accList.get(i).getName().equals(accName)) {
 				indexOfAccount = i;
@@ -184,7 +198,7 @@ public class Structure {
 			balance += tranList.get(i).getCredit();
 			balance -= tranList.get(i).getDebet();
 		}
-		System.out.println("updateBalance balance"+ balance );
+		System.out.println("updateBalance balance" + balance);
 		accList.get(indexOfAccount).setBalance(balance);
 	}
 
@@ -205,11 +219,11 @@ public class Structure {
 			// // zapisywanie zmiennych do kont
 			String query;
 			String sql = "";
-			System.out.println("size acclist"+accList.size());
+			System.out.println("size acclist" + accList.size());
 			for (int i = 0; i < accList.size(); i++) {
-//				System.out.println("save acc "+accList.get(i).getName());
-				query = "INSERT INTO account VALUES (" + accList.get(i).getIdAccount() + ",'" + accList.get(i).getName() + "','"
-						+ accList.get(i).getParent() + "'," + accList.get(i).getBalance() + ","
+				// System.out.println("save acc "+accList.get(i).getName());
+				query = "INSERT INTO account VALUES (" + accList.get(i).getIdAccount() + ",'" + accList.get(i).getName()
+						+ "','" + accList.get(i).getParent() + "'," + accList.get(i).getBalance() + ","
 						+ accList.get(i).getType() + ");";
 				sql += query;
 			}
@@ -224,26 +238,26 @@ public class Structure {
 	}
 
 	public void readAccount() {
-		if(accList.size()==0){
-		connection = (Connection) ConnectionSqlite.Connector(MainManager.walletDirectoryPath);
-		if (connection == null) {
+		if (accList.size() == 0) {
+			connection = (Connection) ConnectionSqlite.Connector(MainManager.walletDirectoryPath);
+			if (connection == null) {
 
-			System.out.println("connection not successful");
-			System.exit(1);
-		}
-		try {
-			Statement mySta = connection.createStatement();
-			ResultSet rs = mySta.executeQuery("select * from account");
-			while (rs.next()) {
-				accList.add(new Account(rs.getString("name"), rs.getString("parent"), rs.getDouble("balance"),
-						rs.getInt("idType"), rs.getInt("idAccount")));
+				System.out.println("connection not successful");
+				System.exit(1);
 			}
-			connection.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}}
-			
-		
+			try {
+				Statement mySta = connection.createStatement();
+				ResultSet rs = mySta.executeQuery("select * from account");
+				while (rs.next()) {
+					accList.add(new Account(rs.getString("name"), rs.getString("parent"), rs.getDouble("balance"),
+							rs.getInt("idType"), rs.getInt("idAccount")));
+				}
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 	public void readTransactions() {
@@ -257,13 +271,14 @@ public class Structure {
 
 			Statement mySta = connection.createStatement();
 			for (int i = 0; i < accList.size(); i++) {
-				ResultSet rs = mySta.executeQuery("select * from transfer where accountName= '" + accList.get(i).getName() + "'");
+				ResultSet rs = mySta
+						.executeQuery("select * from transfer where accountName= '" + accList.get(i).getName() + "'");
 				ArrayList<Transaction> transactions = new ArrayList<Transaction>();
 				while (rs.next()) {
 					LocalDate date = LocalDate.parse(rs.getString("date"));
 					transactions.add(new Transaction(date, rs.getString("description"), rs.getString("accTransaction"),
-							rs.getDouble("debet"), rs.getDouble("credit"), 
-							rs.getInt("idTransfer"), rs.getString("accountName")));
+							rs.getDouble("debet"), rs.getDouble("credit"), rs.getInt("idTransfer"),
+							rs.getString("accountName")));
 				}
 				map.put(accList.get(i).getName(), transactions);
 			}
@@ -287,7 +302,7 @@ public class Structure {
 
 			// Loop over String keys.
 			for (String key : keys) {
-//				System.out.println(key);
+				// System.out.println(key);
 				mySta.executeUpdate("DELETE  FROM transfer WHERE accountName='" + key + "'");
 
 				String query;
@@ -296,7 +311,8 @@ public class Structure {
 
 					query = "INSERT INTO transfer VALUES (NULL,'" + map.get(key).get(i).getDate() + "'," + "'"
 							+ map.get(key).get(i).getDescription() + "','" + map.get(key).get(i).getAccTransaction()
-							+ "'," + map.get(key).get(i).getDebet() + "," + map.get(key).get(i).getCredit() + ",'"+key+ "');";
+							+ "'," + map.get(key).get(i).getDebet() + "," + map.get(key).get(i).getCredit() + ",'" + key
+							+ "');";
 					sql += query;
 				}
 				System.out.println(sql);
@@ -309,10 +325,10 @@ public class Structure {
 		}
 
 	}
-	 public void createTablesDB() {
+
+	public void createTablesDB() {
 		connection = (Connection) ConnectionSqlite.Connector(MainManager.walletDirectoryPath);
 		if (connection == null) {
-
 			System.out.println("connection not successful");
 			System.exit(1);
 		}
@@ -322,23 +338,25 @@ public class Structure {
 			mySta.executeUpdate("CREATE TABLE IF NOT EXISTS type (idType INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL,"
 					+ " typeName TEXT NOT NULL)");
 			// // zapisywanie zmiennych do kont
-			mySta.executeUpdate("INSERT INTO type VALUES (1, 'aktywa'), (2, 'pasywa'), (3, 'przychody'), (4,'wydatki')");
-
-//			account
+			mySta.executeUpdate(
+					"INSERT INTO type VALUES (1, 'aktywa'), (2, 'pasywa'), (3, 'przychody'), (4,'wydatki')");
+			// account
 			mySta.executeUpdate("CREATE TABLE IF NOT EXISTS account (idAccount INTEGER   NOT NULL , "
 					+ "name TEXT  PRIMARY KEY NOT NULL  , parent TEXT NOT NULL , balance DOUBLE DEFAULT 0, "
 					+ "idType INTEGER NOT NULL, FOREIGN KEY(idType) REFERENCES type(idType) )");
-				
-//			transfer
-			mySta.executeUpdate("CREATE TABLE IF NOT EXISTS  transfer (idTransfer INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "
-					+ "date DATETIME NOT NULL , description TEXT, accTransaction TEXT NOT NULL, debet DOUBLE DEFAULT 0, "
-					+ "credit DOUBLE DEFAULT 0, accountName TEXT NOT NULL, FOREIGN KEY(accountName) REFERENCES account(name) )");
+
+			// transfer
+			mySta.executeUpdate(
+					"CREATE TABLE IF NOT EXISTS  transfer (idTransfer INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "
+							+ "date DATETIME NOT NULL , description TEXT, accTransaction TEXT NOT NULL, debet DOUBLE DEFAULT 0, "
+							+ "credit DOUBLE DEFAULT 0, accountName TEXT NOT NULL, FOREIGN KEY(accountName) REFERENCES account(name) )");
 			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 	}
+
 	public String test = "structure";
 
 	public void proba() {
@@ -349,7 +367,7 @@ public class Structure {
 		System.out.println("showList u update balance");
 		for (Account account : accList) {
 			System.out.println(account.getName());
-//			updateBalance(account.getName());
+			// updateBalance(account.getName());
 		}
 	}
 
@@ -360,10 +378,11 @@ public class Structure {
 		Collection<ArrayList<Transaction>> values = map.values();
 		for (ArrayList<Transaction> ar : values) {
 			// System.out.println(ar);
-//			if (ar.size() != 0) {
+			// if (ar.size() != 0) {
 			for (int i = 0; i < ar.size(); i++) {
-				System.out.println("desc " + ar.get(i).getDescription() + " transfer: "
-						+ ar.get(i).getAccTransaction() + " data: " + ar.get(i).getDate()+ " id: "+ ar.get(i).getId()+ " acc: "+ar.get(i).getAccountName());
+				System.out.println("desc " + ar.get(i).getDescription() + " transfer: " + ar.get(i).getAccTransaction()
+						+ " data: " + ar.get(i).getDate() + " id: " + ar.get(i).getId() + " acc: "
+						+ ar.get(i).getAccountName());
 			}
 		}
 		// Loop over String keys.
