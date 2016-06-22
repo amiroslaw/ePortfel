@@ -173,7 +173,7 @@ public class MainController implements Initializable {
 		manager.getStructure().getMap().put("Inwestycje", tranList2);
 		// manager.getStructure().showMap();
 	}
-
+ // chyba nieuzywana
 	void observableToMap(String accountName) {
 		ArrayList<Transaction> arrayList = new ArrayList<Transaction>();
 		for (Transaction transaction : manager.getTransactionData()) {
