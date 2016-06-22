@@ -20,7 +20,7 @@ try {
 	public static Connection Connector(String pathDB) {
 		try {
 			// TODO: co jak to bedzie windows i sciezka z slashem \
-			String path = pathDB + "/" + MainManager.profileName + "_ePortfel.sqlite";
+			String path = pathDB + "/" + Profile.walletName + "_ePortfel.sqlite";
 			Class.forName("org.sqlite.JDBC");
 			Connection conn = DriverManager.getConnection("jdbc:sqlite:" + path);
 			return conn;

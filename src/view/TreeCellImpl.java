@@ -24,7 +24,8 @@ final class TreeCellImpl extends TreeCell<Account> {
         addItem.setOnAction(new EventHandler() {
             public void handle(Event t) {
                 TreeItem newAccount = 
-                    new TreeItem<Account>(new Account("nowy rachunek", getTreeItem().getParent().getValue().getName(), 0.0, getTreeItem().getParent().getValue().getType(), 1));
+//                    new TreeItem<Account>(new Account("nowy rachunek", getTreeItem().getParent().getValue().getName(), 0.0, getTreeItem().getParent().getValue().getType(), 1));
+                    new TreeItem<Account>(new Account("nowy rachunek", getTreeItem().getValue().getName(), 0.0, getTreeItem().getValue().getType(), 1));
                 getTreeItem().getChildren().add(newAccount);            
                 
             

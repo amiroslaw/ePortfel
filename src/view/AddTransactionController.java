@@ -42,6 +42,7 @@ public class AddTransactionController implements Initializable {
 
 	@FXML
 	private TextField txtDescription;
+	
 	@FXML
 	private Button tbnCancel;
 

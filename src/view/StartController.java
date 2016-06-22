@@ -98,7 +98,7 @@ public class StartController implements Initializable {
 	@FXML
 	void showMain() {
 		manager.getStructure().treeToList(root);
-		manager.getStructure().createTablesDB();;
+		manager.getStructure().createTablesDB();
 		manager.getStructure().saveAccount();
 
 		manager.showMenu();
@@ -108,6 +108,9 @@ public class StartController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		manager.getStructure().getMap().clear();
+		manager.getStructure().getAccList().clear();
+		MainManager.getTransactionData().clear();
 		readDefaultData();
 		// wybieranie elementu z drzewa
 		treeView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);

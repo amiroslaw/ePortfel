@@ -206,7 +206,7 @@ public class Structure {
 
 	// public void saveTree(ArrayList<Account> list) {
 	public void saveAccount() {
-		connection = (Connection) ConnectionSqlite.Connector(MainManager.walletDirectoryPath);
+		connection = (Connection) ConnectionSqlite.Connector(Profile.walletDirectoryPath);
 		if (connection == null) {
 
 			System.out.println("connection not successful");
@@ -239,7 +239,7 @@ public class Structure {
 
 	public void readAccount() {
 		if (accList.size() == 0) {
-			connection = (Connection) ConnectionSqlite.Connector(MainManager.walletDirectoryPath);
+			connection = (Connection) ConnectionSqlite.Connector(Profile.walletDirectoryPath);
 			if (connection == null) {
 
 				System.out.println("connection not successful");
@@ -261,7 +261,7 @@ public class Structure {
 	}
 
 	public void readTransactions() {
-		connection = (Connection) ConnectionSqlite.Connector(MainManager.walletDirectoryPath);
+		connection = (Connection) ConnectionSqlite.Connector(Profile.walletDirectoryPath);
 		if (connection == null) {
 
 			System.out.println("connection not successful");
@@ -289,7 +289,7 @@ public class Structure {
 	}
 
 	public void saveTransactions() {
-		connection = (Connection) ConnectionSqlite.Connector(MainManager.walletDirectoryPath);
+		connection = (Connection) ConnectionSqlite.Connector(Profile.walletDirectoryPath);
 		if (connection == null) {
 
 			System.out.println("connection not successful");
@@ -327,7 +327,7 @@ public class Structure {
 	}
 
 	public void createTablesDB() {
-		connection = (Connection) ConnectionSqlite.Connector(MainManager.walletDirectoryPath);
+		connection = (Connection) ConnectionSqlite.Connector(Profile.walletDirectoryPath);
 		if (connection == null) {
 			System.out.println("connection not successful");
 			System.exit(1);

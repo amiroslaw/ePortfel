@@ -66,6 +66,7 @@ public class LoginController {
 
 	@FXML
 	void logIn(ActionEvent event) throws SQLException {
+		
 		profile.setProfileName(txtfProfileName.getText());
 		profile.setPassword(passwordField.getText());
 		if (profile.isLogin()) {
@@ -100,12 +101,15 @@ public class LoginController {
 	@FXML
 	void showMainView(ActionEvent event) {
 		if (comboBoxWallet != null) {
+			System.out.println("login combo "+comboBoxWallet.getValue());
+//			profile.setWalletName(comboBoxWallet.getValue());
 			for (int i = 0; i < profile.getWallets().size(); i++) {
 				if(profile.getWallets().get(i)[0].equals(comboBoxWallet.getValue())){
-					MainManager.walletDirectoryPath=profile.getWallets().get(i)[1];
+					Profile.walletDirectoryPath=profile.getWallets().get(i)[1];
 				}
 			}
-			MainManager.profileName= profile.getProfileName();
+			Profile.walletName= comboBoxWallet.getValue();
+			System.out.println("show main w login " +Profile.walletName);
 			manager.showMenu();
 			manager.showMainView();
 		}

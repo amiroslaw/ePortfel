@@ -32,7 +32,7 @@ public class ReportController {
 	}
 
 	@FXML
-	private WebView webView; 
+	private WebView webView;
 	private WebEngine engine;
 
 	@FXML
@@ -56,21 +56,21 @@ public class ReportController {
 	// zmienic nazwe jak nie bedzie mozna wykresow eksportowac do html
 	@FXML
 	void exportHTML(ActionEvent event) throws FileNotFoundException {
-DirectoryChooser directoryChooser = new DirectoryChooser();
-directoryChooser.setTitle("wybierz folder");
-directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		directoryChooser.setTitle("wybierz folder");
+		directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 
-File selectedDirectory = directoryChooser.showDialog(new Stage());
+		File selectedDirectory = directoryChooser.showDialog(new Stage());
 
-if (selectedDirectory == null) {
-	// lblSelectedDirectory.setText("No Directory selected");
-} else {
-	// lblSelectedDirectory.setText(selectedDirectory.getAbsolutePath());
-	PrintWriter write = new PrintWriter(selectedDirectory.getAbsolutePath() + "/" + title + ".html");
-	write.println(html);
-	write.close();
+		if (selectedDirectory == null) {
+			// lblSelectedDirectory.setText("No Directory selected");
+		} else {
+			// lblSelectedDirectory.setText(selectedDirectory.getAbsolutePath());
+			PrintWriter write = new PrintWriter(selectedDirectory.getAbsolutePath() + "/" + title + ".html");
+			write.println(html);
+			write.close();
 
-}
+		}
 	}
 
 	Report report = new Report(title);

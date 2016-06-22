@@ -58,7 +58,7 @@
             <Label fx:id="lblSelectedDirectory" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <ComboBox fx:id="comboBoxWallet" disable="true" prefHeight="26.0" prefWidth="187.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Button fx:id="btnCreateUser" mnemonicParsing="false" onAction="#createUser" prefHeight="26.0" prefWidth="173.0" text="Utwórz użytkownika" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-            <Label fx:id="lblMessage" alignment="CENTER" contentDisplay="CENTER" prefHeight="38.0" prefWidth="338.0" text="Nazwa użytkownika" textAlignment="CENTER" textFill="#b01584" wrapText="true" GridPane.columnSpan="2" GridPane.rowIndex="4">
+            <Label fx:id="lblMessage" alignment="CENTER" contentDisplay="CENTER" prefHeight="38.0" prefWidth="338.0" text="Zaloguj lub utwórz użytkownika" textAlignment="CENTER" textFill="#b01584" wrapText="true" GridPane.columnSpan="2" GridPane.rowIndex="4">
                <font>
                   <Font name="Arial Bold" size="15.0" />
                </font>

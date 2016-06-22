@@ -13,9 +13,23 @@
           <Menu mnemonicParsing="false" text="Plik">
             <items>
                   <MenuItem fx:id="miSave" mnemonicParsing="false" onAction="#save" text="Zapisz" />
-              <MenuItem fx:id="miClose" mnemonicParsing="false" text="Zamknij" />
+              <MenuItem fx:id="miClose" mnemonicParsing="false" onAction="#close" text="Zamknij" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Profil">
+               <items>
+                  <MenuItem fx:id="miProfilChangeName" mnemonicParsing="false" onAction="#changeProfileName" text="Zmień nazwę" />
+                  <MenuItem fx:id="miProfilChengePass" mnemonicParsing="false" onAction="#changeProfilePass" text="Zmień hasło" />
+                  <MenuItem fx:id="miProfilCreate" mnemonicParsing="false" onAction="#createProfile" text="Stwórz profil" />
+                  <MenuItem fx:id="miProfilDelete" mnemonicParsing="false" onAction="#deleteProfile" text="Usuń profil" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Portfel">
+               <items>
+                  <MenuItem fx:id="miWalletCreate" mnemonicParsing="false" onAction="#createWallet" text="Stwórz portfel" />
+                  <MenuItem fx:id="miWalletDelete" mnemonicParsing="false" onAction="#deleteWallet" text="Usuń portfel" />
+               </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Raporty">
                <items>
                   <MenuItem fx:id="miReport1" mnemonicParsing="false" onAction="#showReport" text="Arkusz bilansowy" />

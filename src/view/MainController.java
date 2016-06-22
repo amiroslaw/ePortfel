@@ -24,6 +24,7 @@ import javafx.scene.control.TreeView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import model.Account;
+import model.Profile;
 import model.Transaction;
 
 // dopiero po zmianie konta na tree dodaje do mapy- nie mozna zapisac aktualnych wartosci do BD jak tego nie zrobimy
@@ -158,31 +159,7 @@ public class MainController implements Initializable {
 		accTree.setRoot(root);
 	}
 
-	void readTestData() {
-		ArrayList<Transaction> temporary = new ArrayList<Transaction>();
-		ArrayList<Transaction> tranList = new ArrayList<Transaction>();
-		ArrayList<Transaction> tranList2 = new ArrayList<Transaction>(
-				Arrays.asList(new Transaction(LocalDate.now(), "tran2", "transfer", 0, 0, 1, "Akcje"),
-						new Transaction(LocalDate.now(), "tran2", "transfer", 0, 0, 1, "czynsz"),
-						new Transaction(LocalDate.now(), "tran3", "transfer", 0, 0, 0, "Akcje")));
-		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, "Akcje"));
-		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, "Akcje"));
-		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, "Akcje"));
-		tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, "Akcje"));
-		manager.getStructure().getMap().put("Gotówka", tranList);
-		manager.getStructure().getMap().put("Inwestycje", tranList2);
-		// manager.getStructure().showMap();
-	}
- // chyba nieuzywana
-	void observableToMap(String accountName) {
-		ArrayList<Transaction> arrayList = new ArrayList<Transaction>();
-		for (Transaction transaction : manager.getTransactionData()) {
-			arrayList.add(transaction);
-//			System.out.println("observable to map" + transaction.getDescription());
-		}
-		// nadpisze istniejaca wartosc
-		manager.getStructure().getMap().put(accountName, arrayList);
-	}
+
 
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -246,14 +223,41 @@ public class MainController implements Initializable {
 		// });
 		accTree.setRoot(root);
 		// test
-		manager.getStructure().showList();
+//		manager.getStructure().showList();
 		// System.out.println("ścieżka do DB portfela "+
 		// MainManager.walletDirectoryPath);
 		
+		System.out.println("show main " +Profile.walletName);
 	}
 
 	String proba;
 //	public void setProba(String proba) {
 //		this.proba = proba;
 //	}
+	
+//	void readTestData() {
+//	ArrayList<Transaction> temporary = new ArrayList<Transaction>();
+//	ArrayList<Transaction> tranList = new ArrayList<Transaction>();
+//	ArrayList<Transaction> tranList2 = new ArrayList<Transaction>(
+//			Arrays.asList(new Transaction(LocalDate.now(), "tran2", "transfer", 0, 0, 1, "Akcje"),
+//					new Transaction(LocalDate.now(), "tran2", "transfer", 0, 0, 1, "czynsz"),
+//					new Transaction(LocalDate.now(), "tran3", "transfer", 0, 0, 0, "Akcje")));
+//	tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, "Akcje"));
+//	tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, "Akcje"));
+//	tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, "Akcje"));
+//	tranList.add(new Transaction(LocalDate.now(), "arraylist", "transfer", 0, 0, 0, "Akcje"));
+//	manager.getStructure().getMap().put("Gotówka", tranList);
+//	manager.getStructure().getMap().put("Inwestycje", tranList2);
+//	// manager.getStructure().showMap();
+//}
+// chyba nieuzywana
+//void observableToMap(String accountName) {
+//	ArrayList<Transaction> arrayList = new ArrayList<Transaction>();
+//	for (Transaction transaction : manager.getTransactionData()) {
+//		arrayList.add(transaction);
+////		System.out.println("observable to map" + transaction.getDescription());
+//	}
+//	// nadpisze istniejaca wartosc
+//	manager.getStructure().getMap().put(accountName, arrayList);
+//}
 }

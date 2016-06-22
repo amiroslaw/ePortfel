@@ -60,7 +60,7 @@ public class RegistrationController implements Initializable {
 			btnAccept.setDisable(true);
 		} else {
 			lblSelectedDirectory.setText(selectedDirectory.getAbsolutePath());
-			profile.setDirectoryPath(selectedDirectory.getAbsolutePath());
+			Profile.walletDirectoryPath=selectedDirectory.getAbsolutePath();
 			btnAccept.setDisable(false);
 		}
 	}
@@ -72,11 +72,11 @@ public class RegistrationController implements Initializable {
 				&& !profile.getDirectoryPath().isEmpty() && !txtfWalletName.getText().isEmpty()) {
 			profile.setProfileName(txtfProfileName.getText());
 			profile.setPassword(passwordField.getText());
-			profile.setWalletName(txtfWalletName.getText());
+			Profile.walletName= txtfWalletName.getText();
 			profile.createProfileDB();
 			profile.createWalletDB();
-			MainManager.walletDirectoryPath= profile.getDirectoryPath();
-			MainManager.profileName= profile.getProfileName();
+//			Profile.walletDirectoryPath= profile.getDirectoryPath();
+//			Profile.walletName= profile.getWalletName();
 			manager.showStart();
 		} else {
 			lblSelectedDirectory.setText("Wypełnij poprawnie formularz");

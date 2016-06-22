@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import model.Account;
+import model.Profile;
 
 public class MenuController {
 	private Stage primaryStage;
@@ -54,7 +55,73 @@ public class MenuController {
 	private MenuItem miReport7;
 
 	@FXML
-	private MenuItem miTest;
+	private MenuItem miProfilCreate;
+
+	@FXML
+	private MenuItem miProfilChengePass;
+
+	@FXML
+	private MenuItem miProfilChangeName;
+
+	@FXML
+	private MenuItem miProfilDelete;
+
+	@FXML
+	private MenuItem miWalletCreate;
+
+	@FXML
+	private MenuItem miWalletDelete;
+	
+//	@FXML
+//	private MenuItem miWalletChangeName;
+	
+	Profile profile = new Profile();
+	
+	@FXML
+	void createProfile(ActionEvent event){
+		manager.getStructure().getMap().clear();
+		manager.getStructure().getAccList().clear();
+		MainManager.getTransactionData().clear();
+		
+		manager.showRegistration();
+	}
+	
+	@FXML
+	void deleteProfile(ActionEvent event){
+		profile.deleteProfile();
+		manager.showLoginView();
+	}
+	@FXML
+	void changeProfilePass(ActionEvent event){
+		manager.showEditProfile(2);
+	}
+	@FXML
+	void changeProfileName(ActionEvent event){
+		manager.showEditProfile(1);
+	}
+
+	@FXML
+	void createWallet(ActionEvent event){
+//		manager.showRegistration(); trzeba będzie dodać formularz tworzenia
+		manager.getStructure().getMap().clear();
+		manager.getStructure().getAccList().clear();
+		MainManager.getTransactionData().clear();
+		
+		manager.showEditProfile(4);
+	}
+	@FXML
+	void deleteWallet(ActionEvent event){
+		manager.getStructure().getMap().clear();
+		manager.getStructure().getAccList().clear();
+		MainManager.getTransactionData().clear();
+		
+		profile.deleteWallet();
+		manager.showLoginView();
+	}
+//	@FXML
+//	void changeWalleteName(ActionEvent event){
+//		manager.showEditProfile(3);
+//	}
 	@FXML
 	void showReport(ActionEvent event){
 		String sourceName=""; 
@@ -98,7 +165,10 @@ public class MenuController {
 		manager.getStructure().saveTransactions();
 		manager.getStructure().saveAccount();
 	}
-
+	@FXML
+	void close() {
+		primaryStage.close();
+	}
 	@FXML
 	public void showAbout() {
 		System.out.println("metoda about");

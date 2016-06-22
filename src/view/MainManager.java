@@ -33,15 +33,15 @@ public class MainManager {
 	}
 
 	// chyba nie uzywam
-	private HashMap<String, ArrayList<Transaction>> mapTransaction = new HashMap<>();
-
-	public HashMap<String, ArrayList<Transaction>> getMapTransaction() {
-		return mapTransaction;
-	}
-
-	public void setMapTransaction(HashMap<String, ArrayList<Transaction>> mapTransaction) {
-		this.mapTransaction = mapTransaction;
-	}
+//	private HashMap<String, ArrayList<Transaction>> mapTransaction = new HashMap<>();
+//
+//	public HashMap<String, ArrayList<Transaction>> getMapTransaction() {
+//		return mapTransaction;
+//	}
+//
+//	public void setMapTransaction(HashMap<String, ArrayList<Transaction>> mapTransaction) {
+//		this.mapTransaction = mapTransaction;
+//	}
 
 	private static ObservableList<Transaction> data = FXCollections.observableArrayList(
 
@@ -49,8 +49,7 @@ public class MainManager {
 	// new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0),
 	// new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0)
 	);
-	public static String walletDirectoryPath;
-	public static String profileName;
+	
 
 	public static ObservableList<Transaction> getTransactionData() {
 		return data;
@@ -212,7 +211,30 @@ public class MainManager {
 			e.printStackTrace();
 		}
 	}
+	public void showEditProfile(int type) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("/view/EditProfile.fxml"));
+			AnchorPane pane = (AnchorPane) loader.load();
 
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Zmień dane");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(pane);
+			dialogStage.setScene(scene);
+
+			EditProfileController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setManager(this);
+			controller.init(type);
+
+			dialogStage.setResizable(false);
+			dialogStage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	// public void showAddTransaction(ArrayList<Account> accList) {
 	public void showAddTransaction(String acc, int idTransaction) {
 		try {
