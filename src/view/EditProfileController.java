@@ -49,13 +49,15 @@ public class EditProfileController {
 			case 2:
 				profile.editProfile(newData, 2);
 				break;
+				// zmiana nazwy portfela
 			case 3:
-				profile.deleteWallet();
+				profile.deleteWallet(1);
 				Profile.walletName=newData;
 				break;
+				// nowy portfel
 			case 4:
 				Profile.walletName=newData;
-		
+				profile.createWalletDB();
 				manager.showStart();
 				break;
 			default:
@@ -88,7 +90,7 @@ public class EditProfileController {
 			lblRecommendation.setText("Podaj nową nazwę portfela");
 			lblNewData.setText("Nazwa");
 			break;
-			//tworzenie
+			//tworzenie profilu
 		case 4:
 			lblRecommendation.setText("Podaj nazwę portfela");
 			lblNewData.setText("Nazwa");

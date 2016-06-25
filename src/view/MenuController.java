@@ -71,18 +71,20 @@ public class MenuController {
 //	private MenuItem miWalletChangeName;
 	
 	Profile profile = new Profile();
-	
-	@FXML
-	void createProfile(ActionEvent event){
+	void clearData(){
 		manager.getStructure().getMap().clear();
 		manager.getStructure().getAccList().clear();
 		MainManager.getTransactionData().clear();
-		
+	}
+	@FXML
+	void createProfile(ActionEvent event){
+		clearData();
 		manager.showRegistration();
 	}
 	
 	@FXML
 	void deleteProfile(ActionEvent event){
+		clearData();
 		profile.deleteProfile();
 		manager.showLoginView();
 	}
@@ -98,19 +100,15 @@ public class MenuController {
 	@FXML
 	void createWallet(ActionEvent event){
 //		manager.showRegistration(); trzeba będzie dodać formularz tworzenia
-		manager.getStructure().getMap().clear();
-		manager.getStructure().getAccList().clear();
-		MainManager.getTransactionData().clear();
+		clearData();
 		
 		manager.showEditProfile(4);
 	}
 	@FXML
 	void deleteWallet(ActionEvent event){
-		manager.getStructure().getMap().clear();
-		manager.getStructure().getAccList().clear();
-		MainManager.getTransactionData().clear();
+		clearData();
 		
-		profile.deleteWallet();
+		profile.deleteWallet(1);
 		manager.showLoginView();
 	}
 //	@FXML

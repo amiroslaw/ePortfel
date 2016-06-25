@@ -128,6 +128,11 @@ public class Profile {
 
 	public boolean isLogin() throws SQLException {
 		Connection conn = (Connection) ConnectionSqlite.Connector();
+		if (conn == null) {
+
+			System.out.println("connection not successful");
+			System.exit(1);
+		}
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		String query = "SELECT * FROM profile WHERE profileName = ? AND password = ?";
@@ -154,6 +159,11 @@ public class Profile {
 
 	public void getWalletsDB() throws SQLException {
 		Connection conn = (Connection) ConnectionSqlite.Connector();
+		if (conn == null) {
+
+			System.out.println("connection not successful");
+			System.exit(1);
+		}
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		String query = "SELECT walletName, filePath FROM profile, wallet WHERE profile.idProfile=wallet.idProfile AND profile.profileName = ?";
@@ -175,8 +185,13 @@ public class Profile {
 	}
 
 	public void deleteProfile() {
-		deleteWallet();
+		deleteWallet(2);
 		Connection conn = (Connection) ConnectionSqlite.Connector();
+		if (conn == null) {
+
+			System.out.println("connection not successful");
+			System.exit(1);
+		}
 		System.out.println("id profile delete " + idProfile);
 
 		Statement mySta;
@@ -193,7 +208,7 @@ public class Profile {
 
 	}
 
-	public void deleteWallet() {
+	public void deleteWallet(int option) {
 		// TODO dodac wybór?
 		try {
 			File file = new File(walletName + "_ePortfel.sqlite");
@@ -207,6 +222,24 @@ public class Profile {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		Connection conn = (Connection) ConnectionSqlite.Connector();
+		System.out.println("edit profile id" + idProfile);
+		Statement mySta;
+		String query;
+		try {
+			mySta = conn.createStatement();
+			if (option==1) {
+				query = "DELETE FROM wallet WHERE idProfile = " + idProfile+" AND walletName ='"+ walletName+"';";
+			} else {
+				query = "DELETE FROM wallet WHERE idProfile = " + idProfile;
+			}
+			System.out.println(query);
+			mySta.executeUpdate(query);
+			
+			mySta.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
 	}
 
 	public void editProfile(String newData, int type) {
@@ -225,30 +258,31 @@ public class Profile {
 			mySta.executeUpdate(query);
 			
 			mySta.close();
-//		PreparedStatement preparedStatement = null;
-//		String query = "UPDATE profile SET ? = ? WHERE ? = ?";
-//		try {
-//			preparedStatement = conn.prepareStatement(query);
-//			if (type==1) {
-//				preparedStatement.setString(1, "profileName");
-//			} else {
-//				preparedStatement.setString(1, "password");
-//			}
-//				preparedStatement.setString(2, newData);
-//				preparedStatement.setString(3, "idProfile");
-//			preparedStatement.setInt(4, idProfile);
-//			
-// System.out.println("prepaerd editProfile"+preparedStatement.toString());
-//			preparedStatement.executeUpdate();
-//
-//				preparedStatement.close();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} 
 	}
 
-}
 
+}
+//PreparedStatement preparedStatement = null;
+//String query = "UPDATE profile SET ? = ? WHERE ? = ?";
+//try {
+//	preparedStatement = conn.prepareStatement(query);
+//	if (type==1) {
+//		preparedStatement.setString(1, "profileName");
+//	} else {
+//		preparedStatement.setString(1, "password");
+//	}
+//		preparedStatement.setString(2, newData);
+//		preparedStatement.setString(3, "idProfile");
+//	preparedStatement.setInt(4, idProfile);
+//	
+//System.out.println("prepaerd editProfile"+preparedStatement.toString());
+//	preparedStatement.executeUpdate();
+//
+//		preparedStatement.close();
 // private String walletName;
 // private String walletDirectoryPath;
 // private int idProfile;

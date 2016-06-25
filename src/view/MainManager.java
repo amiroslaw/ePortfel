@@ -33,7 +33,6 @@ public class MainManager {
 	}
 
 	private static ObservableList<Transaction> data = FXCollections.observableArrayList(
-
 	// new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0),
 	// new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0),
 	// new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0)
