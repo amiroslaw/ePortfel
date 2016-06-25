@@ -32,24 +32,12 @@ public class MainManager {
 		MainManager.structure = structure;
 	}
 
-	// chyba nie uzywam
-//	private HashMap<String, ArrayList<Transaction>> mapTransaction = new HashMap<>();
-//
-//	public HashMap<String, ArrayList<Transaction>> getMapTransaction() {
-//		return mapTransaction;
-//	}
-//
-//	public void setMapTransaction(HashMap<String, ArrayList<Transaction>> mapTransaction) {
-//		this.mapTransaction = mapTransaction;
-//	}
-
 	private static ObservableList<Transaction> data = FXCollections.observableArrayList(
 
 	// new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0),
 	// new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0),
 	// new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0)
 	);
-	
 
 	public static ObservableList<Transaction> getTransactionData() {
 		return data;
@@ -69,13 +57,7 @@ public class MainManager {
 	public final Stage primaryStage;
 	String proba = new String();
 
-	public String getProba() {
-		return proba;
-	}
-
-	public void setProba(String s) {
-		proba = s;
-	}
+	
 
 	public void init() {
 		showStart();
@@ -333,5 +315,23 @@ public class MainManager {
 	// e.printStackTrace();
 	// }
 	// }
+	
+//	public String getProba() {
+//		return proba;
+//	}
+//
+//	public void setProba(String s) {
+//		proba = s;
+//	}
+	// chyba nie uzywam
+//	private HashMap<String, ArrayList<Transaction>> mapTransaction = new HashMap<>();
+//
+//	public HashMap<String, ArrayList<Transaction>> getMapTransaction() {
+//		return mapTransaction;
+//	}
+//
+//	public void setMapTransaction(HashMap<String, ArrayList<Transaction>> mapTransaction) {
+//		this.mapTransaction = mapTransaction;
+//	}
 
 }

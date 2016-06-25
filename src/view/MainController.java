@@ -76,10 +76,9 @@ public class MainController implements Initializable {
 	@FXML
 	private Button btnTest;
 
-	@FXML
-	public void Test() {
-		manager.getStructure().saveTransactions();
-	}
+//	@FXML
+//	public void Test() {
+//	}
 
 	@FXML
 	private HBox hboxEditTransaction;
@@ -159,8 +158,6 @@ public class MainController implements Initializable {
 		accTree.setRoot(root);
 	}
 
-
-
 	public void initialize(URL location, ResourceBundle resources) {
 
 		tcDate.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
@@ -186,7 +183,6 @@ public class MainController implements Initializable {
 			public void changed(ObservableValue observable, Object oldValue, Object newValue) {
 				TreeItem treeItem = (TreeItem) newValue;
 				TreeItem oldTreeItem = (TreeItem) oldValue;
-
 				selectedAccount = (Account) treeItem.getValue();
 				 System.out.println("Selected item saldo" + selectedAccount.getBalance());
 				selectedAccountName = selectedAccount.getName();
@@ -195,18 +191,6 @@ public class MainController implements Initializable {
 					lblBalance.textProperty().bind(Bindings.convert(selectedAccount.balanceProperty()));
 				}
 					manager.setTransactionData(selectedAccount.getName());
-				// setTransactionData(treeItem.getValue().toString());
-//				if (selectedAccount.getType() < 3) {
-//					tableTransaction.setVisible(true);
-//					hboxEditTransaction.setVisible(true);
-//					// lblBalance.setText(" konta " + selectedAccount.getName()
-//					// + " to " + selectedAccount.getBalance());
-//				} else {
-//					tableTransaction.setVisible(false);
-//					hboxEditTransaction.setVisible(false);
-//					// lblBalance.setText(" konta " + selectedAccount.getName()
-//					// + " to " + selectedAccount.getBalance());
-//				}
 			}
 		});
 		root.setExpanded(true);
@@ -222,15 +206,13 @@ public class MainController implements Initializable {
 		// }
 		// });
 		accTree.setRoot(root);
-		// test
-//		manager.getStructure().showList();
-		// System.out.println("ścieżka do DB portfela "+
-		// MainManager.walletDirectoryPath);
-		
 		System.out.println("show main " +Profile.walletName);
 	}
-
-	String proba;
+		// test
+//	manager.getStructure().showList();
+	// System.out.println("ścieżka do DB portfela "+
+	// MainManager.walletDirectoryPath);
+//	String proba;
 //	public void setProba(String proba) {
 //		this.proba = proba;
 //	}

@@ -102,7 +102,7 @@ public class LoginController {
 	void showMainView(ActionEvent event) {
 		if (comboBoxWallet != null) {
 			System.out.println("login combo "+comboBoxWallet.getValue());
-//			profile.setWalletName(comboBoxWallet.getValue());
+//			// profile.setWalletName(comboBoxWallet.getValue());
 			for (int i = 0; i < profile.getWallets().size(); i++) {
 				if(profile.getWallets().get(i)[0].equals(comboBoxWallet.getValue())){
 					Profile.walletDirectoryPath=profile.getWallets().get(i)[1];

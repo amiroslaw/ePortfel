@@ -39,7 +39,6 @@ public class Account {
 		return idAccount;
 	}
 	
-
 		public Double getBalance() {
 	      return balance.get();
 	    }

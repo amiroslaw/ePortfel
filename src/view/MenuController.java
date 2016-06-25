@@ -1,13 +1,9 @@
 package view;
 
-import java.util.ArrayList;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
-import model.Account;
 import model.Profile;
 
 public class MenuController {
@@ -23,7 +19,6 @@ public class MenuController {
 		this.manager = manager;
 	}
 
-	private MainController mainCtr = new MainController();
 	@FXML
 	private MenuItem miAbout;
 
@@ -176,10 +171,7 @@ public class MenuController {
 	}
 	@FXML
 	void test() {
-		ArrayList<Account> testList = new ArrayList<Account>(manager.getStructure().getAccList());
-		for (int i = 0; i < testList.size(); i++) {
-			System.out.println(testList.get(i).getName());
-		}
+		
 	}
 		
 }

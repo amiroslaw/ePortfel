@@ -34,26 +34,7 @@ public class Structure {
 		this.accList = accList;
 	}
 
-	// private ArrayList<Transaction> transactionList = new
-	// ArrayList<Transaction>();
-	//
-	// public ArrayList<Transaction> getTransactionList() {
-	// return transactionList;
-	// }
-	//
-	// public void setTransactionList(ArrayList<Transaction> transactionList) {
-	// this.transactionList = transactionList;
-	// }
 
-	// int id;
-	//
-	// public int getId() {
-	// return id;
-	// }
-	//
-	// public void setId(int id) {
-	// this.id = id;
-	// }
 	public int searchIDtransfer(LocalDate date, String description, String accountTransfer) {
 		// ArrayList<Transaction> transactionList = new
 		// ArrayList<>(manager.getStructure().getMap().get(accountTransfer));
@@ -395,6 +376,30 @@ public class Structure {
 		// System.out.println("pierwsza tran- des:
 		// "+ar.get(0).getDescription()+" tran: "+ ar.get(0).getAccTransaction()
 		// +" data: " +ar.get(0).getDate());
+		// }
+		
+		
+		
+		//nie uzywam
+		// private ArrayList<Transaction> transactionList = new
+		// ArrayList<Transaction>();
+		//
+		// public ArrayList<Transaction> getTransactionList() {
+		// return transactionList;
+		// }
+		//
+		// public void setTransactionList(ArrayList<Transaction> transactionList) {
+		// this.transactionList = transactionList;
+		// }
+
+		// int id;
+		//
+		// public int getId() {
+		// return id;
+		// }
+		//
+		// public void setId(int id) {
+		// this.id = id;
 		// }
 		// }
 	}

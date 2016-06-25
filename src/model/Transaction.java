@@ -32,8 +32,6 @@ public class Transaction {
 		this.idTransaction = id;
 	}
 
-
-
 	public LocalDate getDate() {
 		return date.get();
 	}

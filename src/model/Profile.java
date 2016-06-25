@@ -13,20 +13,12 @@ import java.util.HashMap;
 public class Profile {
 	private String profileName;
 	private String password;
-	// private String walletName;
-	// private String walletDirectoryPath;
-	// private int idProfile;
+
 
 	public static String walletDirectoryPath;
 	public static String walletName;
 	public static int idProfile;
-	// private ArrayList<String> wallets = new ArrayList<String>();
-	// public void setWallets(ArrayList<String> wallets) {
-	// this.wallets = wallets;
-	// }
-	// public ArrayList<String> getWallets() {
-	// return wallets;
-	// }
+
 	private ArrayList<String[]> wallets = new ArrayList<String[]>();
 
 	public ArrayList<String[]> getWallets() {
@@ -57,17 +49,17 @@ public class Profile {
 		return walletName;
 	}
 
-	// public void setWalletName(String walletName) {
-	// this.walletName = walletName;
-	// }
+	public void setWalletName(String walletName) {
+		this.walletName = walletName;
+	}
 
 	public String getDirectoryPath() {
 		return walletDirectoryPath;
 	}
 
-	// public void setDirectoryPath(String directoryPath) {
-	// this.walletDirectoryPath = directoryPath;
-	// }
+	public void setDirectoryPath(String directoryPath) {
+		this.walletDirectoryPath = directoryPath;
+	}
 
 	public void createProfileDB() {
 		Connection conn = (Connection) ConnectionSqlite.Connector();
@@ -256,3 +248,14 @@ public class Profile {
 	}
 
 }
+
+// private String walletName;
+// private String walletDirectoryPath;
+// private int idProfile;
+// private ArrayList<String> wallets = new ArrayList<String>();
+// public void setWallets(ArrayList<String> wallets) {
+// this.wallets = wallets;
+// }
+// public ArrayList<String> getWallets() {
+// return wallets;
+// }
