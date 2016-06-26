@@ -51,10 +51,12 @@ public class AddTransactionController implements Initializable {
 	@FXML
 	private Label lblWarning;
 
+	// dane pobrane z tabeli
 	private String accountName = "";
-	int accountType; 
 	private int idTransaction = -1;
+	
 	double amount;
+	int accountType; 
 	String description;
 	LocalDate date;
 //	String oldDescription;
@@ -81,10 +83,13 @@ public class AddTransactionController implements Initializable {
 				int index; 
 				index= manager.getStructure().searchTransferIndex(idTransaction, accountName);
 				manager.getStructure().getMap().get(accountName).remove(index);
+				
 				//transfer
 				idTransfer=manager.getStructure().searchIDtransfer(date, description, transferAccount);
 				index=manager.getStructure().searchTransferIndex(idTransfer, transferAccount);
 				manager.getStructure().getMap().get(transferAccount).remove(index);
+				manager.getStructure().updateBalance(transferAccount);
+				// nowy transfer
 				transferAccount= comboBox.getValue();
 			} else {
 				// dodanie
