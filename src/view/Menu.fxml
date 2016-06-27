@@ -42,7 +42,6 @@
                </items></Menu>
           <Menu mnemonicParsing="false" text="Pomoc">
             <items>
-                  <MenuItem fx:id="miTest" mnemonicParsing="false" onAction="#test" text="test" />
               <MenuItem fx:id="miAbout" mnemonicParsing="false" onAction="#showAbout" text="O programie" />
             </items>
           </Menu>

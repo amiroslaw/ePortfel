@@ -167,9 +167,6 @@ public class MenuController {
 		System.out.println("metoda about");
 		manager.showAboutDialog();
 	}
-	@FXML
-	void test() {
-		
-	}
+
 		
 }
