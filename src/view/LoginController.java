@@ -2,7 +2,6 @@ package view;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -20,13 +19,15 @@ import model.Profile;
 public class LoginController {
 	private MainManager manager = new MainManager(null);
 
+	private Stage primaryStage;
+
 	public void setManager(MainManager manager) {
 		this.manager = manager;
 
 	}
 
 	public void setPrimaryStage(Stage primaryStage) {
-		// this.primaryStage = primaryStage;
+		 this.primaryStage = primaryStage;
 	}
 
 	@FXML
@@ -61,12 +62,10 @@ public class LoginController {
 	@FXML
 	void createUser(ActionEvent event) {
 		manager.showRegistration();
-
 	}
 
 	@FXML
 	void logIn(ActionEvent event) throws SQLException {
-		
 		profile.setProfileName(txtfProfileName.getText());
 		profile.setPassword(passwordField.getText());
 		if (profile.isLogin()) {
@@ -89,9 +88,7 @@ public class LoginController {
 	}
 
 	public void createComboBox() {
-//		ArrayList<String> wallet = new ArrayList<String>(profile.getWallets());
 		ObservableList<String> observableList = FXCollections.observableArrayList();
-//		for (int i = 0; i < wallet.size(); i++) {
 		for (int i = 0; i < profile.getWallets().size(); i++) {
 			observableList.add(profile.getWallets().get(i)[0]);
 		}
@@ -101,15 +98,12 @@ public class LoginController {
 	@FXML
 	void showMainView(ActionEvent event) {
 		if (comboBoxWallet != null) {
-			System.out.println("login combo "+comboBoxWallet.getValue());
-//			// profile.setWalletName(comboBoxWallet.getValue());
 			for (int i = 0; i < profile.getWallets().size(); i++) {
 				if(profile.getWallets().get(i)[0].equals(comboBoxWallet.getValue())){
 					Profile.walletDirectoryPath=profile.getWallets().get(i)[1];
 				}
 			}
 			Profile.walletName= comboBoxWallet.getValue();
-			System.out.println("show main w login " +Profile.walletName);
 			manager.showMenu();
 			manager.showMainView();
 		}

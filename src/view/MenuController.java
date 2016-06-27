@@ -27,25 +27,25 @@ public class MenuController {
 
 	@FXML
 	private MenuItem miClose;
-	
+
 	@FXML
 	private MenuItem miReport1;
-	
+
 	@FXML
 	private MenuItem miReport2;
-	
+
 	@FXML
 	private MenuItem miReport3;
-	
+
 	@FXML
 	private MenuItem miReport4;
-	
+
 	@FXML
 	private MenuItem miReport5;
-	
+
 	@FXML
 	private MenuItem miReport6;
-	
+
 	@FXML
 	private MenuItem miReport7;
 
@@ -66,63 +66,60 @@ public class MenuController {
 
 	@FXML
 	private MenuItem miWalletDelete;
-	
-//	@FXML
-//	private MenuItem miWalletChangeName;
-	
+
 	Profile profile = new Profile();
-	void clearData(){
+
+	void clearData() {
 		manager.getStructure().getMap().clear();
 		manager.getStructure().getAccList().clear();
 		MainManager.getTransactionData().clear();
 	}
+
 	@FXML
-	void createProfile(ActionEvent event){
+	void createProfile(ActionEvent event) {
 		clearData();
 		manager.showRegistration();
 	}
-	
+
 	@FXML
-	void deleteProfile(ActionEvent event){
+	void deleteProfile(ActionEvent event) {
 		clearData();
 		profile.deleteProfile();
 		manager.showLoginView();
 	}
+
 	@FXML
-	void changeProfilePass(ActionEvent event){
+	void changeProfilePass(ActionEvent event) {
 		manager.showEditProfile(2);
 	}
+
 	@FXML
-	void changeProfileName(ActionEvent event){
+	void changeProfileName(ActionEvent event) {
 		manager.showEditProfile(1);
 	}
 
 	@FXML
-	void createWallet(ActionEvent event){
-//		manager.showRegistration(); trzeba będzie dodać formularz tworzenia
+	void createWallet(ActionEvent event) {
 		clearData();
-		
 		manager.showEditProfile(4);
 	}
+
 	@FXML
-	void deleteWallet(ActionEvent event){
+	void deleteWallet(ActionEvent event) {
 		clearData();
-		
+
 		profile.deleteWallet(1);
 		manager.showLoginView();
 	}
-//	@FXML
-//	void changeWalleteName(ActionEvent event){
-//		manager.showEditProfile(3);
-//	}
+
 	@FXML
-	void showReport(ActionEvent event){
-		String sourceName=""; 
+	void showReport(ActionEvent event) {
+		String sourceName = "";
 		Object source = event.getSource();
-		if (source instanceof MenuItem) { 
-		MenuItem itemSecected =(MenuItem) source; 
-		sourceName= itemSecected.getId();
-		System.out.println("menu klick "+ itemSecected.getId());
+		
+		if (source instanceof MenuItem) {
+			MenuItem itemSecected = (MenuItem) source;
+			sourceName = itemSecected.getId();
 		}
 		switch (sourceName) {
 		case "miReport1":
@@ -150,23 +147,24 @@ public class MenuController {
 			manager.showReport("error", 1);
 			break;
 		}
-		
+
 	}
-	
+
 	@FXML
 	void save() {
 		manager.getStructure().saveTransactions();
 		manager.getStructure().saveAccount();
 	}
+
 	@FXML
 	void close() {
 		primaryStage.close();
 	}
+
 	@FXML
 	public void showAbout() {
 		System.out.println("metoda about");
 		manager.showAboutDialog();
 	}
 
-		
 }

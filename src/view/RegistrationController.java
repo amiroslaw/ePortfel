@@ -17,14 +17,14 @@ import model.Profile;
 
 public class RegistrationController implements Initializable {
 	private MainManager manager = new MainManager(null);
+	private Stage primaryStage;
 
 	public void setManager(MainManager manager) {
 		this.manager = manager;
-
 	}
 
 	public void setPrimaryStage(Stage primaryStage) {
-		// this.primaryStage = primaryStage;
+		this.primaryStage = primaryStage;
 	}
 
 	@FXML
@@ -46,7 +46,12 @@ public class RegistrationController implements Initializable {
 	private Label lblSelectedDirectory;
 
 	Profile profile = new Profile();
-
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		btnAccept.setDisable(true);
+	}
+	
 	@FXML
 	void setWalletDirectory(ActionEvent event) {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -60,7 +65,7 @@ public class RegistrationController implements Initializable {
 			btnAccept.setDisable(true);
 		} else {
 			lblSelectedDirectory.setText(selectedDirectory.getAbsolutePath());
-			Profile.walletDirectoryPath=selectedDirectory.getAbsolutePath();
+			Profile.walletDirectoryPath = selectedDirectory.getAbsolutePath();
 			btnAccept.setDisable(false);
 		}
 	}
@@ -69,23 +74,18 @@ public class RegistrationController implements Initializable {
 	void showStart(ActionEvent event) {
 
 		if (!txtfProfileName.getText().isEmpty() && !passwordField.getText().isEmpty()
-				&& !profile.getDirectoryPath().isEmpty() && !txtfWalletName.getText().isEmpty()) {
+				&& !Profile.walletDirectoryPath.isEmpty() && !txtfWalletName.getText().isEmpty()) {
 			profile.setProfileName(txtfProfileName.getText());
 			profile.setPassword(passwordField.getText());
-			Profile.walletName= txtfWalletName.getText();
+			Profile.walletName = txtfWalletName.getText();
 			profile.createProfileDB();
 			profile.createWalletDB();
-//			Profile.walletDirectoryPath= profile.getDirectoryPath();
-//			Profile.walletName= profile.getWalletName();
 			manager.showStart();
 		} else {
 			lblSelectedDirectory.setText("Wypełnij poprawnie formularz");
 		}
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		btnAccept.setDisable(true);
-	}
+	
 
 }

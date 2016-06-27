@@ -1,9 +1,6 @@
 package view;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -21,10 +18,10 @@ import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Account;
-import model.ConnectionSqlite;
 
 public class StartController implements Initializable {
 	private MainManager manager = new MainManager(null);
+	private Stage primaryStage;
 
 	public void setManager(MainManager manager) {
 		this.manager = manager;
@@ -32,19 +29,22 @@ public class StartController implements Initializable {
 	}
 
 	public void setPrimaryStage(Stage primaryStage) {
-		// this.primaryStage = primaryStage;
+		this.primaryStage = primaryStage;
 	}
 
 	@FXML
 	private Label labStart;
+
 	@FXML
 	private Button btnShowMain;
+
 	@FXML
 	protected TreeView<Account> treeView;
 
-	private List<Account> account = Arrays.<Account> asList(
-			// tutaj nie wazne id
-			new Account("Aktywa bieżące", "Aktywa", 0.0, 1, 0), new Account("Gotówka", "Aktywa bieżące", 0.0, 1, 1),
+	private TreeItem<Account> root = new TreeItem<Account>(new Account("root", null, 0.0, -1, 0));
+
+	private List<Account> account = Arrays.<Account> asList(new Account("Aktywa bieżące", "Aktywa", 0.0, 1, 0),
+			new Account("Gotówka", "Aktywa bieżące", 0.0, 1, 1),
 			new Account("Konto bankowe", "Aktywa bieżące", 0.0, 1, 2), new Account("Inwestycje", "Aktywa", 0.0, 1, 3),
 			new Account("Lokaty", "Inwestycje", 0.0, 1, 4), new Account("Akcje", "Inwestycje", 0.0, 1, 5),
 			new Account("Obligacje", "Inwestycje", 0.0, 1, 6), new Account("Karta kredytowa", "Pasywa", 0.0, 2, 7),
@@ -58,8 +58,6 @@ public class StartController implements Initializable {
 			new Account("Odsetki z kredytów", "Odsetki", 0.0, 4, 19), new Account("Podatki", "Wydatki", 0.0, 4, 20),
 			new Account("Krajowe", "Podatki", 0.0, 4, 21), new Account("Socjalne", "Podatki", 0.0, 4, 22),
 			new Account("Wydatki medyczne", "Wydatki", 0.0, 4, 23));
-
-	private TreeItem<Account> root = new TreeItem<Account>(new Account("root", null, 0.0, -1, 0));
 
 	private void readDefaultData() {
 		TreeItem<Account> aktywa = new TreeItem<Account>(new Account("Aktywa", "root", 0.0, 1, 1));
@@ -77,15 +75,12 @@ public class StartController implements Initializable {
 			} else {
 				boolean found = false;
 				for (TreeItem<Account> depNode : root.getChildren().get(type - 1).getChildren()) {
-					// jesli rodzic acc jest taki sam jak dziecko glownej kat.
 					if (depNode.getValue().getName().contentEquals(acc.getParent())) {
 						depNode.getChildren().add(empLeaf);
 						found = true;
-						// System.out.println(depNode.getValue());
 						break;
 					}
 				}
-				// chyba niepotrzebne
 				if (!found) {
 					TreeItem depNode = new TreeItem(acc);
 					root.getChildren().get(type - 1).getChildren().add(depNode);
@@ -102,7 +97,6 @@ public class StartController implements Initializable {
 		manager.getStructure().saveAccount();
 
 		manager.showMenu();
-		// manager.showMainView(root, "z start");
 		manager.showMainView();
 	}
 
@@ -112,13 +106,11 @@ public class StartController implements Initializable {
 		manager.getStructure().getAccList().clear();
 		MainManager.getTransactionData().clear();
 		readDefaultData();
-		// wybieranie elementu z drzewa
 		treeView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		treeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			@Override
 			public void changed(ObservableValue observable, Object oldValue, Object newValue) {
 				TreeItem treeItem = (TreeItem) newValue;
-//				System.out.println("Selected item is" + treeItem);
 			}
 		});
 

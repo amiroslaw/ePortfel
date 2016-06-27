@@ -10,9 +10,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Transaction {
-	// dodac w jakim koncie ma byc ta transakcja - id i balance
-	// id powinien byc punktowany w konstrukcie?
-	// nie wiem czy zrezygnowac z podzialu na debet i credit
+
 	private final SimpleObjectProperty<LocalDate> date;
 	private final SimpleStringProperty description;
 	private final SimpleStringProperty accTransaction;
@@ -21,14 +19,14 @@ public class Transaction {
 	private String accountName;
 	private int idTransaction = 0;
 
-	public Transaction(LocalDate date, String discripion, String accTransaction, double debet, double credit,
-			 int id, String accountName) {
+	public Transaction(LocalDate date, String discripion, String accTransaction, double debet, double credit, int id,
+			String accountName) {
 		this.date = new SimpleObjectProperty<LocalDate>(date);
 		this.description = new SimpleStringProperty(discripion);
 		this.accTransaction = new SimpleStringProperty(accTransaction);
 		this.debet = new SimpleDoubleProperty(debet);
 		this.credit = new SimpleDoubleProperty(credit);
-		this.accountName=accountName;
+		this.accountName = accountName;
 		this.idTransaction = id;
 	}
 
@@ -71,7 +69,7 @@ public class Transaction {
 	public DoubleProperty creditProperty() {
 		return credit;
 	}
-	
+
 	public String getAccountName() {
 		return accountName;
 	}

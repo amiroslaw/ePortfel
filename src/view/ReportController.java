@@ -9,7 +9,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Side;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.web.WebEngine;
@@ -33,6 +32,7 @@ public class ReportController {
 
 	@FXML
 	private WebView webView;
+
 	private WebEngine engine;
 
 	@FXML
@@ -45,33 +45,10 @@ public class ReportController {
 	private Button btnClose;
 
 	private int type;
+
 	private String title;
+
 	private String html;
-
-	@FXML
-	void closeWindow(ActionEvent event) {
-		dialogStage.close();
-	}
-
-	// zmienic nazwe jak nie bedzie mozna wykresow eksportowac do html
-	@FXML
-	void exportHTML(ActionEvent event) throws FileNotFoundException {
-		DirectoryChooser directoryChooser = new DirectoryChooser();
-		directoryChooser.setTitle("wybierz folder");
-		directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-
-		File selectedDirectory = directoryChooser.showDialog(new Stage());
-
-		if (selectedDirectory == null) {
-			// lblSelectedDirectory.setText("No Directory selected");
-		} else {
-			// lblSelectedDirectory.setText(selectedDirectory.getAbsolutePath());
-			PrintWriter write = new PrintWriter(selectedDirectory.getAbsolutePath() + "/" + title + ".html");
-			write.println(html);
-			write.close();
-
-		}
-	}
 
 	Report report = new Report(title);
 
@@ -88,8 +65,28 @@ public class ReportController {
 			btnExportHTML.setVisible(false);
 			drawPieChart();
 		}
+	}
 
-		System.out.println("report ctr title " + title + " type+ " + type);
+	@FXML
+	void closeWindow(ActionEvent event) {
+		dialogStage.close();
+	}
+
+	@FXML
+	void exportHTML(ActionEvent event) throws FileNotFoundException {
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		directoryChooser.setTitle("wybierz folder");
+		directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+
+		File selectedDirectory = directoryChooser.showDialog(new Stage());
+
+		if (selectedDirectory == null) {
+		} else {
+			PrintWriter write = new PrintWriter(selectedDirectory.getAbsolutePath() + "/" + title + ".html");
+			write.println(html);
+			write.close();
+
+		}
 	}
 
 	private void drawPieChart() {

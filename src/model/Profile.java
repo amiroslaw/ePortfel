@@ -1,19 +1,17 @@
 package model;
 
 import java.io.File;
-import java.security.GeneralSecurityException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Profile {
+	
 	private String profileName;
 	private String password;
-
 
 	public static String walletDirectoryPath;
 	public static String walletName;
@@ -45,22 +43,6 @@ public class Profile {
 		this.password = password;
 	}
 
-	public String getWalletName() {
-		return walletName;
-	}
-
-	public void setWalletName(String walletName) {
-		this.walletName = walletName;
-	}
-
-	public String getDirectoryPath() {
-		return walletDirectoryPath;
-	}
-
-	public void setDirectoryPath(String directoryPath) {
-		this.walletDirectoryPath = directoryPath;
-	}
-
 	public void createProfileDB() {
 		Connection conn = (Connection) ConnectionSqlite.Connector();
 		if (conn == null) {
@@ -73,21 +55,13 @@ public class Profile {
 
 			mySta.executeUpdate("CREATE TABLE IF NOT EXISTS profile (idProfile INTEGER PRIMARY KEY  UNIQUE  NOT NULL ,"
 					+ " profileName TEXT NOT NULL, password TEXT NOT NULL)");
-			// mySta.executeUpdate("CREATE TABLE IF NOT EXISTS wallet (idWallet
-			// INTEGER PRIMARY KEY UNIQUE NOT NULL , walletName TEXT NOT NULL ,
-			// filePath TEXT NOT NULL, idProfile INTEGER NOT NULL, FOREIGN
-			// KEY(idProfile) REFERENCES profile(idProfile))");
-
 			mySta.executeUpdate(
 					"INSERT INTO profile (profileName, password) VALUES ('" + profileName + "','" + password + "')");
-			// mySta.executeUpdate("INSERT INTO wallet (walletName, filePath,
-			// idProfile) VALUES ('"+walletName+"','"+directoryPath+"',1)");
 
 			ResultSet rs = mySta.executeQuery("SELECT COUNT(*) AS rowcount FROM profile");
 			rs.next();
 			idProfile = rs.getInt("rowcount");
 			rs.close();
-			System.out.println("MyTable has " + idProfile + " row(s).");
 
 			conn.close();
 		} catch (SQLException e) {
@@ -107,15 +81,10 @@ public class Profile {
 					+ walletDirectoryPath);
 			Statement mySta = conn.createStatement();
 
-			// mySta.executeUpdate("CREATE TABLE IF NOT EXISTS profile
-			// (idProfile INTEGER PRIMARY KEY UNIQUE NOT NULL , profileName TEXT
-			// NOT NULL , password TEXT NOT NULL)");
 			mySta.executeUpdate(
 					"CREATE TABLE IF NOT EXISTS wallet (idWallet INTEGER PRIMARY KEY  UNIQUE  NOT NULL , walletName TEXT NOT NULL ,"
 							+ " filePath TEXT NOT NULL, idProfile INTEGER NOT NULL, FOREIGN KEY(idProfile) REFERENCES profile(idProfile))");
 
-			// mySta.executeUpdate("INSERT INTO profile (profileName, password)
-			// VALUES ('"+profileName+"','"+password+"')");
 			mySta.executeUpdate("INSERT INTO wallet (walletName, filePath, idProfile) VALUES ('" + walletName + "','"
 					+ walletDirectoryPath + "','" + idProfile + "')");
 
@@ -192,8 +161,6 @@ public class Profile {
 			System.out.println("connection not successful");
 			System.exit(1);
 		}
-		System.out.println("id profile delete " + idProfile);
-
 		Statement mySta;
 		try {
 			mySta = conn.createStatement();
@@ -209,10 +176,9 @@ public class Profile {
 	}
 
 	public void deleteWallet(int option) {
-		// TODO dodac wybór?
 		try {
 			File file = new File(walletName + "_ePortfel.sqlite");
-			
+
 			if (file.delete()) {
 				System.out.println(file.getName() + " is deleted!");
 			} else {
@@ -228,68 +194,38 @@ public class Profile {
 		String query;
 		try {
 			mySta = conn.createStatement();
-			if (option==1) {
-				query = "DELETE FROM wallet WHERE idProfile = " + idProfile+" AND walletName ='"+ walletName+"';";
+			if (option == 1) {
+				query = "DELETE FROM wallet WHERE idProfile = " + idProfile + " AND walletName ='" + walletName + "';";
 			} else {
 				query = "DELETE FROM wallet WHERE idProfile = " + idProfile;
 			}
 			System.out.println(query);
 			mySta.executeUpdate(query);
-			
+
 			mySta.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} 
+		}
 	}
 
 	public void editProfile(String newData, int type) {
 		Connection conn = (Connection) ConnectionSqlite.Connector();
-		System.out.println("edit profile id" + idProfile);
 		Statement mySta;
-		String query="";
+		String query = "";
 		try {
 			mySta = conn.createStatement();
-			if (type==1) {
-			 query = "UPDATE profile SET profileName='" + newData+"' WHERE idProfile="+idProfile;
+			if (type == 1) {
+				query = "UPDATE profile SET profileName='" + newData + "' WHERE idProfile=" + idProfile;
 			} else {
-			 query = "UPDATE profile SET password='" + newData+"' WHERE idProfile="+idProfile;
+				query = "UPDATE profile SET password='" + newData + "' WHERE idProfile=" + idProfile;
 			}
 			System.out.println(query);
 			mySta.executeUpdate(query);
-			
+
 			mySta.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} 
+		}
 	}
-
-
 }
-//PreparedStatement preparedStatement = null;
-//String query = "UPDATE profile SET ? = ? WHERE ? = ?";
-//try {
-//	preparedStatement = conn.prepareStatement(query);
-//	if (type==1) {
-//		preparedStatement.setString(1, "profileName");
-//	} else {
-//		preparedStatement.setString(1, "password");
-//	}
-//		preparedStatement.setString(2, newData);
-//		preparedStatement.setString(3, "idProfile");
-//	preparedStatement.setInt(4, idProfile);
-//	
-//System.out.println("prepaerd editProfile"+preparedStatement.toString());
-//	preparedStatement.executeUpdate();
-//
-//		preparedStatement.close();
-// private String walletName;
-// private String walletDirectoryPath;
-// private int idProfile;
-// private ArrayList<String> wallets = new ArrayList<String>();
-// public void setWallets(ArrayList<String> wallets) {
-// this.wallets = wallets;
-// }
-// public ArrayList<String> getWallets() {
-// return wallets;
-// }

@@ -11,6 +11,7 @@ import model.Profile;
 public class EditProfileController {
 	private Stage dialogStage;
 	private MainManager manager;
+
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
 	}
@@ -19,29 +20,28 @@ public class EditProfileController {
 		this.manager = manager;
 	}
 
-    @FXML
-    private Label lblRecommendation;
+	@FXML
+	private Label lblRecommendation;
 
-    @FXML
-    private TextField tfNewData;
+	@FXML
+	private TextField tfNewData;
 
-    @FXML
-    private Label lblNewData;
+	@FXML
+	private Label lblNewData;
 
-    @FXML
-    private Button btnAccept;
+	@FXML
+	private Button btnAccept;
 
-    @FXML
-    private Button btnClose;
+	@FXML
+	private Button btnClose;
 
- private int type; 
- private Profile profile =new Profile();
-    
-    @FXML
-    void accept(ActionEvent event) {
-    	if (!tfNewData.getText().isEmpty()) {
-     String newData=tfNewData.getText(); 
-     System.out.println("accept edit profile newdata "+newData +" type "+type);
+	private int type;
+	private Profile profile = new Profile();
+
+	@FXML
+	void accept(ActionEvent event) {
+		if (!tfNewData.getText().isEmpty()) {
+			String newData = tfNewData.getText();
 			switch (type) {
 			case 1:
 				profile.editProfile(newData, 1);
@@ -49,14 +49,14 @@ public class EditProfileController {
 			case 2:
 				profile.editProfile(newData, 2);
 				break;
-				// zmiana nazwy portfela
+			// zmiana nazwy portfela
 			case 3:
 				profile.deleteWallet(1);
-				Profile.walletName=newData;
+				Profile.walletName = newData;
 				break;
-				// nowy portfel
+			// nowy portfel
 			case 4:
-				Profile.walletName=newData;
+				Profile.walletName = newData;
 				profile.createWalletDB();
 				manager.showStart();
 				break;
@@ -66,16 +66,16 @@ public class EditProfileController {
 			}
 			dialogStage.close();
 		}
-    	
-    }
 
-    @FXML
-    void close(ActionEvent event) {
-    	dialogStage.close();
-    }
-	
+	}
+
+	@FXML
+	void close(ActionEvent event) {
+		dialogStage.close();
+	}
+
 	public void init(int type) {
-		this.type=type;
+		this.type = type;
 		switch (type) {
 		case 1:
 			lblRecommendation.setText("Podaj nową nazwę profilu");
@@ -85,19 +85,19 @@ public class EditProfileController {
 			lblRecommendation.setText("Podaj nowe hasło");
 			lblNewData.setText("Hasło");
 			break;
-// zmiana nazwy
+		// zmiana nazwy
 		case 3:
 			lblRecommendation.setText("Podaj nową nazwę portfela");
 			lblNewData.setText("Nazwa");
 			break;
-			//tworzenie profilu
+		// tworzenie profilu
 		case 4:
 			lblRecommendation.setText("Podaj nazwę portfela");
 			lblNewData.setText("Nazwa");
 			break;
 		default:
 			lblRecommendation.setText("error");
-		
+
 		}
 	}
 }

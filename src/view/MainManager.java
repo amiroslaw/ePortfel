@@ -3,7 +3,6 @@ package view;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import application.Main;
 import javafx.collections.FXCollections;
@@ -11,18 +10,19 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TreeItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.Account;
 import model.Structure;
 import model.Transaction;
 
 public class MainManager {
 	private static Structure structure = new Structure();
+
+	public final Stage primaryStage;
+
+	private BorderPane menuLayout;
 
 	public Structure getStructure() {
 		return structure;
@@ -32,18 +32,17 @@ public class MainManager {
 		MainManager.structure = structure;
 	}
 
-	private static ObservableList<Transaction> data = FXCollections.observableArrayList(
-	// new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0),
-	// new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0),
-	// new Transaction(LocalDate.now(), "z main", "transfer", 0, 0, 0, 0)
-	);
+	public MainManager(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+
+	}
+
+	private static ObservableList<Transaction> data = FXCollections.observableArrayList();
 
 	public static ObservableList<Transaction> getTransactionData() {
 		return data;
 	}
 
-	// private void setTransactionData(ArrayList<Transaction> tran){
-	// ustawia liste transakcji w tablicy z mapy
 	public void setTransactionData(String accountName) {
 		data.clear();
 		ArrayList<Transaction> tran = structure.getMap().get(accountName);
@@ -52,19 +51,8 @@ public class MainManager {
 		}
 	}
 
-	private BorderPane menuLayout;
-	public final Stage primaryStage;
-	String proba = new String();
-
-	
-
 	public void init() {
 		showStart();
-	}
-
-	public MainManager(Stage primaryStage) {
-		this.primaryStage = primaryStage;
-
 	}
 
 	public void showMenu() {
@@ -80,7 +68,6 @@ public class MainManager {
 			MenuController controller = loader.getController();
 			controller.setPrimaryStage(this.primaryStage);
 			controller.setManager(this);
-			// controller.setStructure(structure);
 			primaryStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -120,7 +107,6 @@ public class MainManager {
 			controller.setManager(this);
 
 			primaryStage.show();
-			// startStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -140,7 +126,6 @@ public class MainManager {
 			controller.setManager(this);
 
 			primaryStage.show();
-			// startStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -153,9 +138,6 @@ public class MainManager {
 			BorderPane bpStart = (BorderPane) loader.load();
 			Scene scene = new Scene(bpStart);
 
-			// Stage startStage = new Stage();
-			// startStage.setTitle("Tworzenie konta");
-			// startStage.setScene(scene);
 			primaryStage.setTitle("ePortfel");
 			primaryStage.setScene(scene);
 			StartController controller = loader.getController();
@@ -163,7 +145,6 @@ public class MainManager {
 			controller.setManager(this);
 
 			primaryStage.show();
-			// startStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -192,6 +173,7 @@ public class MainManager {
 			e.printStackTrace();
 		}
 	}
+
 	public void showEditProfile(int type) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -216,7 +198,7 @@ public class MainManager {
 			e.printStackTrace();
 		}
 	}
-	// public void showAddTransaction(ArrayList<Account> accList) {
+
 	public void showAddTransaction(String acc, int idTransaction) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -290,47 +272,5 @@ public class MainManager {
 			e.printStackTrace();
 		}
 	}
-	// nie uzywam
-	// public void showMainView(TreeItem<Account> root, String pr) {
-	// try {
-	// FXMLLoader loader = new FXMLLoader();
-	// loader.setLocation(application.Main.class.getResource("/view/MainView.fxml"));
-	// ScrollPane mainView = (ScrollPane) loader.load();
-	//
-	// AnchorPane anchor = (AnchorPane) menuLayout.getChildren().get(1);
-	// AnchorPane.setLeftAnchor(mainView, 10.0);
-	// AnchorPane.setRightAnchor(mainView, 10.0);
-	// AnchorPane.setTopAnchor(mainView, 10.0);
-	// AnchorPane.setBottomAnchor(mainView, 10.0);
-	// anchor.getChildren().add(mainView);
-	//
-	// menuLayout.setCenter(mainView);
-	//
-	// MainController controller = loader.getController();
-	// controller.setRoot(root);
-	// controller.setProba(pr);
-	// controller.setManager(this);
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	// }
-	
-//	public String getProba() {
-//		return proba;
-//	}
-//
-//	public void setProba(String s) {
-//		proba = s;
-//	}
-	// chyba nie uzywam
-//	private HashMap<String, ArrayList<Transaction>> mapTransaction = new HashMap<>();
-//
-//	public HashMap<String, ArrayList<Transaction>> getMapTransaction() {
-//		return mapTransaction;
-//	}
-//
-//	public void setMapTransaction(HashMap<String, ArrayList<Transaction>> mapTransaction) {
-//		this.mapTransaction = mapTransaction;
-//	}
 
 }

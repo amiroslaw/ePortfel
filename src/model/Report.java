@@ -5,9 +5,27 @@ import java.util.ArrayList;
 import view.MainManager;
 
 public class Report {
+
 	private MainManager manager;
+
 	String title;
+
 	ArrayList<Account> accountList;
+
+	double assetsSum = 0;
+	double liabilitiesSum = 0;
+	double expenseSum = 0;
+	double incomeSum = 0;
+	double creditSum = 0;
+	double debetSum = 0;
+
+	String htmlHead = "<!DOCTYPE html> <html lang=\"pl\"> <head> <meta charset=\"utf-8\"> <title>" + title + "</title>"
+			+ "<style type=\"text/css\"> table { margin: 0 auto 0 auto; } tr th, "
+			+ "tr.important { font-weight: bold; font-size: large; } "
+			+ "td { text-align: right; width: 100px; } td:first-child { width: 200px; text-align: left; } "
+			+ "tr.important td{ border-top: 1px solid black; } </style> </head>";
+
+	String htmlBody;
 
 	public Report(String title, ArrayList<Account> accountList) {
 		this.title = title;
@@ -19,20 +37,6 @@ public class Report {
 		this.title = title;
 
 	}
-
-	String htmlHead = "<!DOCTYPE html> <html lang=\"pl\"> <head> <meta charset=\"utf-8\"> <title>" + title + "</title>"
-			+ "<style type=\"text/css\"> table { margin: 0 auto 0 auto; } tr th, "
-			+ "tr.important { font-weight: bold; font-size: large; } "
-			+ "td { text-align: right; width: 100px; } td:first-child { width: 200px; text-align: left; } "
-			+ "tr.important td{ border-top: 1px solid black; } </style> </head>";
-	String htmlBody;
-
-	double assetsSum = 0;
-	double liabilitiesSum = 0;
-	double expenseSum = 0;
-	double incomeSum = 0;
-	double creditSum = 0;
-	double debetSum = 0;
 
 	public String createHTML(int type) {
 		htmlBody = " <body> <h3>" + title + "</h3>";
@@ -77,24 +81,14 @@ public class Report {
 			for (int i = 0; i < accountList.size(); i++) {
 				if (accountList.get(i).getType() == 1 || accountList.get(i).getType() == 4) {
 					debetSum += accountList.get(i).getBalance();
-					// if (accountList.get(i).getBalance()<0) {
 					htmlBody += "<tr> <td>" + accountList.get(i).getName() + "</td><td>"
 							+ accountList.get(i).getBalance() + " zł</td><td></td> <td></td></tr>";
-					// } else {
-					// htmlBody += "<tr> <td>" + accountList.get(i).getName() +
-					// "</td><td>"
-					// + accountList.get(i).getBalance() +
-					// "zł</td><td></td><td></td> </tr>";
-					// }
-
 				} else {
 					creditSum += accountList.get(i).getBalance();
-					// if (accountList.get(i).getBalance()<0) {
 					htmlBody += "<tr> <td>" + accountList.get(i).getName() + "</td><td></td><td>"
 							+ accountList.get(i).getBalance() + " zł</td><td></td> </tr>";
 				}
 			}
-			//
 			htmlBody += "	<tr class=\"important\"> <td>Suma</td><td>" + debetSum + " zł</td><td>" + creditSum
 					+ " zł</td><td></td> </tr> </table></body></html>";
 			break;
@@ -130,9 +124,9 @@ public class Report {
 			}
 			htmlBody += "	<tr class=\"important\"> <td>Wydatki razem</td><td></td><td></td><td>" + expenseSum
 					+ " zł</td> </tr> <hr />";
-			double profit = incomeSum-expenseSum;
-			htmlBody += "	<tr class=\"important\"> <td>Zysk netto</td><td></td><td></td><td>"
-					+ profit+" zł</td> </tr> </table></body></html>";
+			double profit = incomeSum - expenseSum;
+			htmlBody += "	<tr class=\"important\"> <td>Zysk netto</td><td></td><td></td><td>" + profit
+					+ " zł</td> </tr> </table></body></html>";
 			break;
 		default:
 			htmlBody = "error";
