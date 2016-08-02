@@ -51,9 +51,6 @@ public class MainManager {
 		}
 	}
 
-	public void init() {
-		showStart();
-	}
 
 	public void showMenu() {
 		try {
